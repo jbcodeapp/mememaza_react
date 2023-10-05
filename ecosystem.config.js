@@ -1,7 +1,9 @@
+// pm2 needs to be installed globally on the server
+
 module.exports = {
     apps: [
       {
-        name: 'Santrash',
+        name: 'Santrash UI',
         exec_mode: 'cluster',
         instances: 'max', // Or a number of instances
         script: 'node_modules/next/dist/bin/next',

@@ -34,7 +34,7 @@ const E404 = () => {
               </div>
             </div>
             <div className="btn-social pt-15 wow fadeInUp delay-0-4s">
-              <Link legacyBehavior legacyBehavior href="/">
+              <Link legacyBehavior href="/">
                 <a className="theme-btn mb-30 mx-2">
                   Go to Home <i className="fas fa-long-arrow-right" />
                 </a>

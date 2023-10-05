@@ -23,7 +23,8 @@ build/
 # Maven
 target/
 dist/
-.env
+.env.local
+
 # JetBrains IDE
 .idea/
 
