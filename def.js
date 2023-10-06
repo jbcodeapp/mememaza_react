@@ -1,10 +1,11 @@
-//export const SITE_URL = "http://3.110.181.249/mememaza/admin/index.php/api";
-//export const API_PATH = "http://3.110.181.249/mememaza/admin/index.php";
-export const SITE_URL = "http://localhost:3000/mememaza/admin/index.php/api";
-export const API_PATH = "http://localhost:3000/mememaza/admin/index.php";
+export const SITE_URL = "https://admin.santrash.com/api";
+export const API_PATH = "https://admin.santrash.com";
+export const HOME_URL = "https://santrash.com/";
 
-//export const HOME_URL = "http://3.110.181.249/";
-export const HOME_URL = "http://localhost:3000/";
+// export const SITE_URL = "http://localhost:3000/mememaza/admin/index.php/api";
+// export const API_PATH = "http://localhost:3000/mememaza/admin/index.php";
+// export const HOME_URL = "http://localhost:3000/";
+
 export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const REGISTER = "REGISTER";
