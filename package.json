@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=local next dev",
-    "build": "cross-env NODE_ENV=production next build",
+    "dev": "next dev",
+    "build": "next build",
     "export": "next build & npm export",
     "start": "next start",
     "lint": "next lint",
@@ -15,6 +15,7 @@
     "@itseasy21/react-elastic-carousel": "^0.12.3",
     "@next/font": "13.1.2",
     "axios": "^1.4.0",
+    "extract-colors": "^4.0.2",
     "file-saver": "^2.0.5",
     "isotope-layout": "^3.0.6",
     "js-file-download": "^0.4.12",
@@ -31,9 +32,5 @@
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
     "wowjs": "^1.1.3"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "dotenv-webpack": "^8.0.1"
   }
 }

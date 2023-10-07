@@ -1,0 +1,27 @@
+.banner {
+  margin: 0 auto;
+  padding-top: var(--nav-height);
+  width: 82vw;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.categories {
+  display: flex;
+  align-self: flex-start;
+  gap: 12px;
+}
+.title {
+  align-self: flex-start;
+  margin-top: 16px;
+  opacity: 0.7;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1.3px;
+  text-align: left;
+  color: #fff;
+  text-transform: uppercase;
+}
