@@ -6,6 +6,7 @@
   background-color: hsl(245 53% 13% / 1);
   border-radius: 12px;
   overflow: hidden;
+  padding-top: 16px;
   /* width: fit-content; */
 }
 .header {

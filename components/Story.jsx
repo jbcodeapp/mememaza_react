@@ -4,7 +4,11 @@ import styles from "@/styles/components/story.module.css";
 
 export default function Story({ story }) {
   return (
-    <div className={styles.story}>
+    <div
+      className={`${styles.story} ${
+        story.story_type === 2 ? styles.vidContainer : ""
+      }`}
+    >
       {story.story_type === 1 ? (
         <div
           className={styles.thumbnail}
@@ -15,12 +19,11 @@ export default function Story({ story }) {
           }}
         ></div>
       ) : (
-        <video className={styles.thumbnail} controls="">
+        <video className={styles.thumbnailVid} controls="">
           <source src={story.image_path} type="video/mp4" />
           Sorry, your browser doesn t support the video element.
         </video>
       )}
-      {story.id}
     </div>
   );
 }

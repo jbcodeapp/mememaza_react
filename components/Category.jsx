@@ -9,7 +9,7 @@ export default function Category({ category, bigger }) {
   const [fgColor, setFgColor] = useState();
 
   //   const [colorPallette, setColorPallette] = useState();
-  const { image, name, slug, post_count } = category;
+  const { image_path: image, name, slug, posts_count, reels_count } = category;
 
   useEffect(() => {
     if (!fgColor && !bgColor) {
@@ -40,7 +40,7 @@ export default function Category({ category, bigger }) {
         className={styles.category}
         style={{
           backgroundImage: `url(${image})`,
-          backgroundSize: "contain",
+          backgroundSize: "cover",
           ...biggerStyle,
         }}
       >
@@ -49,7 +49,9 @@ export default function Category({ category, bigger }) {
           style={{ backgroundColor: bgColor, color: fgColor }}
         >
           <p className={styles.categoryTitle}>{name}</p>
-          <p className={styles.categoryText}>{post_count} Posts</p>
+          <p className={styles.categoryText}>
+            {posts_count + reels_count} Posts and Reels
+          </p>
         </div>
       </div>
     </Link>

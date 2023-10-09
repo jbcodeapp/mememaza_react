@@ -26,34 +26,46 @@ const Index = () => {
     <div className={styles.home}>
       <AppCover>
         <Navbar />
-        {data?.categories && <Banner stories={data.categories} />}
+        {data?.stories && (
+          <Banner categories={data.categories} stories={data.stories} />
+        )}
       </AppCover>
       <div className={styles.postsContainer}>
         <div className={styles.posts}>
           <div className={styles.postsCol}>
-            {data?.post.reverse().map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
+            {data?.post
+              .filter((_, i) => i % 5 === 0)
+              .map((post, i) => (
+                <Post key={i} post={post} />
+              ))}
           </div>
           <div className={styles.postsCol}>
-            {data?.post.reverse().map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
+            {data?.post
+              .filter((_, i) => i % 5 === 1)
+              .map((post, i) => (
+                <Post key={i} post={post} />
+              ))}
           </div>
           <div className={styles.postsCol}>
-            {data?.post.reverse().map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
+            {data?.post
+              .filter((_, i) => i % 5 === 2)
+              .map((post, i) => (
+                <Post key={i} post={post} />
+              ))}
           </div>
           <div className={styles.postsCol}>
-            {data?.post.reverse().map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
+            {data?.post
+              .filter((_, i) => i % 5 === 3)
+              .map((post, i) => (
+                <Post key={i} post={post} />
+              ))}
           </div>
           <div className={styles.postsCol}>
-            {data?.post.reverse().map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
+            {data?.post
+              .filter((_, i) => i % 5 === 4)
+              .map((post, i) => (
+                <Post key={i} post={post} />
+              ))}
           </div>
         </div>
       </div>
