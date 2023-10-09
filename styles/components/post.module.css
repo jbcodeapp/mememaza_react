@@ -1,0 +1,83 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  background-color: #474a51;
+  height: fit-content;
+}
+.actionBtn:hover {
+  background-color: #00000020;
+}
+.postOverlay {
+  position: absolute;
+  inset: 0;
+  transition: background-color var(--animation-function) 0.3s;
+  z-index: 10;
+}
+
+.postOverlay:hover {
+  background-color: #ffffff10;
+}
+
+.postDetails {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.6);
+  min-height: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+  color: #b4b9c2;
+}
+
+.postTitle {
+  font-weight: 600;
+  line-height: 1.14;
+  font-size: 14px;
+  text-align: left;
+  color: #fff;
+  display: inline-block;
+  max-height: 45px;
+  overflow: hidden;
+  padding: 0 15px;
+  display: -webkit-box;
+  max-height: 31.92px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.postImage {
+  width: 100%;
+}
+
+.postToolbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.actionBtnContainer {
+  height: 26px;
+  position: relative;
+  flex: 1;
+}
+
+.actionBtn {
+  position: absolute;
+  left: 0;
+  z-index: 20;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background-color: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

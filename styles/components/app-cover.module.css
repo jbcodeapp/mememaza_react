@@ -1,0 +1,8 @@
+.appCover {
+  height: 60vh;
+  width: 100vw;
+  /* min-height: minmax(60vw, fit-content); */
+  background-image: url("/assets/images/app-cover.png");
+  background-size: cover;
+  background-position: center center;
+}

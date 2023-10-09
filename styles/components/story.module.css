@@ -1,0 +1,33 @@
+.story {
+  height: 200px;
+  width: 112.5px;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumbnail {
+  position: absolute;
+  inset: 0;
+  scale: 1;
+  transition: all var(--animation-function) 0.3s;
+}
+
+.thumbnailVid {
+  position: absolute;
+  inset: 0;
+  scale: 1;
+  transition: all var(--animation-function) 0.3s;
+  width: 100%;
+  top: 50%;
+  translate: 0 -50%;
+}
+.vidContainer {
+  background: white;
+}
+
+.thumbnail:hover {
+  scale: 1.03;
+}
