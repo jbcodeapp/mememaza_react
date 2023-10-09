@@ -3,6 +3,7 @@ import { extractColors } from "extract-colors";
 
 import styles from "@/styles/components/category.module.css";
 import Link from "next/link";
+import { SITE_URL } from "@/def";
 
 export default function Category({ category, bigger }) {
   const [bgColor, setBgColor] = useState();
@@ -11,9 +12,15 @@ export default function Category({ category, bigger }) {
   //   const [colorPallette, setColorPallette] = useState();
   const { image_path: image, name, slug, posts_count, reels_count } = category;
 
+  const isProduction = SITE_URL.includes("https://admin.");
+
+  let imgSrcUntainted = isProduction
+    ? image.replace("https://admin.", "https://")
+    : image;
+
   useEffect(() => {
     if (!fgColor && !bgColor) {
-      extractColors(image, 5)
+      extractColors(imgSrcUntainted, 5)
         .then((palette) => {
           let ci = 0;
           palette = palette.reverse();
@@ -39,7 +46,7 @@ export default function Category({ category, bigger }) {
       <div
         className={styles.category}
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundImage: `url(${imgSrcUntainted})`,
           backgroundSize: "cover",
           ...biggerStyle,
         }}

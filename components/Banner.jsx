@@ -7,7 +7,7 @@ import StoryReels from "./StoryReels";
 export default function Banner({ categories, stories }) {
   return (
     <div className={styles.banner}>
-      <StoryReels stories={stories} />
+      {stories.length ? <StoryReels stories={stories} /> : null}
       <h3 className={styles.title}>Explore Categories</h3>
       <div className={styles.categories}>
         {categories.map((category, i) => (
