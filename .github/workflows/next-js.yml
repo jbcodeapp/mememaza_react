@@ -15,8 +15,6 @@ jobs:
         node-version: [18.15.0]
 
     steps:
-    - uses: actions/checkout@v3
-
     - name: Use Cache
       uses: actions/cache@v3
       with:
@@ -30,6 +28,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
+    - uses: actions/checkout@v3
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
