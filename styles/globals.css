@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Onest:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css");
 
 * {
   font-family: "Onest", sans-serif;
@@ -12,4 +13,9 @@
 body {
   background-color: #2e3035;
   overflow-x: hidden;
+}
+
+.slick-slide {
+  width: fit-content !important;
+  margin-right: 16px;
 }
