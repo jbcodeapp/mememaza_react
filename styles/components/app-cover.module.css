@@ -1,5 +1,7 @@
 .appCover {
-  height: 60vh;
+  min-height: 549px;
+  height: fit-content;
+  padding-bottom: 32px;
   width: 100vw;
   /* min-height: minmax(60vw, fit-content); */
   background-image: url("/assets/images/app-cover.png");

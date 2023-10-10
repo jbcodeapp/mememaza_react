@@ -7,6 +7,8 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
   background-color: #474a51;
   height: fit-content;
+  border-radius: 4px;
+  overflow: hidden;
 }
 .actionBtn:hover {
   background-color: #00000020;
@@ -80,4 +82,33 @@
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.postImageSkeleton {
+  height: 200px;
+  animation: ripple 1s var(--animation-function) infinite;
+}
+
+.postTitleSkeleton {
+  animation: ripple 1s var(--animation-function) infinite;
+  height: 16px;
+  width: 100px;
+  border-radius: 8px;
+}
+
+.countSkeleton {
+  animation: ripple 1s var(--animation-function) infinite;
+  width: 25px;
+  height: 18px;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+@keyframes ripple {
+  from {
+    background: gray;
+  }
+  to {
+    background: rgb(95, 95, 95);
+  }
 }

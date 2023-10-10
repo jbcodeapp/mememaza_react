@@ -1,12 +1,11 @@
 .posts {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin: 100px 0 32px 0;
   flex-wrap: wrap;
   width: 82vw;
-}
-@media screen {
+  min-height: 100vh;
 }
 .postsContainer {
   position: relative;

@@ -16,7 +16,7 @@ export default function Post({ post }) {
   return (
     <div className={styles.post}>
       <div className={styles.postOverlay} />
-      <img className={styles.postImage} src={image_path} />
+      <img className={styles.postImage} src={image_path} alt={title} />
       <div className={styles.postDetails}>
         <p className={styles.postTitle}>{title}</p>
         <div className={styles.postToolbar}>
@@ -30,4 +30,19 @@ export default function Post({ post }) {
   );
 }
 
-// create an vs code extension to make a panel on top right of VSCode to open imported files from reference
+export const PostSkeleton = () => {
+  return (
+    <div className={styles.post}>
+      <div className={styles.postImageSkeleton} />
+      <div className={styles.postDetails}>
+        <p className={styles.postTitleSkeleton}></p>
+        <div className={styles.postToolbar}>
+          <div className={styles.countSkeleton}></div>
+          <div className={styles.countSkeleton}></div>
+          <div className={styles.countSkeleton}></div>
+          <div className={styles.countSkeleton}></div>
+        </div>
+      </div>
+    </div>
+  );
+};
