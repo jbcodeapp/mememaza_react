@@ -7,9 +7,9 @@ import { useSearch } from "@/hooks/useSearch";
 
 import styles from "@/styles/components/navbar.module.css";
 
-export default function Navbar() {
+export default function Navbar({ bgOpacity }) {
   const [data, setData] = useState([]);
-
+  console.log(bgOpacity);
   const {
     handleOnSearch,
     handleOnHover,
@@ -18,18 +18,33 @@ export default function Navbar() {
     formatResult,
   } = useSearch(data, setData);
   return (
-    <nav className={styles.navbar}>
+    <nav
+      className={styles.navbar}
+      style={{
+        backgroundColor: `rgba(23 21 68 / ${bgOpacity})`,
+      }}
+    >
       <Link legacyBehavior href="/">
         <img
           src="assets/images/logos/logo.png"
           alt="Logo"
           title="Logo"
-          height="60"
+          height="100%"
         />
       </Link>
-      <div className="nav-outer mx-auto clearfix">
+      <div
+        className="nav-outer mx-auto clearfix"
+        style={{ position: "relative", width: 550 }}
+      >
         {/* Main Menu */}
-        <div style={{ width: 550 }}>
+        <div
+          style={{
+            width: 550,
+            position: "absolute",
+            left: 0,
+            zIndex: 20,
+          }}
+        >
           <ReactSearchAutocomplete
             items={data}
             onSearch={handleOnSearch}
@@ -46,9 +61,10 @@ export default function Navbar() {
               padding: "8px 35px 8px 10px",
               borderRadius: "3px",
               width: "100%",
+              zIndex: 20,
               outline: 0,
               opacity: 0.8,
-              height: 36,
+              height: 45,
               fontSize: "16px",
               fontWeight: 700,
               letterSpacing: 0.4,

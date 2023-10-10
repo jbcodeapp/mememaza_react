@@ -31,3 +31,22 @@
 .thumbnail:hover {
   scale: 1.03;
 }
+
+.noStory {
+  height: 200px;
+  width: fit-content;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+}
+.errorImage {
+}
+.oops {
+  color: white;
+  font-size: 2em;
+}
+
+.errorText {
+  margin: 0;
+}

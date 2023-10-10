@@ -6,4 +6,5 @@
   height: var(--nav-height);
   width: 100vw;
   display: flex;
+  z-index: 50;
 }

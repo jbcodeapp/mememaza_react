@@ -57,7 +57,7 @@ export default function Category({ category, bigger }) {
         >
           <p className={styles.categoryTitle}>{name}</p>
           <p className={styles.categoryText}>
-            {posts_count + reels_count} Posts and Reels
+            {posts_count + reels_count} Posts
           </p>
         </div>
       </div>
