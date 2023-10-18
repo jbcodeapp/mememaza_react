@@ -10,7 +10,9 @@ export const useAuthCheck = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       const token = localStorage.getItem("token");
-      dispatch(getAuthCheck({ token }));
+      if (token) {
+        dispatch(getAuthCheck({ token }));
+      }
     }, intervalMs);
 
     return () => {

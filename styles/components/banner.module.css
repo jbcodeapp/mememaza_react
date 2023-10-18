@@ -13,8 +13,13 @@
     width: 100vw;
   }
 
-  .title {
+  .title,
+  .categories {
     margin-left: 60px;
+  }
+  .categories {
+    overflow-x: auto;
+    max-width: calc(100vw - 60px);
   }
 }
 
