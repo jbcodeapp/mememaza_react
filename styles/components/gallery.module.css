@@ -1,0 +1,81 @@
+.gallery {
+  --pad: 20px;
+  --border-color: #45474896;
+  display: flex;
+  width: 100vw;
+  margin-top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+}
+.mediaContainer {
+  flex: 1;
+  background: #131033;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dataContainer {
+  position: relative;
+  width: 360px;
+  background-color: #1a1646;
+  padding-top: 50px;
+}
+
+.dataContainer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.infoContainer {
+  margin: 0 var(--pad);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 12px;
+  color: #b0b3b8;
+}
+.info {
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.titleContainer {
+  margin: 0 var(--pad);
+  border-bottom: 1px solid var(--border-color);
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.title {
+  margin: 0;
+}
+.toolbarContainer {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 8px;
+}
+
+.commentContainer {
+  border-top: 1px solid var(--border-color);
+  margin: 0 var(--pad);
+  padding-top: 16px;
+}
+
+.commentBoxContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.commentBox {
+  border-radius: 18px;
+  overflow: hidden;
+  color: white;
+  resize: none;
+  border: none;
+  background: #131033;
+}

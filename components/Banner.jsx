@@ -10,7 +10,7 @@ export default function Banner({ categories, stories, style }) {
       <StoryReels stories={stories} />
       <h3 className={styles.title}>Explore Categories</h3>
       <div className={styles.categories}>
-        {categories.map((category, i) => (
+        {categories?.map((category, i) => (
           <Category key={i} bigger={i === 0} category={category} />
         ))}
       </div>

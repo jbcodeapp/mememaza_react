@@ -7,6 +7,31 @@
   width: 82vw;
   min-height: 100vh;
 }
+@media only screen and (min-width: 1250px) {
+  .posts {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media only screen and (max-width: 1250px) {
+  .posts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .posts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media only screen and (max-width: 855px) {
+  .posts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (max-width: 630px) {
+  .posts {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 .postsContainer {
   position: relative;
   width: 100vw;

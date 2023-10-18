@@ -40,8 +40,6 @@
   display: flex;
   align-items: center;
 }
-.errorImage {
-}
 .oops {
   color: white;
   font-size: 2em;
