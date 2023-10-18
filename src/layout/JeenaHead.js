@@ -1,8 +1,11 @@
+"use client";
 import Head from "next/head";
 
 import { HOME_URL } from "../../def";
+import { useLocalStorageAuthToken } from "@/hooks/useLocalStorageToken";
 
 const JeenaHead = () => {
+  useLocalStorageAuthToken();
   return (
     <Head>
       {/* Required meta tags */}
@@ -11,7 +14,7 @@ const JeenaHead = () => {
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta
         name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        content="width=400px, initial-scale=1, shrink-to-fit=yes"
       />
       {/* Title */}
       <title>Memesmaza</title>

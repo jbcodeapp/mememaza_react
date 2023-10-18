@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Onest:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css");
-
+@import url("https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css");
 * {
   font-family: "Onest", sans-serif;
   user-select: none;
@@ -15,7 +15,36 @@ body {
   overflow-x: hidden;
 }
 
+@media only screen and (max-width: 400px) {
+  body {
+    overflow-x: auto;
+    width: 400px;
+  }
+}
+
 .slick-slide {
   width: fit-content !important;
   margin-right: 16px;
+}
+.menu-btns {
+  display: flex;
+  gap: 18px;
+}
+
+.theme-btn1 {
+  padding: 4px 20px;
+}
+.toast-container {
+  border-radius: 24px !important;
+  overflow: hidden;
+  box-shadow: none !important;
+}
+.toast-success {
+  background: #171544;
+  border: 2px solid #ccffcb;
+  box-shadow: none !important;
+}
+
+.toast-success * {
+  color: #ccffcb;
 }

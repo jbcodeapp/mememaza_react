@@ -1,20 +1,24 @@
+"use client";
 import JeenaHead from "@/src/layout/JeenaHead";
-import Preloader from "@/src/layout/Preloader";
 import "@/styles/globals.css";
-import { Fragment, useEffect, useState } from "react";
+import { startAppListening, store, useAppDispatch } from "@/src/store";
+import { Provider } from "react-redux";
+import { useEffect } from "react";
+
+import { setupCounterListeners } from "@/src/services/counter/listeners";
+import { authActions, getAuthCheck } from "@/src/services/auth/slice";
 
 export default function App({ Component, pageProps }) {
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    const subscriptions = [setupCounterListeners(startAppListening)];
+
+    return () => subscriptions.forEach((unsubscribe) => unsubscribe());
   }, []);
 
   return (
-    <Fragment>
+    <Provider store={store}>
       <JeenaHead />
       <Component {...pageProps} />
-    </Fragment>
+    </Provider>
   );
 }

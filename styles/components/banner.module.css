@@ -1,6 +1,6 @@
 .banner {
   margin: 0 auto;
-  padding-top: var(--nav-height);
+  padding-top: calc(var(--nav-height) + 0px);
   width: 82vw;
   display: flex;
   flex-direction: column;
@@ -8,11 +8,27 @@
   align-items: center; */
 }
 
+@media only screen and (max-width: 625px) {
+  .banner {
+    width: 100vw;
+  }
+
+  .title,
+  .categories {
+    margin-left: 60px;
+  }
+  .categories {
+    overflow-x: auto;
+    max-width: calc(100vw - 60px);
+  }
+}
+
 .categories {
   display: flex;
   align-self: flex-start;
   gap: 12px;
 }
+
 .title {
   align-self: flex-start;
   margin-top: 32px;

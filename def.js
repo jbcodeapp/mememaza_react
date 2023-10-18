@@ -4,7 +4,7 @@ export const HOME_URL = "https://santrash.com/";
 
 // export const SITE_URL = "http://localhost:8000/api";
 // export const API_PATH = "http://localhost:8000";
-// export const HOME_URL = "http://localhost:3000/"; 
+// export const HOME_URL = "http://localhost:3000/";
 
 export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
