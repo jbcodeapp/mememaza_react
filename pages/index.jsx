@@ -8,6 +8,7 @@ import AppCover from "../components/AppCover";
 import { useEffect, useState } from "react";
 import Post, { PostSkeleton } from "../components/Post";
 import { useAuthCheck } from "@/hooks/useAuthCheck";
+import PostsView from "@/views/Posts";
 
 const getMin = (num1, num2) => {
   if (num1 > num2) return num2;
@@ -58,50 +59,8 @@ const Index = () => {
           stories={data?.stories}
         />
       </AppCover>
-      <div className={styles.postsContainer}>
-        <div className={styles.posts}>
-          <div className={styles.postsCol}>
-            {data?.post
-              .filter((_, i) => i % 5 === 0)
-              .map((post, i) => (
-                <Post key={i} post={post} />
-              ))}
-            <PostSkeleton />
-          </div>
-          <div className={styles.postsCol}>
-            {data?.post
-              .filter((_, i) => i % 5 === 1)
-              .map((post, i) => (
-                <Post key={i} post={post} />
-              ))}
-            <PostSkeleton />
-          </div>
-          <div className={styles.postsCol}>
-            {data?.post
-              .filter((_, i) => i % 5 === 2)
-              .map((post, i) => (
-                <Post key={i} post={post} />
-              ))}
-            <PostSkeleton />
-          </div>
-          <div className={styles.postsCol}>
-            {data?.post
-              .filter((_, i) => i % 5 === 3)
-              .map((post, i) => (
-                <Post key={i} post={post} />
-              ))}
-            <PostSkeleton />
-          </div>
-          <div className={styles.postsCol}>
-            {data?.post
-              .filter((_, i) => i % 5 === 3)
-              .map((post, i) => (
-                <Post key={i} post={post} />
-              ))}
-            <PostSkeleton />
-          </div>
-        </div>
-      </div>
+      <PostsView data={data?.post ? data : { post: [] }} />
+
       {/* {data && <Landing props={{ data }} />} */}
     </div>
   );

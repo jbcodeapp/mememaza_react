@@ -17,6 +17,24 @@ export default function AuthLayout({ title, children }) {
           <h1 className={styles.title}>{title}</h1>
         </div>
         {children}
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <img
+            src="/assets/images/arrow-left-svgrepo-com.svg"
+            alt="arrow left"
+            height={25}
+            style={{ opacity: 0.6 }}
+          />
+          <Link legacyBehavior href="/">
+            Go Back Home
+          </Link>
+        </div>
       </div>
     </div>
   );

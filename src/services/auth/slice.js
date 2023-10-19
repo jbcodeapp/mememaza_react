@@ -119,6 +119,11 @@ export const authSlice = createSlice({
       })
       .addCase(postLogout.fulfilled, (state, _) => {
         localStorage.clear();
+        state.pageState = "succeeded";
+        state.token = "";
+        state.user = "";
+        state.message = "";
+        state.isLoggedIn = false;
       })
       .addCase(postLogout.rejected, (state, _) => {
         state.pageState = "failed";
