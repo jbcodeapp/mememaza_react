@@ -27,3 +27,17 @@ export default function Story({ story }) {
     </div>
   );
 }
+
+export const NoStoryComponent = () => (
+  <div className={`${styles.noStory}`}>
+    <img
+      className={styles.errorImage}
+      src="\assets\images\Fatal Error.png"
+      alt="error"
+    />
+    <div>
+      <p className={styles.oops}>Oops!</p>
+      <p className={styles.errorText}>No Story has been posted today.</p>
+    </div>
+  </div>
+);

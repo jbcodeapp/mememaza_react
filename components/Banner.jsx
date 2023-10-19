@@ -4,13 +4,13 @@ import Story from "./Story";
 import Category from "./Category";
 import StoryReels from "./StoryReels";
 
-export default function Banner({ categories, stories }) {
+export default function Banner({ categories, stories, style }) {
   return (
-    <div className={styles.banner}>
-      {stories.length ? <StoryReels stories={stories} /> : null}
+    <div className={styles.banner} style={style}>
+      <StoryReels stories={stories} />
       <h3 className={styles.title}>Explore Categories</h3>
       <div className={styles.categories}>
-        {categories.map((category, i) => (
+        {categories?.map((category, i) => (
           <Category key={i} bigger={i === 0} category={category} />
         ))}
       </div>

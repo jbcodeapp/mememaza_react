@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "@/styles/components/story-reels.module.css";
-import { useState } from "react";
-import Story from "./Story";
+import Story, { NoStoryComponent } from "./Story";
 import Slider from "react-slick";
 
 export default function StoryReels({ stories }) {
@@ -16,17 +15,24 @@ export default function StoryReels({ stories }) {
   return (
     <div
       className={styles.storyReels}
-      style={{ paddingLeft: stories.length > showSliderAfter ? 16 : 0 }}
+      style={{ paddingLeft: stories?.length > showSliderAfter ? 16 : 0 }}
     >
-      {stories.length > showSliderAfter ? (
+      {stories?.length === 0 || !stories ? (
+        <div className={styles.body}>
+          <NoStoryComponent />
+        </div>
+      ) : (
+        ""
+      )}
+      {stories?.length > showSliderAfter ? (
         <Slider {...slickSettings} style={{ marginLeft: 16 }}>
-          {stories.map((item, i) => (
+          {stories?.map((item, i) => (
             <Story key={i} story={item} />
           ))}
         </Slider>
       ) : (
         <div className={styles.body}>
-          {stories.map((item, i) => (
+          {stories?.map((item, i) => (
             <Story key={i} story={item} />
           ))}
         </div>

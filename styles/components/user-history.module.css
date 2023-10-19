@@ -1,0 +1,33 @@
+.userHistory {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.imageContainer img {
+  height: 40px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.name {
+  font-weight: bold;
+  color: rgb(225, 225, 225);
+  margin: 0;
+  line-height: 1;
+}
+
+.timeAgo {
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1;
+}
