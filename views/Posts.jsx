@@ -3,9 +3,12 @@ import styles from "@/styles/Home.module.css";
 import Post, { PostSkeleton } from "../components/Post";
 import { useRef } from "react";
 import { useEffect } from "react";
+import { useState } from "react";
 
 export default function PostsView({ data }) {
+  const postsRef = useRef();
   const postFetcherRef = useRef();
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -31,50 +34,49 @@ export default function PostsView({ data }) {
       }
     };
   }, []);
+
+  const [numberOfColumns, setNumberOfColumns] = useState(5);
+
+  const caclulateNumberOfColumns = () => {
+    if (postsRef?.current) {
+      let templateColumns = window
+        .getComputedStyle(postsRef.current)
+        .getPropertyValue("grid-template-columns")
+        .split(" ").length;
+
+      setNumberOfColumns(templateColumns);
+    }
+  };
+  useEffect(() => {
+    caclulateNumberOfColumns();
+  }, [postsRef]);
+
+  useEffect(() => {
+    // Add the resize event listener
+    window.addEventListener("resize", caclulateNumberOfColumns);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", caclulateNumberOfColumns);
+    };
+  }, []);
+
   return (
     <div className={styles.postsContainer}>
-      <div className={styles.posts}>
-        <div className={styles.postsCol}>
-          {data?.post
-            .filter((_, i) => i % 5 === 0)
-            .map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
-          <div ref={postFetcherRef} style={{ display: "none" }}></div>
-          <PostSkeleton />
-        </div>
-        <div className={styles.postsCol}>
-          {data?.post
-            .filter((_, i) => i % 5 === 1)
-            .map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
-          <PostSkeleton />
-        </div>
-        <div className={styles.postsCol}>
-          {data?.post
-            .filter((_, i) => i % 5 === 2)
-            .map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
-          <PostSkeleton />
-        </div>
-        <div className={styles.postsCol}>
-          {data?.post
-            .filter((_, i) => i % 5 === 3)
-            .map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
-          <PostSkeleton />
-        </div>
-        <div className={styles.postsCol}>
-          {data?.post
-            .filter((_, i) => i % 5 === 3)
-            .map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
-          <PostSkeleton />
-        </div>
+      <div ref={postsRef} className={styles.posts}>
+        {Array.from({ length: numberOfColumns }, (_, index) => index).map(
+          (index) => (
+            <div className={styles.postsCol}>
+              {data?.post
+                .filter((_, i) => i % numberOfColumns === index)
+                .map((post, i) => (
+                  <Post key={i} post={post} />
+                ))}
+              <div ref={postFetcherRef} style={{ display: "none" }}></div>
+              <PostSkeleton />
+            </div>
+          )
+        )}
       </div>
     </div>
   );
