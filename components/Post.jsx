@@ -1,6 +1,13 @@
 import React from "react";
 import styles from "@/styles/components/post.module.css";
 import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "@/src/store";
+import { postLike, postSelect } from "@/src/services/post/slice";
+import { useEffect } from "react";
+
+import toastr from "toastr";
+import { API_PATH } from "@/def";
+import { useState } from "react";
 
 export const ActionButton = ({
   icon,
@@ -29,7 +36,9 @@ export const ActionButton = ({
 export default function Post({ post }) {
   const router = useRouter();
   const {
+    id,
     title,
+    image,
     image_path,
     likes_count,
     shares_count,
@@ -37,49 +46,133 @@ export default function Post({ post }) {
     views_count,
     category,
     slug,
+    download: dl,
   } = post;
+
+  const [download, setDownload] = useState(dl);
+
+  const newImagePath = image_path.replace("https://admin.", "https://");
+
+  const dispatch = useAppDispatch();
+
+  const { message, error, status } = postSelect(id);
+
+  useEffect(() => {
+    if (message?.length) {
+      toastr.success(message, "MemeMaza");
+    }
+  }, [message]);
+
+  useEffect(() => {
+    if (typeof error === "array") {
+      error.forEach((item) => toastr.error(item, "MemeMaza"));
+    } else if (error?.length) {
+      toastr.error(error, "MemeMaza");
+    }
+
+    if (status == 401) {
+      toastr.info("Please sign in to continue", "MemeMaza");
+    }
+  }, [error]);
+
   return (
-    <div
-      className={styles.post}
-      role="article"
-      onClick={() => router.push(`/post/${slug}`)}
-    >
-      <div className={styles.postOverlay} />
-      <img className={styles.postImage} src={image_path} alt={title} />
+    <div className={styles.post} role="article">
+      <div
+        className={styles.postOverlay}
+        onClick={() => router.push(`/post/${slug}`)}
+      />
+      <img className={styles.postImage} src={newImagePath} alt={title} />
       <div className={styles.postDetails}>
         <p className={styles.postTitle}>
-          {title} • {category}
+          {title} • {category.name}
         </p>
-        <div className={styles.postToolbar}>
-          <ActionButton
-            onClick={() => {}}
-            icon="thumbs-up"
-            text={likes_count}
-          />
-          <ActionButton onClick={() => {}} icon="eye" text={views_count} />
-          <ActionButton
-            onClick={() => {}}
-            icon="comment"
-            text={comments_count}
-          />
-          <ActionButton onClick={() => {}} icon="share" text={shares_count} />
+        <div className={styles.postToolbarContainer}>
+          <div className={styles.postToolbar}>
+            <ActionButton
+              lg
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(postLike({ id }));
+              }}
+              icon="thumbs-up"
+              text={likes_count}
+            />
+            <ActionButton
+              lg
+              onClick={() => router.push(`/post/${slug}`)}
+              icon="comment"
+              text={comments_count}
+            />
+            <ActionButton
+              lg
+              onClick={() => router.push(`/post/${slug}`)}
+              icon="eye"
+              text={views_count}
+            />
+
+            <a
+              style={{ color: "white" }}
+              onClick={() => setDownload((val) => val + 1)}
+              href={`${API_PATH}/download?file=${image}&type=Post&id=${id}`}
+              className={`${styles.actionBtn} ${styles.actionBtnLg} `}
+            >
+              <i className={`fas fa-download`}></i> <>{download}</>
+            </a>
+
+            <ActionButton
+              lg
+              onClick={() => {}}
+              icon="share"
+              text={shares_count}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export const PostSkeleton = () => {
+export const PostSkeleton = ({ destroy, delayIndex, postFetcherRef }) => {
+  const delayConstant = 0.1;
   return (
-    <div className={styles.post}>
-      <div className={styles.postImageSkeleton} />
+    <div
+      className={`${styles.post} ${styles.postSkeleton} ${
+        destroy ? styles.postSkeletonDissolve : ""
+      }`}
+    >
+      <div
+        dataId={delayIndex}
+        ref={postFetcherRef}
+        style={{
+          height: 0,
+          width: 0,
+          opacity: 0,
+          margin: 0,
+          overflow: "hidden",
+          padding: 0,
+          position: "absolute",
+        }}
+      ></div>
+      <div
+        className={styles.postImageSkeleton}
+        style={{ animationDelay: delayIndex * delayConstant + "s" }}
+      />
       <div className={styles.postDetails}>
-        <p className={styles.postTitleSkeleton}></p>
-        <div className={styles.postToolbar}>
-          <div className={styles.countSkeleton}></div>
-          <div className={styles.countSkeleton}></div>
-          <div className={styles.countSkeleton}></div>
-          <div className={styles.countSkeleton}></div>
+        <p
+          className={styles.postTitleSkeleton}
+          style={{ animationDelay: delayIndex * delayConstant + "s" }}
+        ></p>
+        <div className={styles.postToolbarContainer}>
+          <div className={styles.postToolbar}>
+            <div
+              className={styles.countSkeleton}
+              style={{ animationDelay: delayIndex * delayConstant + "s" }}
+            ></div>
+            <div className={styles.countSkeleton}></div>
+            <div className={styles.countSkeleton}></div>
+            <div className={styles.countSkeleton}></div>
+            <div className={styles.countSkeleton}></div>
+          </div>
         </div>
       </div>
     </div>

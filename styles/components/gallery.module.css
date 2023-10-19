@@ -74,6 +74,7 @@
 .commentBox {
   border-radius: 18px;
   overflow: hidden;
+  padding: 5px 15px;
   color: white;
   resize: none;
   border: none;
