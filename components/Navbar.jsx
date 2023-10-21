@@ -49,9 +49,9 @@ export default function Navbar({ bgOpacity }) {
     if (typeof error === "array") {
       error.forEach((item) => toastr.error(item, "MemeMaza"));
     } else if (error?.length) {
-      toastr.success(message, "MemeMaza");
+      toastr.success(error, "MemeMaza");
     }
-  }, [message]);
+  }, [error]);
 
   const sendLogoutResponse = (e) => {
     e.preventDefault();
@@ -65,8 +65,6 @@ export default function Navbar({ bgOpacity }) {
     handleOnSelect,
     formatResult,
   } = useSearch(data, setData);
-
-  const searchBarProps = {};
 
   return (
     <nav

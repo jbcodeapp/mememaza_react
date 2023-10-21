@@ -20,7 +20,7 @@ export const getAuthCheck = createAsyncThunk(
         headers: { Authorization: `Bearer ${payload.token}` },
       });
       if (response.data.statuscode == false) {
-        return thunkAPI.rejectWithValue({ error: error.message });
+        return thunkAPI.rejectWithValue({ error: response.data.errors });
       }
       return response.data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const postSignIn = createAsyncThunk(
     try {
       const response = await axios.post(SITE_URL + "/login", payload);
       if (response.data.statuscode == false) {
-        return thunkAPI.rejectWithValue({ error: error.message });
+        return thunkAPI.rejectWithValue({ error: response.data.errors });
       }
       return response.data;
     } catch (error) {
@@ -54,7 +54,7 @@ export const postLogout = createAsyncThunk(
       };
       const response = await axios.post(SITE_URL + "/logout", {}, config);
       if (response.data.statuscode === false) {
-        return thunkAPI.rejectWithValue({ error: error.message });
+        return thunkAPI.rejectWithValue({ error: response.errors });
       }
       return response.data;
     } catch (error) {
@@ -94,7 +94,7 @@ export const authSlice = createSlice({
       })
       .addCase(postSignIn.rejected, (state, action) => {
         state.pageState = "failed";
-        state.error = action.payload.error;
+        state.error = action.payload.error || action.payload.errors;
       })
       .addCase(getAuthCheck.pending, (state, _) => {
         state.pageState = "loading";

@@ -1,13 +1,13 @@
-import { SITE_URL } from "../def";
-import axios from "axios";
 import styles from "@/styles/Home.module.css";
 
 import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import AppCover from "../components/AppCover";
 import { useEffect, useState } from "react";
-import Post, { PostSkeleton } from "../components/Post";
 import { useAuthCheck } from "@/hooks/useAuthCheck";
+
+import { SITE_URL } from "@/def";
+import axios from "axios";
 import PostsView from "@/views/Posts";
 
 const getMin = (num1, num2) => {
@@ -35,6 +35,7 @@ const Index = () => {
       setData(resp.data);
     });
   };
+
   const [bannerTop, setBannerTop] = useState(0);
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const Index = () => {
           stories={data?.stories}
         />
       </AppCover>
-      <PostsView data={data?.post ? data : { post: [] }} />
+      <PostsView />
 
       {/* {data && <Landing props={{ data }} />} */}
     </div>

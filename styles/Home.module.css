@@ -7,12 +7,12 @@
   width: 82vw;
   min-height: 100vh;
 }
-@media only screen and (min-width: 1250px) {
+@media only screen and (min-width: 1550px) {
   .posts {
     grid-template-columns: repeat(5, 1fr);
   }
 }
-@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 1550px) {
   .posts {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -41,11 +41,7 @@
 .posts:before {
   content: "";
   background: rgb(23, 21, 68);
-  background: linear-gradient(
-    180deg,
-    rgba(23, 21, 68, 1) 0%,
-    rgba(25, 1, 75, 0) 70%
-  );
+  background: linear-gradient(180deg, rgba(23, 21, 68, 1) 0%, #292839 70%);
   position: absolute;
   inset: 0;
   top: -50px;
