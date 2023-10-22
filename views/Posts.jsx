@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { SITE_URL } from "@/def";
+import Reel from "../components/Reel";
+import { useAppSelector } from "@/src/store";
+import { authTokenSelect } from "@/src/services/auth/slice";
 
 export default function PostsView({ data }) {
   const postsRef = useRef();
@@ -63,21 +66,28 @@ export default function PostsView({ data }) {
   const [limit, setLimit] = useState(10);
   const [hasMore, setHasMore] = useState(true);
 
-  const [posts, setPosts] = useState([]);
+  const [postsAndReels, setPostsAndReels] = useState([]);
   const [pageState, setPageState] = useState("idle");
+  const [error, setError] = useState("idle");
 
   useEffect(() => {
     if (page && total && limit) {
       setHasMore(page * limit < total);
     }
   }, [page, total, limit]);
+  
   const fetchPaginatedPosts = () => {
     setPageState("loading");
+    const token  = localStorage.getItem('token');
     axios
-      .get(SITE_URL + `/post/paginated?page=${page}`)
+      .get(SITE_URL + `/post/paginated?page=${page}`, {
+        headers: {
+          Authorization : 'Bearer '+token
+        }
+      })
       .then((resp) => {
         setPageState("succeded");
-        setPosts([...posts, ...resp.data.posts]);
+        setPostsAndReels([...postsAndReels, ...resp.data.posts]);
         setTotal(resp.data.total);
         setLimit(resp.data.limit);
       })
@@ -109,11 +119,20 @@ export default function PostsView({ data }) {
         {Array.from({ length: numberOfColumns }, (_, index) => index).map(
           (index) => (
             <div className={styles.postsCol}>
-              {posts
+              {postsAndReels
                 .filter((_, i) => i % numberOfColumns === index)
-                .map((post, i) => (
-                  <Post key={i} post={post} />
-                ))}
+                .map((item, i) => {
+                  switch(item.type) {
+                    case 'reel':
+                      return (
+                        <Reel key={i} reel={item} />
+                      )
+                    case 'post':
+                      return (
+                        <Post key={i} post={item} />
+                      )
+                  }
+                })}
 
               {index !== 0 && index !== 1 && index !== 3 ? (
                 <PostSkeleton destroy={!hasMore} delayIndex={index} />

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const useAuthCheck = () => {
   const dispatch = useAppDispatch();
 
-  const intervalMs = 2000;
+  const intervalMs = 10000;
 
   useEffect(() => {
     const intervalId = setInterval(() => {

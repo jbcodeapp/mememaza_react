@@ -20,7 +20,7 @@ export const postLike = createAsyncThunk(
       const response = await axios.post(
         SITE_URL + "/updatelike",
         {
-          type: "Post",
+          type: payload.type,
           id: payload.id,
         },
         {

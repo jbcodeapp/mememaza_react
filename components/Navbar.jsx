@@ -8,7 +8,7 @@ import { useSearch } from "@/hooks/useSearch";
 import styles from "@/styles/components/navbar.module.css";
 import { HOME_URL } from "@/def";
 import { useAppDispatch, useAppSelector } from "@/src/store";
-import { authSelect, postLogout } from "@/src/services/auth/slice";
+import { authSelect, postLogout, selectAuth } from "@/src/services/auth/slice";
 import { useEffect } from "react";
 import toastr from "toastr";
 
@@ -39,8 +39,10 @@ export default function Navbar({ bgOpacity }) {
 
   const { message, error, pageState, token, user } = useAppSelector(authSelect);
 
+  console.log({message, error, pageState, token})
   useEffect(() => {
-    if (message?.length) {
+    if (message) {
+      if(mes)
       toastr.success(message, "MemeMaza");
     }
   }, [message]);

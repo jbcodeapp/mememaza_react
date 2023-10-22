@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/styles/components/post.module.css";
 import { useRouter } from "next/router";
-import { useAppDispatch, useAppSelector } from "@/src/store";
+import { useAppDispatch } from "@/src/store";
 import { postLike, postSelect } from "@/src/services/post/slice";
 import { useEffect } from "react";
 
@@ -39,11 +39,13 @@ export default function Post({ post }) {
     id,
     title,
     image,
+    user_has_liked,
     image_path,
     likes_count,
     shares_count,
     comments_count,
     views_count,
+    type,
     category,
     slug,
     download: dl,
@@ -74,6 +76,8 @@ export default function Post({ post }) {
       toastr.info("Please sign in to continue", "MemeMaza");
     }
   }, [error]);
+  const [like, setLike] = useState(user_has_liked)
+  const [likeCount, setLikeCount] = useState(likes_count)
 
   return (
     <div className={styles.post} role="article">
@@ -89,13 +93,16 @@ export default function Post({ post }) {
         <div className={styles.postToolbarContainer}>
           <div className={styles.postToolbar}>
             <ActionButton
+              active={like}
               lg
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(postLike({ id }));
+                setLike(like => !like);
+                setLikeCount(lc => like ? lc - 1 : lc +1)
+                dispatch(postLike({ id, type }));
               }}
               icon="thumbs-up"
-              text={likes_count}
+              text={likeCount}
             />
             <ActionButton
               lg

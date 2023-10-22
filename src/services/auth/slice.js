@@ -1,5 +1,5 @@
 import { SITE_URL } from "@/def";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
