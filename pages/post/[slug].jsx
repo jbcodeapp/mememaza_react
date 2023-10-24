@@ -16,8 +16,11 @@ export default function PostPage() {
   const [loading, setLoading] = useState();
   useEffect(() => {
     if (slug && !data?.length) {
-      axios(SITE_URL + `/getpostbyslug/${slug}`, {
+      axios(SITE_URL + `/getpostbyslug/${slug}/post`, {
         method: "GET",
+        body: {
+          page: 1
+        }
       })
         .then((resp) => {
           setLoading(false);
@@ -81,6 +84,8 @@ export default function PostPage() {
         <Gallery
           type="post"
           mediaType="photo"
+          previousLink={data?.previous}
+          nextLink={data?.next}
           isLiked={isLiked}
           loading={loading}
           getComment={getComment}

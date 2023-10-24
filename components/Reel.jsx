@@ -33,9 +33,18 @@ export default function Reel({ reel }) {
   const [download, setDownload] = useState(dl);
   const [like, setLike] = useState(user_has_liked)
   const [likeCount, setLikeCount] = useState(likes_count)
+
   const dispatch = useAppDispatch();
 
   const newImagePath = image_path.replace("https://admin.", "https://");
+  let media;
+
+  if(reel_type == 1) {
+    media = <div style={{minHeight: 300, background: '#292839', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 12}}>{link}</div>
+  } else {
+    media = <img className={styles.reelImage} src={newImagePath} alt={title} />
+  }
+
 
   return (
     <div className={styles.reel} role="article">
@@ -44,7 +53,7 @@ export default function Reel({ reel }) {
         className={styles.reelOverlay}
         onClick={() => router.push(`/reel/${slug}`)}
       />
-      <img className={styles.reelImage} src={newImagePath} alt={title} />
+      {media}
       <div className={styles.reelDetails}>
         <p className={styles.reelTitle}>
           {title} • {category.name}

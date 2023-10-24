@@ -12,6 +12,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.navLink {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  top: 50%;
+  border-radius: 50%;
+  background-color: #00000066;
+  height: 50px;
+  aspect-ratio: 1/1;
+  transform: translate(0, -50%);
+}
+
+.nextLink {
+  right: 10px;
+  top: 50%;
+}
+.previousLink {
+  left: 10px;
 }
 
 .dataContainer {

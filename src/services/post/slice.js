@@ -40,28 +40,6 @@ export const postLike = createAsyncThunk(
   }
 );
 
-export const postDislike = createAsyncThunk(
-  "auth/postDislike",
-  async (payload, thunkAPI) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(SITE_URL + "/updatedislike", {
-        headers: { Authorization: `Bearer ${token}` },
-        body: {
-          type: "post",
-          id: payload.id,
-        },
-      });
-      if (response.data.statuscode == false) {
-        return thunkAPI.rejectWithValue({ error: error.message });
-      }
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue({ error: error.message });
-    }
-  }
-);
-
 export const postComment = createAsyncThunk(
   "auth/postComment",
   async (payload, thunkAPI) => {
@@ -124,20 +102,6 @@ export const postSlice = createSlice({
       .addCase(postLike.rejected, (state, action) => {
         state.pageState = "failed";
         state.status = action.payload.status;
-        state.error = action.payload.error;
-      })
-      .addCase(postDislike.pending, (state, action) => {
-        state.pageState = "loading";
-        state.message = "";
-        state.error = "";
-      })
-      .addCase(postDislike.fulfilled, (state, action) => {
-        state.pageState = "succeeded";
-        state.message = action.payload.message;
-        state.statusCode = action.payload.statusCode;
-      })
-      .addCase(postDislike.rejected, (state, action) => {
-        state.pageState = "failed";
         state.error = action.payload.error;
       });
   },

@@ -5,6 +5,7 @@ import { ActionButton } from "./Post";
 import { useEffect } from "react";
 import { useState } from "react";
 import UserHistory from "./UserHistory";
+import Link from "next/link";
 
 export default function Gallery({
   media,
@@ -16,6 +17,8 @@ export default function Gallery({
   onDislike,
   timeAgo,
   type,
+  previousLink,
+  nextLink,
   mediaType = "photo",
 }) {
   const [icon, setIcon] = useState("vr-dashboard");
@@ -38,6 +41,7 @@ export default function Gallery({
     lg: true,
   };
 
+
   return (
     <div className={styles.gallery}>
       <div className={styles.mediaContainer}>
@@ -48,6 +52,17 @@ export default function Gallery({
         ) : (
           media
         )}
+        {
+          previousLink && <Link href={previousLink} className={styles.navLink + " " + styles.previousLink}>
+            <i className="fas fa-chevron-left" />
+            
+          </Link>
+        }
+        {
+          nextLink && <Link href={nextLink} className={styles.navLink + " " + styles.nextLink}>
+            <i className="fas fa-chevron-right" />
+          </Link>
+        }
       </div>
       <div className={styles.dataContainer}>
         <div className={styles.infoContainer}>
