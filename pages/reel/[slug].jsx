@@ -15,6 +15,7 @@ export default function ReelsPage() {
   const [isLiked, setIsLiked] = useState(false);
   const [data, setData] = useState();
   const [loading, setLoading] = useState();
+  
   useEffect(() => {
     if (slug && !data?.length) {
       axios(SITE_URL + `/getpostbyslug/${slug}/reel`, {
@@ -82,9 +83,10 @@ export default function ReelsPage() {
     switch(data?.obj.reel_type) {
       case 1:
         mediaType = 'link';
-        media = <div style={{
-          height: '600px', borderRadius: 14, width: '300px', background: 'black', display: 'flex', alignItems: 'flex-end', padding: '12px'
-        }}><a href={data?.obj.link} target="_blank">See More</a> </div>;
+        media =<div style={{
+          height: '600px', borderRadius: 14, width: '300px',  background: '#292839', display: 'flex',flexDirection: 'column', justifyContent: 'flex-end', padding: '12px'
+        }}>
+          <a href={data?.obj.link} target="_blank">{data?.obj.link}  <br /> See More</a> </div>;
         break;
       case 2:
         mediaType = 'video';

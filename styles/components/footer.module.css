@@ -1,0 +1,33 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+}
+.footerContainer {
+    display: flex;
+    gap: 22px;
+    background-color: #292839;
+    height: 50px;
+    line-height: 50px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+    width: 100vw;
+}
+
+.footerNavbar {
+    overflow: hidden;
+    font-size: 13px;
+    letter-spacing: .5px;
+    text-align: left;
+    color: #b4b9c2;
+    display: flex;
+
+    width: 100%;
+}
+
+.footer li {
+    display: inline-block;
+    margin: auto 20px;
+    vertical-align: middle;
+}

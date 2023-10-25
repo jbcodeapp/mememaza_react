@@ -6,9 +6,10 @@ import AppCover from "../components/AppCover";
 import { useEffect, useState } from "react";
 import { useAuthCheck } from "@/hooks/useAuthCheck";
 
-import { SITE_URL } from "@/def";
+import { SITE_URL, API_PATH } from "@/def";
 import axios from "axios";
 import PostsView from "@/views/Posts";
+import Footer from "../components/Footer";
 
 const getMin = (num1, num2) => {
   if (num1 > num2) return num2;
@@ -50,6 +51,7 @@ const Index = () => {
     };
   }, []);
 
+
   return (
     <div className={styles.home}>
       <AppCover>
@@ -60,8 +62,9 @@ const Index = () => {
           stories={data?.stories}
         />
       </AppCover>
-      <PostsView />
+      <PostsView banners={data?.banners.filter(item => item.type === 'left' || item.type === 'right' || item.type === 'header')} />
 
+      <Footer banners={data?.banners.filter(item => item.type === 'bottom')} />
       {/* {data && <Landing props={{ data }} />} */}
     </div>
   );
