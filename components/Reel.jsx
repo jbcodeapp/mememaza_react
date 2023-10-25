@@ -45,10 +45,18 @@ export default function Reel({ reel }) {
     media = <img className={styles.reelImage} src={newImagePath} alt={title} />
   }
 
+  const showPlayIcon = (mt) => {
+    console.log(mt)
+    if(mt === 2) {
+      return <i style={{fontSize: 8, marginLeft: 4}} className="fas fa-play" />;
+    }
+
+    return null;
+  }
 
   return (
     <div className={styles.reel} role="article">
-        <div className="position-absoluten badge rounded-pill" style={{width: 'fit-content', position: 'absolute', background: 'rgb(23, 21, 68)', top: 5, left: 5}}>Reel</div>
+      <div className="position-absolute badge rounded-pill" style={{width: 'fit-content', position: 'absolute', background: 'rgb(23, 21, 68)', top: 5, left: 5}}>Reel {showPlayIcon(reel_type)}</div>
       <div
         className={styles.reelOverlay}
         onClick={() => router.push(`/reel/${slug}`)}

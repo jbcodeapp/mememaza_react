@@ -84,7 +84,7 @@ export default function ReelsPage() {
         mediaType = 'link';
         media = <div style={{
           height: '600px', borderRadius: 14, width: '300px', background: 'black', display: 'flex', alignItems: 'flex-end', padding: '12px'
-        }}><a href={data?.obj.link}>See More</a> </div>;
+        }}><a href={data?.obj.link} target="_blank">See More</a> </div>;
         break;
       case 2:
         mediaType = 'video';
@@ -99,7 +99,6 @@ export default function ReelsPage() {
         />;
         break;
     }
-    console.log(media,data?.obj.type)
   
     return (
       <>
