@@ -6,12 +6,14 @@ import { postLike, postSelect } from "@/src/services/post/slice";
 import { useEffect } from "react";
 
 import toastr from "toastr";
-import { API_PATH } from "@/def";
+import { API_PATH, HOME_URL } from "@/def";
 import { useState } from "react";
+import ShareButton from "./ShareButton";
 
 export const ActionButton = ({
   icon,
   text = "",
+  ref,
   active,
   onClick,
   lg = false,
@@ -22,6 +24,7 @@ export const ActionButton = ({
 }) => {
   return (
     <button
+      ref={ref}
       onClick={onClick}
       className={`${styles.actionBtn} ${lg ? styles.actionBtnLg : null} ${
         active ? styles.actionBtnActive : null
@@ -126,12 +129,7 @@ export default function Post({ post }) {
               <i className={`fas fa-download`}></i> <>{download}</>
             </a>
 
-            <ActionButton
-              lg
-              onClick={() => {}}
-              icon="share"
-              text={shares_count}
-            />
+            <ShareButton count={shares_count} url={`${HOME_URL}post/${slug}`} />
           </div>
         </div>
       </div>

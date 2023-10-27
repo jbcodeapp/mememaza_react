@@ -82,7 +82,9 @@ export default function PostPage() {
       <>
         <Navbar bgOpacity={1} />
         <Gallery
+          id={data?.obj.id}
           type="post"
+          slug={slug}
           mediaType="photo"
           previousLink={data?.previous}
           nextLink={data?.next}
@@ -98,7 +100,7 @@ export default function PostPage() {
           media={
             <img
               style={{ maxHeight: "100%" }}
-              src={!loading && API_PATH + "/" + data?.obj.image}
+              src={!loading && data?.obj.image}
               alt={!loading && data?.obj.title}
             />
           }

@@ -4,11 +4,12 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import toastr from "toastr";
-import { API_PATH } from "@/def";
+import { API_PATH, HOME_URL } from "@/def";
 import { useState } from "react";
 import { ActionButton } from "./Post";
 import { postLike } from "@/src/services/post/slice";
 import { useAppDispatch } from "@/src/store";
+import ShareButton from "./ShareButton";
 
 
 export default function Reel({ reel }) {
@@ -102,12 +103,7 @@ export default function Reel({ reel }) {
               <i className={`fas fa-download`}></i> <>{download}</>
             </a>
 
-            <ActionButton
-              lg
-              onClick={() => {}}
-              icon="share"
-              text={shares_count}
-            />
+            <ShareButton count={shares_count} url={`${HOME_URL}reel/${slug}`} />
           </div>
         </div>
       </div>

@@ -88,15 +88,17 @@ export default function ReelsPage() {
         }}>
           <a href={data?.obj.link} target="_blank">{data?.obj.link}  <br /> See More</a> </div>;
         break;
+
       case 2:
         mediaType = 'video';
-        media = <ReactPlayer playing url={API_PATH + "/" + data?.obj.link} />;
+        media = <ReactPlayer height={'calc(100% - 100px)'} controls loop playing url={ data?.obj.link} />;
         break;
+
       case 3:
         mediaType = 'photo';
         media = <img
           style={{ maxHeight: "100%" }}
-          src={!loading && API_PATH + "/" + data?.obj.link}
+          src={!loading && data?.obj.link}
           alt={!loading && data?.obj.title}
         />;
         break;
@@ -107,6 +109,8 @@ export default function ReelsPage() {
         <Navbar bgOpacity={1} />
         <Gallery
           type="reel"
+          id={data?.obj.id}
+          slug={slug}
           mediaType={mediaType}
           previousLink={data?.previous}
           nextLink={data?.next}
@@ -120,7 +124,7 @@ export default function ReelsPage() {
           onShare={onShare}
           onDownload={onDownload}
           media={media}
-          title={!loading && data?.obj.title}
+          title={!loading && data?.obj.meta_desc}
           timeAgo={!loading ? timeAgo(data?.obj.created_at) : ""}
           likes={!loading && data?.obj.like}
         />

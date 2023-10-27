@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import UserHistory from "./UserHistory";
 import Link from "next/link";
+import { HOME_URL } from "@/def";
+import ShareButton from "./ShareButton";
 
 export default function Gallery({
   media,
@@ -14,6 +16,8 @@ export default function Gallery({
   likes,
   isLiked,
   onLike,
+  shares_count,
+  slug,
   onDislike,
   timeAgo,
   type,
@@ -41,9 +45,15 @@ export default function Gallery({
     lg: true,
   };
 
+  const [showCommentBox, setCommentBoxShow] = useState(false)
+
+  console.log(showCommentBox)
 
   return (
     <div className={styles.gallery}>
+      {showCommentBox ?
+      <div className={styles.blurredBackdrop}></div>
+    : null}
       <div className={styles.mediaContainer}>
         {loading ? (
           <div class="spinner-border" role="status">
@@ -64,7 +74,10 @@ export default function Gallery({
           </Link>
         }
       </div>
-      <div className={styles.dataContainer}>
+      <div className={`${styles.dataContainer} ${showCommentBox ? styles.showCommentBox : ''}`}>
+        <div role="button" onClick={() => setCommentBoxShow(scb => !scb)} className={styles.dataContainerChevron}>
+          <i className={`fas fa-chevron-${showCommentBox ? 'down' : 'up'}`} />
+        </div>
         <div className={styles.infoContainer}>
           <p className={styles.info}>
             <i className={`fa fa-${icon}`} /> This {mediaType} is from a {type}.
@@ -106,12 +119,9 @@ export default function Gallery({
                 icon="comment"
                 text="Comment"
               />
-              <ActionButton
-                {...actionButtonStyle}
-                onClick={() => {}}
-                icon="share"
-                text="Share"
-              />
+
+              <ShareButton  {...actionButtonStyle} count={"Share"} url={`${HOME_URL}${type}/${slug}`}>Share</ShareButton>
+
             </div>
             <div className={styles.commentContainer}>
               <div className={styles.commentBoxContainer}>
