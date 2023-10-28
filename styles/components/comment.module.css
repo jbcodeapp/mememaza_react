@@ -1,0 +1,26 @@
+.commentContainer {
+    display: flex;
+    gap: 8px;
+}
+.avatar {
+    height: 32px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+
+.comment {
+    border-radius: 12px;
+    background-color: #131033;
+    padding: 8px 12px;
+    color: white;
+}
+
+.comment p {
+    margin: 0;
+}
+.title {
+    font-weight: bold;;
+}
+.commentText img{
+    border-radius: 12px;
+}

@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.14",
+    "@giphy/js-fetch-api": "^5.2.0",
+    "@giphy/react-components": "^9.1.0",
     "@itseasy21/react-elastic-carousel": "^0.12.3",
     "@next/font": "13.1.2",
     "@reduxjs/toolkit": "^1.9.7",
@@ -33,6 +35,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-search-autocomplete": "^8.5.2",
     "react-slick": "^0.29.0",
+    "react-tiny-popover": "^8.0.4",
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
     "toastr": "^2.1.4",

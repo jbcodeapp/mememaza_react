@@ -39,10 +39,8 @@ export default function Navbar({ bgOpacity }) {
 
   const { message, error, pageState, token, user } = useAppSelector(authSelect);
 
-  console.log({message, error, pageState, token})
   useEffect(() => {
     if (message) {
-      if(mes)
       toastr.success(message, "MemeMaza");
     }
   }, [message]);

@@ -110,6 +110,7 @@ export default function ReelsPage() {
         <Gallery
           type="reel"
           id={data?.obj.id}
+          comments={data?.obj.comments}
           slug={slug}
           mediaType={mediaType}
           previousLink={data?.previous}
@@ -124,7 +125,7 @@ export default function ReelsPage() {
           onShare={onShare}
           onDownload={onDownload}
           media={media}
-          title={!loading && data?.obj.meta_desc}
+          title={!loading && <><b>{data?.obj.reel}</b> <br /> {data?.obj.meta_desc}</>}
           timeAgo={!loading ? timeAgo(data?.obj.created_at) : ""}
           likes={!loading && data?.obj.like}
         />

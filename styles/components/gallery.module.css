@@ -3,6 +3,8 @@
   --border-color: #45474896;
   display: flex;
   width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   margin-top: var(--nav-height);
   position: relative;
   height: calc(100vh - var(--nav-height));
@@ -38,6 +40,7 @@
 
 .dataContainer {
   position: relative;
+  overflow-y: auto;
   width: 360px;
   background-color: #1a1646;
   padding-top: 50px;
@@ -85,25 +88,12 @@
   border-top: 1px solid var(--border-color);
   margin: 0 var(--pad);
   padding-top: 16px;
-}
-
-.commentBoxContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 8px;
+  position: relative;
+  margin-bottom: 172px;
 }
-.commentBox {
-  border-radius: 18px;
-  overflow: hidden;
-  padding: 5px 15px;
-  color: white;
-  resize: none;
-  border: none;
-  background: #131033;
-}
-
-
 .dataContainerChevron {
   display: none;
   padding: 10px;
@@ -123,22 +113,20 @@
 @keyframes fadeIn {
   from {
     backdrop-filter: blur(0px) saturate(1);
-
   }
   to {
     backdrop-filter: blur(2px) saturate(0.4);
   }
 }
 @media only screen and (max-width: 1000px) {
-
   .gallery {
-    max-height: 90vh;
-    overflow-y: hidden;
+    max-height: 100vh;
   }
   .mediaContainer {
     max-width: 100vw;
   }
   .dataContainer {
+    min-height: min-content;
     position: absolute;
     width: 100vw;
     left: 50%;

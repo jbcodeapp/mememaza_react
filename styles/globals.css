@@ -15,10 +15,26 @@ body {
   overflow-x: hidden;
 }
 
-@media only screen and (max-width: 400px) {
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #131033;
+  border: 1px solid #241f5f;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 1px solid #241f5f;
+  background-color: #d15b49;
+}
+
+@media only screen and (max-width: 375px) {
   body {
     overflow-x: auto;
-    width: 400px;
+    width: 375px;
   }
 }
 

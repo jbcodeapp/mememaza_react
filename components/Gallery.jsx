@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import { Popover } from 'react-tiny-popover'
 
 import styles from "@/styles/components/gallery.module.css";
 import { ActionButton } from "./Post";
@@ -6,17 +7,25 @@ import { useEffect } from "react";
 import { useState } from "react";
 import UserHistory from "./UserHistory";
 import Link from "next/link";
-import { HOME_URL } from "@/def";
+import toastr from "toastr";
+import { HOME_URL, SITE_URL } from "@/def";
 import ShareButton from "./ShareButton";
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import CommentBox from "./CommentBox";
+import Comment from "./Comment";
+
+const giphyFetch = new GiphyFetch("sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh");
 
 export default function Gallery({
   media,
+  id,
   title,
   loading,
   likes,
   isLiked,
   onLike,
   shares_count,
+  comments,
   slug,
   onDislike,
   timeAgo,
@@ -46,8 +55,6 @@ export default function Gallery({
   };
 
   const [showCommentBox, setCommentBoxShow] = useState(false)
-
-  console.log(showCommentBox)
 
   return (
     <div className={styles.gallery}>
@@ -124,16 +131,8 @@ export default function Gallery({
 
             </div>
             <div className={styles.commentContainer}>
-              <div className={styles.commentBoxContainer}>
-                <textarea className={styles.commentBox} />
-                <ActionButton
-                  style={{ height: "fit-content" }}
-                  onClick={() => {}}
-                  icon="paper-plane"
-                  text="Send"
-                  lg
-                />
-              </div>
+              {comments?.map(item => <Comment comment={item} />)}
+                <CommentBox type={type} id={id}/>
             </div>
           </>
         )}
