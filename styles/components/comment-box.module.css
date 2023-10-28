@@ -11,7 +11,13 @@
     background: #1a1646;
     border: 1px solid #d15b4910
   }
-
+  @media only screen and (max-width: 1000px) {
+    .commentBoxContainer {
+      position: sticky;
+      width: 93vw;
+      margin-left: -18px;
+    }
+  }
   .avatar {
     height: 32px;
     aspect-ratio: 1/1;
