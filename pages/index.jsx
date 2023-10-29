@@ -64,7 +64,7 @@ const Index = () => {
         />
       </AppCover>
       <PostsView banners={data?.banners.filter(item => item.type === 'left' || item.type === 'right' || item.type === 'header')} />
-      <Footer style={{position: 'fixed', bottom: bannerTop > 100 ? (-bannerTop+100) : 0+'px'}} banners={[]} />
+      <Footer style={{position: 'fixed', bottom: bannerTop > 200 ? (-bannerTop+200)*0.3 : 0+'px'}} banners={[]} />
 
       <Footer banners={data?.banners.filter(item => item.type === 'bottom')} />
       {/* {data && <Landing props={{ data }} />} */}
