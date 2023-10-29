@@ -7,9 +7,6 @@ import { useState } from "react";
 import axios from "axios";
 import { SITE_URL } from "@/def";
 import Reel from "../components/Reel";
-import { useAppSelector } from "@/src/store";
-import { authTokenSelect } from "@/src/services/auth/slice";
-import { API_PATH } from "@/def";
 
 export default function PostsView({ data, banners }) {
   const postsRef = useRef();
@@ -119,18 +116,18 @@ export default function PostsView({ data, banners }) {
       <div class={styles.leftBanners}>
         {
           banners?.filter(item => item.type === 'left')
-            .map(item => <img style={{maxWidth: 100}} src={API_PATH + '/' + item.banner} alt="advertisement" />)
+            .map(item => <img style={{maxWidth: 100}} src={item.banner} alt="advertisement" />)
         }
       </div>
       <div class={styles.rightBanners}>
         {
           banners?.filter(item => item.type === 'right')
-            .map(item => <img style={{maxWidth: 100}} src={API_PATH + '/' + item.banner} alt="advertisement" />)
+            .map(item => <img style={{maxWidth: 100}} src={item.banner} alt="advertisement" />)
         }
       </div>
       {
         banners?.filter(item => item.type === 'header')
-          .map(item => <div style={{margin: '30px 0 0px 0'}}><img style={{maxWidth: 800}} src={API_PATH + '/' + item.banner} alt="advertisement" /></div>)
+          .map(item => <div style={{margin: '30px 0 0px 0'}}><img style={{maxWidth: 800}} src={item.banner} alt="advertisement" /></div>)
       }
       <div ref={postsRef} className={styles.posts}>
         {Array.from({ length: numberOfColumns }, (_, index) => index).map(

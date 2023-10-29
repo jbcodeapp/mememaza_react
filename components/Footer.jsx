@@ -1,4 +1,3 @@
-import { API_PATH } from '@/def'
 import React from 'react'
 import styles from "@/styles/components/footer.module.css";
 
@@ -6,7 +5,7 @@ export default function Footer({banners}) {
   return (
     <div className={styles.footer}>
         {
-          banners?.map(item => <img style={{maxWidth: 800}} src={API_PATH + '/' + item.banner} alt="advertisement" />)
+          banners?.map(item => <img style={{maxWidth: 800}} src={item.banner} alt="advertisement" />)
         }
         <div className={styles.footerContainer}>
         <ul className={styles.footerNavbar}>
