@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "@/styles/components/banner.module.css";
-import Story from "./Story";
 import Category from "./Category";
 import StoryReels from "./StoryReels";
 

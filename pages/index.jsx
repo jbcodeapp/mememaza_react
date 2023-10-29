@@ -56,6 +56,7 @@ const Index = () => {
     <div className={styles.home}>
       <AppCover>
         <Navbar bgOpacity={getMin(bannerTop / 300, 1)} />
+        
         <Banner
           style={{ transform: `translateY(${-bannerTop * 0.5}px)` }}
           categories={data?.categories}
@@ -63,6 +64,7 @@ const Index = () => {
         />
       </AppCover>
       <PostsView banners={data?.banners.filter(item => item.type === 'left' || item.type === 'right' || item.type === 'header')} />
+      <Footer style={{position: 'fixed', bottom: bannerTop > 100 ? (-bannerTop+100) : 0+'px'}} banners={[]} />
 
       <Footer banners={data?.banners.filter(item => item.type === 'bottom')} />
       {/* {data && <Landing props={{ data }} />} */}

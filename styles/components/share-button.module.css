@@ -4,23 +4,33 @@
 
 .sharePopupContainer {
     position: absolute;
-    top: -50px;
-    left: -180px;
+    top: -85px;
+    left: -220px;
     display: grid;
     place-items: center;
 }
 
 .sharePopup {
-    width: fit-content;
-    height: 50px;
+    width: max-content;
+    /* height: 50px; */
     background: hsl(222 7% 20% / 1);
     border-radius: 4px;
     padding: 10px;
     color: white;
     font-size: 12px;
     display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
+.copyUrl {
+    display: flex;
+
+}
+.socialShares {
+    display: flex;
+    gap: 4px;
+}
 .sharePopup input {
     background-color: hsl(222 7% 20% / 1);
     width: 200px;

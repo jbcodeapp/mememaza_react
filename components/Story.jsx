@@ -1,10 +1,16 @@
 import React from "react";
 
 import styles from "@/styles/components/story.module.css";
+import { useRouter } from "next/navigation";
 
 export default function Story({ story }) {
+  const router = useRouter();
   return (
     <div
+      role="button"
+      onClick={() => {
+        router.push(`/story/${story.id}`)
+      }}
       className={`${styles.story} ${
         story.story_type === 2 ? styles.vidContainer : ""
       }`}
