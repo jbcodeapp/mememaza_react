@@ -1,20 +1,18 @@
-import React, { useRef } from "react";
-import { Popover } from 'react-tiny-popover'
+import React from 'react'
 
-import styles from "@/styles/components/gallery.module.css";
-import { ActionButton } from "./Post";
-import { useEffect } from "react";
-import { useState } from "react";
-import UserHistory from "./UserHistory";
-import Link from "next/link";
-import toastr from "toastr";
-import { HOME_URL, SITE_URL } from "@/def";
-import ShareButton from "./ShareButton";
-import { GiphyFetch } from "@giphy/js-fetch-api";
-import CommentBox from "./CommentBox";
-import Comment from "./Comment";
+import styles from '@/styles/components/gallery.module.css'
+import { ActionButton } from './Post'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import UserHistory from './UserHistory'
+import Link from 'next/link'
+import { HOME_URL, SITE_URL } from '@/def'
+import ShareButton from './ShareButton'
+import { GiphyFetch } from '@giphy/js-fetch-api'
+import CommentSection from '@/views/CommentSection'
+import Spinner from './Spinner'
 
-const giphyFetch = new GiphyFetch("sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh");
+const giphyFetch = new GiphyFetch('sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh')
 
 export default function Gallery({
   media,
@@ -32,57 +30,62 @@ export default function Gallery({
   type,
   previousLink,
   nextLink,
-  mediaType = "photo",
+  mediaType = 'photo',
 }) {
-  const [icon, setIcon] = useState("vr-dashboard");
+  const [icon, setIcon] = useState('vr-dashboard')
 
   useEffect(() => {
     if (type) {
-      if (type == "reel") {
-        setIcon("vr-cardboard");
-      } else if (type == "story") {
-        setIcon("cloud-moon");
+      if (type == 'reel') {
+        setIcon('vr-cardboard')
+      } else if (type == 'story') {
+        setIcon('cloud-moon')
       } else {
-        setIcon("newspaper");
+        setIcon('newspaper')
       }
     }
-  }, [type]);
+  }, [type])
 
   const actionButtonStyle = {
-    color: "#b0b3b8ae",
-    hoverColor: "#eeaeae",
+    color: '#b0b3b8ae',
+    hoverColor: '#eeaeae',
     lg: true,
-  };
+  }
 
   const [showCommentBox, setCommentBoxShow] = useState(false)
 
   return (
     <div className={styles.gallery}>
-      {showCommentBox ?
-      <div className={styles.blurredBackdrop}></div>
-    : null}
+      {showCommentBox ? <div className={styles.blurredBackdrop}></div> : null}
       <div className={styles.mediaContainer}>
-        {loading ? (
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        ) : (
-          media
-        )}
-        {
-          previousLink && <Link href={previousLink} className={styles.navLink + " " + styles.previousLink}>
+        {loading ? <Spinner /> : media}
+        {previousLink && (
+          <Link
+            href={previousLink}
+            className={styles.navLink + ' ' + styles.previousLink}
+          >
             <i className="fas fa-chevron-left" />
-            
           </Link>
-        }
-        {
-          nextLink && <Link href={nextLink} className={styles.navLink + " " + styles.nextLink}>
+        )}
+        {nextLink && (
+          <Link
+            href={nextLink}
+            className={styles.navLink + ' ' + styles.nextLink}
+          >
             <i className="fas fa-chevron-right" />
           </Link>
-        }
+        )}
       </div>
-      <div className={`${styles.dataContainer} ${showCommentBox ? styles.showCommentBox : ''}`}>
-        <div role="button" onClick={() => setCommentBoxShow(scb => !scb)} className={styles.dataContainerChevron}>
+      <div
+        className={`${styles.dataContainer} ${
+          showCommentBox ? styles.showCommentBox : ''
+        }`}
+      >
+        <div
+          role="button"
+          onClick={() => setCommentBoxShow((scb) => !scb)}
+          className={styles.dataContainerChevron}
+        >
           <i className={`fas fa-chevron-${showCommentBox ? 'down' : 'up'}`} />
         </div>
         <div className={styles.infoContainer}>
@@ -92,9 +95,7 @@ export default function Gallery({
         </div>
         {loading ? (
           <div className={styles.titleContainer}>
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
+            <Spinner />
           </div>
         ) : (
           <>
@@ -104,16 +105,16 @@ export default function Gallery({
                 name="Admin"
                 timeAgo={timeAgo}
               />
-              {title}
+              {title ? title : <Spinner />}
             </div>
             <div className={styles.toolbarContainer}>
               <ActionButton
                 {...actionButtonStyle}
                 onClick={() => {
                   if (isLiked) {
-                    onDislike();
+                    onDislike()
                   } else {
-                    onLike();
+                    onLike()
                   }
                 }}
                 icon="thumbs-up"
@@ -127,16 +128,19 @@ export default function Gallery({
                 text="Comment"
               />
 
-              <ShareButton  {...actionButtonStyle} count={"Share"} url={`${HOME_URL}${type}/${slug}`}>Share</ShareButton>
+              <ShareButton
+                {...actionButtonStyle}
+                count={'Share'}
+                url={`${HOME_URL}${type}/${slug}`}
+              >
+                Share
+              </ShareButton>
+            </div>
 
-            </div>
-            <div className={styles.commentContainer}>
-              {comments?.map(item => <Comment comment={item} />)}
-                <CommentBox type={type} id={id}/>
-            </div>
+            <CommentSection comments={comments} type={type} id={id} />
           </>
         )}
       </div>
     </div>
-  );
+  )
 }

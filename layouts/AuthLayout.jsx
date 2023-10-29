@@ -1,8 +1,10 @@
-import React from "react";
-import styles from "@/styles/layouts/authLayout.module.css";
-import Link from "next/link";
+import React from 'react'
+import styles from '@/styles/layouts/authLayout.module.css'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function AuthLayout({ title, children }) {
+  const router = useRouter()
   return (
     <div className={styles.authLayout}>
       <div className={styles.authContent}>
@@ -19,10 +21,10 @@ export default function AuthLayout({ title, children }) {
         {children}
         <div
           style={{
-            display: "flex",
+            display: 'flex',
             gap: 8,
-            alignItems: "center",
-            width: "100%",
+            alignItems: 'center',
+            width: '100%',
           }}
         >
           <img
@@ -31,11 +33,17 @@ export default function AuthLayout({ title, children }) {
             height={25}
             style={{ opacity: 0.6 }}
           />
-          <Link legacyBehavior href="/">
-            Go Back Home
-          </Link>
+          <a
+            href=""
+            onClick={(e) => {
+              e.preventDefault()
+              router.back()
+            }}
+          >
+            Go Back
+          </a>
         </div>
       </div>
     </div>
-  );
+  )
 }

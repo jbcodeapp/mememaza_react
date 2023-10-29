@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Onest:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css');
 * {
-  font-family: "Onest", sans-serif;
+  font-family: 'Onest', sans-serif;
   user-select: none;
 }
 :root {
@@ -57,6 +57,30 @@ body {
   transition: all 0.1s ease-in;
   color: white;
 }
+@keyframes ripple {
+  from {
+    background: hsl(244, 24%, 14%);
+  }
+  to {
+    background: hsl(244, 18%, 19%);
+  }
+}
+@keyframes ripple-light {
+  from {
+    background: hsl(244, 24%, 24%);
+  }
+  to {
+    background: hsl(244, 18%, 29%);
+  }
+}
+@keyframes ripple-lighter {
+  from {
+    background: hsl(244, 24%, 29%);
+  }
+  to {
+    background: hsl(244, 18%, 34%);
+  }
+}
 
 .slick-arrow::before {
   content: '';
@@ -68,7 +92,7 @@ body {
   width: 50px;
   background-color: rgba(0, 0, 0, 0.347);
 }
-.slick-arrow:hover::before{
+.slick-arrow:hover::before {
   background-color: #d15b4984;
 }
 
@@ -80,7 +104,6 @@ body {
 .slick-arrow:focus {
   background-color: #d15b49;
   color: white;
-
 }
 .slick-prev {
   left: -20px;

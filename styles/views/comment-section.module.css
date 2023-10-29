@@ -1,0 +1,10 @@
+.commentSection {
+  border-top: 1px solid var(--border-color);
+  margin: 0 var(--pad);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 132px;
+}
