@@ -47,7 +47,6 @@ export default function Reel({ reel }) {
   }
 
   const showPlayIcon = (mt) => {
-    console.log(mt)
     if(mt === 2) {
       return <i style={{fontSize: 8, marginLeft: 4}} className="fas fa-play" />;
     }

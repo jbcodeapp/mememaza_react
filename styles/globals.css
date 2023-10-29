@@ -42,6 +42,53 @@ body {
   width: fit-content !important;
   margin-right: 16px;
 }
+
+.slick-arrow {
+  font-size: 12px;
+  position: absolute;
+  height: 35px;
+  width: 35px;
+  display: grid !important;
+  place-items: center;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.347);
+  transition: all 0.1s ease-in;
+  color: white;
+}
+
+.slick-arrow::before {
+  content: '';
+  position: absolute;
+  height: 200px;
+  border-radius: 25px;
+  transition: all 0.1s ease-in;
+  z-index: 10;
+  width: 50px;
+  background-color: rgba(0, 0, 0, 0.347);
+}
+.slick-arrow:hover::before{
+  background-color: #d15b4984;
+}
+
+.slick-arrow:hover {
+  background-color: #d15b49;
+  color: white;
+}
+.slick-arrow:active,
+.slick-arrow:focus {
+  background-color: #d15b49;
+  color: white;
+
+}
+.slick-prev {
+  left: -20px;
+}
+
+.slick-next {
+  right: 10px;
+}
 .menu-btns {
   display: flex;
   gap: 18px;

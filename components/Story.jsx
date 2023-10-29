@@ -13,16 +13,20 @@ export default function Story({ story }) {
         <div
           className={styles.thumbnail}
           style={{
-            backgroundImage: `url(${story.image_path})`,
+            backgroundImage: `url(${story.story})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         ></div>
       ) : (
-        <video className={styles.thumbnailVid} controls="">
-          <source src={story.image_path} type="video/mp4" />
-          Sorry, your browser doesn t support the video element.
-        </video>
+        <div
+          className={styles.thumbnail}
+          style={{
+            backgroundImage: `url(${story.vdo_image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
       )}
     </div>
   );
