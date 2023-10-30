@@ -1,106 +1,102 @@
-
-
 .commentBoxContainer {
-    position: fixed;
-    bottom: 0;
-    right: 10px;
-    width: 350px;
-    display: flex;
-    padding: 8px 16px;
-    gap: 6px;
-    background: #1a1646;
-    border: 1px solid #d15b4910
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  width: 350px;
+  display: flex;
+  padding: 8px 16px;
+  gap: 8px;
+  background: #1a1646;
+  border: 1px solid #d15b4910;
+}
+@media only screen and (max-width: 1000px) {
+  .commentBoxContainer {
+    position: sticky;
+    bottom: -1px;
+    margin-left: -18px;
+    left: 0;
+    width: 97vw;
   }
-  @media only screen and (max-width: 1000px) {
-    .commentBoxContainer {
-      position: sticky;
-      width: 93vw;
-      margin-left: -18px;
-    }
-  }
-  .avatar {
-    height: 32px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    margin-top: 5px;
-  }
+}
+.avatar {
+  height: 32px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin-top: 5px;
+}
 
-  .commentBoxInner {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    position: relative;
-    border-radius: 18px;
-    padding: 5px;
-    background: #131033;
-  }
-  .commentBox {
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 5px 15px;
-    margin-bottom: 30px;
-    color: white;
-    resize: none;
-    background: #131033;
-    border: none;
-  }
-  
-  .commentActionButton {
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0);
-    height: 40px;
-    aspect-ratio: 1/1;
-    display: grid;
-    place-items: center;
-    padding: 4px;
-    position: absolute;
-    opacity: 0.6;
-    color: white;
-    font-size: 20px;
-  }
-   
-  .giphyContainer {
-    border: 1px solid #d15b4910;
-    background-color: #131033;
-    backdrop-filter: blur(2px);
-    padding: 10px;
-    overflow: hidden;
-    overflow-y: auto;
-    height: 300px;
-    width: 360px;
-    border-radius: 12px;
-  }
-  
-  .giphyContainer button {
-    outline: none;
-    color: white;
-    background: #131033;
-  }
-  
-  .commentActionButton:hover {
-    opacity: 1;
-    background-color: rgba(0, 0, 0, 0.164);
-  }
-  .commentActionButton img {
-    filter: invert(1)
-  }
-  .giphyContainer button:focus {
-    box-shadow: none;
-  }
-  
-  
-  .giphyContainer button:hover {
-    color: rgba(255, 255, 255, 0.889);
-    background: #100e2d;
-  }
-  
-  .giphyGrid {
-    display: grid;
-    gap: 6px;
-    grid-template-columns: repeat(3, 1fr)
-  }
-  
-  
-  
+.commentBoxInner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  position: relative;
+  border-radius: 18px;
+  padding: 5px;
+  background: #131033;
+}
+.commentBox {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 5px 15px;
+  margin-bottom: 30px;
+  color: white;
+  resize: none;
+  background: #131033;
+  border: none;
+}
+
+.commentActionButton {
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0);
+  height: 40px;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  position: absolute;
+  opacity: 0.6;
+  color: white;
+  font-size: 20px;
+}
+
+.giphyContainer {
+  border: 1px solid #d15b4910;
+  background-color: #131033;
+  backdrop-filter: blur(2px);
+  padding: 10px;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 300px;
+  width: 360px;
+  border-radius: 12px;
+}
+
+.giphyContainer button {
+  outline: none;
+  color: white;
+  background: #131033;
+}
+
+.commentActionButton:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.164);
+}
+.commentActionButton img {
+  filter: invert(1);
+}
+.giphyContainer button:focus {
+  box-shadow: none;
+}
+
+.giphyContainer button:hover {
+  color: rgba(255, 255, 255, 0.889);
+  background: #100e2d;
+}
+
+.giphyGrid {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+}

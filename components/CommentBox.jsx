@@ -17,7 +17,14 @@ import Link from 'next/link'
 
 const giphyFetch = new GiphyFetch('sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh')
 
-export default function CommentBox({ type, id }) {
+export default function CommentBox({
+  type,
+  id,
+  onNewComment,
+  onNewCommentSuccess,
+  onNewCommentError,
+  newCommentSuccess,
+}) {
   const [gifs, setGifs] = useState()
   const [isGifPopoverOpen, setIsGifPopoverOpen] = useState(false)
 
@@ -26,6 +33,15 @@ export default function CommentBox({ type, id }) {
   const [imagePath, setImagePath] = useState('')
 
   const [imageUploading, setImageUploading] = useState(false)
+
+  useEffect(() => {
+    console.log(newCommentSuccess)
+    if (newCommentSuccess) {
+      setComment('')
+      setCommentType(1)
+      setImagePath('')
+    }
+  }, [newCommentSuccess])
 
   const onGifClick = (id, e) => {
     e.preventDefault()
@@ -37,33 +53,35 @@ export default function CommentBox({ type, id }) {
     setImageUploading(true)
     const image = e.target.files[0]
 
-    let token = localStorage.getItem('token')
+    if (typeof window !== 'undefined') {
+      // Access localStorage or run client-side code here
+      let token = localStorage.getItem('token')
+      if (token) {
+        // Create a FormData object
+        var formData = new FormData()
 
-    if (token) {
-      // Create a FormData object
-      var formData = new FormData()
+        // Append the file to the FormData object
+        formData.append('image', image)
 
-      // Append the file to the FormData object
-      formData.append('image', image)
-
-      axios
-        .post(`${SITE_URL}/store-image`, formData, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
-        .then((resp) => {
-          setImageUploading(false)
-          setCommentType(2)
-          setImagePath(resp.data.url)
-        })
-        .catch((err) => {
-          setImageUploading(true)
-          toastr.error(err.message, 'Mememaza')
-        })
-    } else {
-      setImageUploading(false)
-      toastr.error('Please login to comment!', 'Mememaza')
+        axios
+          .post(`${SITE_URL}/store-image`, formData, {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          })
+          .then((resp) => {
+            setImageUploading(false)
+            setCommentType(2)
+            setImagePath(resp.data.url)
+          })
+          .catch((err) => {
+            setImageUploading(true)
+            toastr.error(err.message, 'Mememaza')
+          })
+      } else {
+        setImageUploading(false)
+        toastr.error('Please login to comment!', 'Mememaza')
+      }
     }
   }
 
@@ -101,24 +119,49 @@ export default function CommentBox({ type, id }) {
 
     e.preventDefault()
 
-    let token = localStorage.getItem('token')
+    if (typeof window !== 'undefined') {
+      // Access localStorage or run client-side code here
+      let token = localStorage.getItem('token')
 
-    if (token) {
-      axios.post(
-        `${SITE_URL}/comment/${type}/${id}`,
-        {
+      if (token) {
+        let commenter = JSON.parse(localStorage.getItem('userdata'))
+        console.log(token, commenter)
+        setLoading(true)
+        onNewComment({
+          id: 0,
           comment: com,
           comment_type,
           image_path: imagePath,
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      )
-    } else {
-      toastr.error('Please login to comment!', 'Mememaza')
+          commenter,
+          created_at: new Date(),
+        })
+        axios
+          .post(
+            `${SITE_URL}/comment/${type}/${id}`,
+            {
+              comment: com,
+              comment_type,
+              image_path: imagePath,
+            },
+            {
+              headers: {
+                Authorization: 'Bearer ' + token,
+              },
+            }
+          )
+          .then((resp) => {
+            setLoading(false)
+
+            onNewCommentSuccess(resp.data)
+          })
+          .catch((err) => {
+            setLoading(false)
+
+            onNewCommentError()
+          })
+      } else {
+        toastr.error('Please login to comment!', 'Mememaza')
+      }
     }
   }
 
@@ -177,6 +220,8 @@ export default function CommentBox({ type, id }) {
     }
   }
 
+  const [loading, setLoading] = useState(false)
+
   const user = useAppSelector(authUserSelect)
 
   return user.id ? (
@@ -228,9 +273,8 @@ export default function CommentBox({ type, id }) {
           className={styles.commentBox}
           rows={2}
           onChange={(e) => setComment(e.target.value)}
-        >
-          {comment}
-        </textarea>
+          value={comment}
+        ></textarea>
         {imagePath ? (
           <img
             height="30px"
@@ -241,6 +285,7 @@ export default function CommentBox({ type, id }) {
         ) : null}
         {imageUploading ? <Spinner /> : null}
         <ActionButton
+          loading={loading}
           style={{
             height: 'fit-content',
             position: 'absolute',
