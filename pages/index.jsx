@@ -6,10 +6,12 @@ import AppCover from '../components/AppCover'
 import { useEffect, useState } from 'react'
 import { useAuthCheck } from '@/hooks/useAuthCheck'
 
-import { SITE_URL, API_PATH } from '@/def'
+import { SITE_URL } from '@/def'
 import axios from 'axios'
 import PostsView from '@/views/Posts'
 import Footer from '../components/Footer'
+import toastr from 'toastr'
+import InfoPanel from '@/components/InfoPanel'
 
 const getMin = (num1, num2) => {
   if (num1 > num2) return num2
@@ -18,6 +20,8 @@ const getMin = (num1, num2) => {
 const Index = () => {
   const [data, setData] = useState()
   const [loading, setLoading] = useState(false)
+
+  const [hasFailed, setHasFailed] = useState(false)
 
   useAuthCheck()
 
@@ -31,10 +35,18 @@ const Index = () => {
     setLoading(true)
     let url = SITE_URL + `/post`
 
-    axios.get(url).then((resp) => {
-      setLoading(false)
-      setData(resp.data)
-    })
+    axios
+      .get(url)
+      .then((resp) => {
+        setLoading(false)
+        setData(resp.data)
+      })
+      .catch(() => {
+        toastr.error('Page under construction', 'Memesmaza')
+        setHasFailed(true)
+
+        document.body.style.background = '#171544'
+      })
   }
 
   const [bannerTop, setBannerTop] = useState(0)
@@ -53,33 +65,50 @@ const Index = () => {
 
   return (
     <div className={styles.home}>
-      <AppCover>
-        <Navbar bgOpacity={getMin(bannerTop / 300, 1)} />
+      {hasFailed ? (
+        <AppCover>
+          <Navbar bgOpacity={getMin(bannerTop / 300, 1)} />
+          <InfoPanel
+            title="Page under Construction"
+            message="Please check back in some time!"
+          />
+        </AppCover>
+      ) : (
+        <>
+          <AppCover>
+            <Navbar bgOpacity={getMin(bannerTop / 300, 1)} />
 
-        <Banner
-          style={{ transform: `translateY(${-bannerTop * 0.5}px)` }}
-          categories={data?.categories}
-          stories={data?.stories}
-        />
-      </AppCover>
-      <PostsView
-        banners={data?.banners.filter(
-          (item) =>
-            item.type === 'left' ||
-            item.type === 'right' ||
-            item.type === 'header'
-        )}
-      />
+            <Banner
+              style={{ transform: `translateY(${-bannerTop * 0.5}px)` }}
+              categories={data?.categories}
+              stories={data?.stories}
+            />
+          </AppCover>
+          <PostsView
+            banners={data?.banners.filter(
+              (item) =>
+                item.type === 'left' ||
+                item.type === 'right' ||
+                item.type === 'header'
+            )}
+          />
+          <Footer
+            style={{
+              position: 'fixed',
+              zIndex: 200,
+              bottom: bannerTop > 200 ? (-bannerTop + 200) * 0.3 : 0 + 'px',
+            }}
+            banners={[]}
+          />
+        </>
+      )}
+
       <Footer
         style={{
           position: 'fixed',
           zIndex: 200,
-          bottom: bannerTop > 200 ? (-bannerTop + 200) * 0.3 : 0 + 'px',
+          bottom: 0,
         }}
-        banners={[]}
-      />
-
-      <Footer
         banners={data?.banners.filter((item) => item.type === 'bottom')}
       />
       {/* {data && <Landing props={{ data }} />} */}
