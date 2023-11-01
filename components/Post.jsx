@@ -150,7 +150,7 @@ export const PostSkeleton = ({ destroy, delayIndex, postFetcherRef }) => {
       }`}
     >
       <div
-        dataId={delayIndex}
+        dataid={delayIndex}
         ref={postFetcherRef}
         style={{
           height: 0,

@@ -67,14 +67,14 @@ export default function StoryReels({ stories }) {
       {loading ? (
         <div
           style={{
-            marginLeft: 16,
+            marginLeft: 31,
             display: 'flex',
             width: '105%',
             gap: 16,
           }}
         >
           {Array.from({ length: 10 }, (_, index) => index).map((idx) => (
-            <StorySkeleton key={idx} />
+            <StorySkeleton style={{ margin: 0 }} key={idx} />
           ))}
         </div>
       ) : null}

@@ -104,11 +104,6 @@ const Index = () => {
       )}
 
       <Footer
-        style={{
-          position: 'fixed',
-          zIndex: 200,
-          bottom: 0,
-        }}
         banners={data?.banners.filter((item) => item.type === 'bottom')}
       />
       {/* {data && <Landing props={{ data }} />} */}

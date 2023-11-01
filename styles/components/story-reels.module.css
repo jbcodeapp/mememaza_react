@@ -8,6 +8,7 @@
   overflow: hidden;
   padding-top: 16px;
   /* width: fit-content; */
+  max-height: 232px;
 }
 .header {
   display: flex;

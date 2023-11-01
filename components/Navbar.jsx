@@ -1,62 +1,62 @@
-import React from "react";
-import { useState } from "react";
-import Link from "next/link";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import React from 'react'
+import { useState } from 'react'
+import Link from 'next/link'
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
-import { useSearch } from "@/hooks/useSearch";
+import { useSearch } from '@/hooks/useSearch'
 
-import styles from "@/styles/components/navbar.module.css";
-import { HOME_URL } from "@/def";
-import { useAppDispatch, useAppSelector } from "@/src/store";
-import { authSelect, postLogout, selectAuth } from "@/src/services/auth/slice";
-import { useEffect } from "react";
-import toastr from "toastr";
+import styles from '@/styles/components/navbar.module.css'
+import { HOME_URL } from '@/def'
+import { useAppDispatch, useAppSelector } from '@/src/store'
+import { authSelect, postLogout, selectAuth } from '@/src/services/auth/slice'
+import { useEffect } from 'react'
+import toastr from 'toastr'
 
 export const searchBarStyling = {
-  backgroundColor: "rgba(255,255,255,.25) !important",
-  border: "1px solid transparent",
-  padding: "8px 35px 8px 10px",
-  borderRadius: "3px",
-  width: "100%",
+  backgroundColor: 'rgba(255,255,255,.25) !important',
+  border: '1px solid transparent',
+  padding: '8px 35px 8px 10px',
+  borderRadius: '3px',
+  width: '100%',
   zIndex: 20,
   outline: 0,
   opacity: 0.8,
   height: 45,
-  fontSize: "16px",
+  fontSize: '16px',
   fontWeight: 700,
   letterSpacing: 0.4,
-  color: "#fff",
-  textShadow: "inherit",
-  iconColor: "#fff",
-  placeholderColor: "#8b8aa2",
-  searchIconMargin: "8px",
-};
+  color: '#fff',
+  textShadow: 'inherit',
+  iconColor: '#fff',
+  placeholderColor: '#8b8aa2',
+  searchIconMargin: '8px',
+}
 
-export default function Navbar({ bgOpacity }) {
-  const [data, setData] = useState([]);
+export default function Navbar({ bgOpacity, style = {} }) {
+  const [data, setData] = useState([])
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const { message, error, pageState, token, user } = useAppSelector(authSelect);
+  const { message, error, pageState, token, user } = useAppSelector(authSelect)
 
   useEffect(() => {
     if (message) {
-      toastr.success(message, "MemeMaza");
+      toastr.success(message, 'MemeMaza')
     }
-  }, [message]);
+  }, [message])
 
   useEffect(() => {
-    if (typeof error === "array") {
-      error.forEach((item) => toastr.error(item, "MemeMaza"));
+    if (typeof error === 'array') {
+      error.forEach((item) => toastr.error(item, 'MemeMaza'))
     } else if (error?.length) {
-      toastr.success(error, "MemeMaza");
+      toastr.success(error, 'MemeMaza')
     }
-  }, [error]);
+  }, [error])
 
   const sendLogoutResponse = (e) => {
-    e.preventDefault();
-    dispatch(postLogout({ token }));
-  };
+    e.preventDefault()
+    dispatch(postLogout({ token }))
+  }
 
   const {
     handleOnSearch,
@@ -64,30 +64,31 @@ export default function Navbar({ bgOpacity }) {
     handleOnFocus,
     handleOnSelect,
     formatResult,
-  } = useSearch(data, setData);
+  } = useSearch(data, setData)
 
   return (
     <nav
       className={styles.navbar}
       style={{
         backgroundColor: `rgba(23 21 68 / ${bgOpacity})`,
+        ...style,
       }}
     >
       <Link legacyBehavior href="/">
         <img
-          src={HOME_URL + "assets/images/logos/logo.png"}
+          src={HOME_URL + 'assets/images/logos/logo.png'}
           alt="Logo"
           title="Mememaza"
           height="100%"
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
         />
       </Link>
-      <div className={"nav-outer mx-auto clearfix " + styles.searchBar}>
+      <div className={'nav-outer mx-auto clearfix ' + styles.searchBar}>
         {/* Main Menu */}
         <div
           style={{
-            width: "100%",
-            position: "absolute",
+            width: '100%',
+            position: 'absolute',
             left: 0,
             zIndex: 20,
           }}
@@ -131,5 +132,5 @@ export default function Navbar({ bgOpacity }) {
         )}
       </div>
     </nav>
-  );
+  )
 }
