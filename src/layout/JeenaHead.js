@@ -1,16 +1,15 @@
-"use client";
-import Head from "next/head";
+'use client'
+import Head from 'next/head'
 
-import { HOME_URL } from "../../def";
-import { useLocalStorageAuthToken } from "@/hooks/useLocalStorageToken";
+import { HOME_URL } from '../../def'
+import { useLocalStorageAuthToken } from '@/hooks/useLocalStorageToken'
 
 const JeenaHead = () => {
-  useLocalStorageAuthToken();
+  useLocalStorageAuthToken()
   return (
     <Head>
       {/* Required meta tags */}
       <meta charSet="utf-8" />
-      <meta name="description" content="" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta
         name="viewport"
@@ -30,30 +29,16 @@ const JeenaHead = () => {
         rel="stylesheet"
       />
       {/* Flaticon */}
-      <link rel="stylesheet" href={HOME_URL + "assets/css/flaticon.min.css"} />
+      <link rel="stylesheet" href={HOME_URL + 'assets/css/flaticon.min.css'} />
       {/* Font Awesome */}
       <link
         rel="stylesheet"
-        href={HOME_URL + "assets/css/fontawesome-5.14.0.min.css"}
+        href={HOME_URL + 'assets/css/fontawesome-5.14.0.min.css'}
       />
       {/* Bootstrap */}
-      <link rel="stylesheet" href={HOME_URL + "assets/css/bootstrap.min.css"} />
+      <link rel="stylesheet" href={HOME_URL + 'assets/css/bootstrap.min.css'} />
       {/* Magnific Popup */}
-      <link
-        rel="stylesheet"
-        href={HOME_URL + "assets/css/magnific-popup.min.css"}
-      />
-      {/* Nice Select */}
-      <link
-        rel="stylesheet"
-        href={HOME_URL + "assets/css/nice-select.min.css"}
-      />
-      {/* Animate */}
-      <link rel="stylesheet" href={HOME_URL + "assets/css/animate.min.css"} />
-      {/* Slick */}
-      <link rel="stylesheet" href={HOME_URL + "assets/css/slick.min.css"} />
-      {/* Main Style */}
-      <link rel="stylesheet" href={HOME_URL + "assets/css/style.css"} />
+      <link rel="stylesheet" href={HOME_URL + 'assets/css/style.css'} />
 
       {/* 
 		<link rel="stylesheet" href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' />
@@ -61,6 +46,6 @@ const JeenaHead = () => {
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		*/}
     </Head>
-  );
-};
-export default JeenaHead;
+  )
+}
+export default JeenaHead

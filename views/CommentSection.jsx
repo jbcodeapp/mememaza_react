@@ -5,7 +5,12 @@ import Comment from '../components/Comment'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-export default function CommentSection({ comments, type, id }) {
+export default function CommentSection({
+  comments,
+  commentBoxFocus,
+  type,
+  id,
+}) {
   const token = localStorage.getItem('token')
 
   const [currComments, setCurrentComments] = useState(comments || [])
@@ -21,9 +26,11 @@ export default function CommentSection({ comments, type, id }) {
   const onNewCommentSuccess = (resp) => {
     if (resp.comment) {
       setCurrentComments([resp.comment, ...currComments])
+      setNewComment(null)
       setNewCommentSuccess(true)
     } else {
       setNewCommentSuccess(false)
+      setNewComment(null)
       setCurrentComments((cc) =>
         cc.filter(function (item) {
           return item.id === 0
@@ -50,8 +57,6 @@ export default function CommentSection({ comments, type, id }) {
     }
   }, [newCommentRef, newComment])
 
-  console.log(newCommentRef)
-
   return (
     <div className={styles.commentSectionContainer}>
       <div
@@ -67,6 +72,7 @@ export default function CommentSection({ comments, type, id }) {
         ))}
       </div>
       <CommentBox
+        commentBoxFocus={commentBoxFocus}
         type={type}
         id={id}
         newCommentSuccess={newCommentSuccess}

@@ -1,28 +1,29 @@
 import React from 'react'
 
 import styles from '@/styles/components/gallery.module.css'
-import { ActionButton } from './Post'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import abStyles from '@/styles/components/action-button.module.css'
+import { useEffect, useState } from 'react'
 import UserHistory from './UserHistory'
 import Link from 'next/link'
-import { HOME_URL, SITE_URL } from '@/def'
+import { API_PATH, HOME_URL, SITE_URL } from '@/def'
 import ShareButton from './ShareButton'
-import { GiphyFetch } from '@giphy/js-fetch-api'
 import CommentSection from '@/views/CommentSection'
 import Spinner from './Spinner'
-
-const giphyFetch = new GiphyFetch('sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh')
+import ActionButton from './ActionButton'
 
 export default function Gallery({
   media,
   id,
   title,
+  media_url,
   loading,
-  likes,
   isLiked,
   onLike,
+  views_count,
   shares_count,
+  likes_count,
+  downloads_count,
+  comments_count,
   comments,
   slug,
   onDislike,
@@ -53,6 +54,8 @@ export default function Gallery({
   }
 
   const [showCommentBox, setCommentBoxShow] = useState(false)
+
+  const [commentBoxFocus, setCommentBoxFocus] = useState()
 
   return (
     <div className={styles.gallery}>
@@ -118,26 +121,56 @@ export default function Gallery({
                   }
                 }}
                 icon="thumbs-up"
+                count={likes_count}
                 active={isLiked}
                 text="Like"
               />
               <ActionButton
                 {...actionButtonStyle}
-                onClick={() => {}}
+                onClick={() => {
+                  setCommentBoxFocus(new Date().toString())
+                }}
                 icon="comment"
+                count={comments_count}
                 text="Comment"
               />
 
+              <ActionButton
+                {...actionButtonStyle}
+                onClick={() => {}}
+                icon="eye"
+                count={views_count}
+                text="View"
+              />
+
+              <a
+                href={`${API_PATH}/download?file=${media_url}&type=${
+                  type.charAt(0).toUpperCase() + type.slice(1)
+                }&id=${id}`}
+                className={`${abStyles.actionBtn} ${abStyles.actionBtnLg}`}
+              >
+                <i className={`fas fa-download`}></i>{' '}
+                {downloads_count !== null ? (
+                  <span>{downloads_count}</span>
+                ) : null}
+                <>Download</>
+              </a>
+
               <ShareButton
                 {...actionButtonStyle}
-                count={'Share'}
+                style={{ width: '100%' }}
+                count={shares_count}
+                text="Share"
                 url={`${HOME_URL}${type}/${slug}`}
-              >
-                Share
-              </ShareButton>
+              />
             </div>
 
-            <CommentSection comments={comments} type={type} id={id} />
+            <CommentSection
+              commentBoxFocus={commentBoxFocus}
+              comments={comments}
+              type={type}
+              id={id}
+            />
           </>
         )}
       </div>

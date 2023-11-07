@@ -1,21 +1,20 @@
-'use client'
 import Gallery from '../../components/Gallery'
-import { API_PATH, SITE_URL } from '@/def'
+import { SITE_URL } from '@/def'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../../components/Navbar'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { timeAgo } from '@/utils/timeAgo'
-import Spinner from '../../components/Spinner'
+
 import RectSkeleton from '../../components/skeletons/RectSkeleton'
+import Head from 'next/head'
 
 export default function PostPage() {
   const router = useRouter()
   const { slug } = router.query
   const [isLiked, setIsLiked] = useState(false)
   const [data, setData] = useState()
-  const [seeMore, setSeeMore] = useState(false)
   const [loading, setLoading] = useState()
 
   useEffect(() => {
@@ -36,6 +35,7 @@ export default function PostPage() {
         })
     }
   }, [slug])
+  const [seeMore, setSeeMore] = useState(false)
 
   const attachSeeMoreLessListeners = () => {
     let seeMoreButton = document.getElementById('seeMore')
@@ -65,6 +65,20 @@ export default function PostPage() {
       attachSeeMoreLessListeners()
     }
   }, [data])
+
+  const descriptionLength = 70
+
+  let seeMoreText =
+    data?.obj.desc.slice(0, descriptionLength) +
+    `${
+      data?.obj.desc.length > descriptionLength
+        ? `... <a style="font-size: 14px" href="" id="seeMore">See more</a>`
+        : ''
+    }`
+
+  let seeLessText =
+    data?.obj.desc +
+    ' <a href="" style="font-size: 14px" id="seeLess">See less</a>'
 
   if (slug) {
     const getComment = async () => {}
@@ -112,28 +126,46 @@ export default function PostPage() {
     const onShare = async () => {}
     const onDownload = async () => {}
 
-    const descriptionLength = 70
-
-    let seeMoreText =
-      data?.obj.desc.slice(0, descriptionLength) +
-      `${
-        data?.obj.desc.length > descriptionLength
-          ? `... <a style="font-size: 14px" href="" id="seeMore">See more</a>`
-          : ''
-      }`
-
-    let seeLessText =
-      data?.obj.desc +
-      ' <a href="" style="font-size: 14px" id="seeLess">See less</a>'
-
     return (
       <>
+        <Head>
+          <meta charSet="utf-8" />
+          <title>Memesmaza - {`${data?.obj.meta_title}`} Post</title>
+          <meta name="description" content={data?.obj.meta_desc} />
+          <meta name="keywords" content={data?.obj.meta_keywords} />
+          <meta name="robots" content="index, follow" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="canonical" href={SITE_URL} />
+          <meta name="author" content="Mememaza" />
+
+          {/* <!-- Open Graph (OG) Tags --> */}
+          <meta property="og:title" content="Your Open Graph Title" />
+          <meta
+            property="og:description"
+            content="A description for Open Graph."
+          />
+          <meta property="og:image" content={data?.obj.image_path} />
+          <meta property="og:url" content={data?.obj.meta_title} />
+
+          {/* <!-- Twitter Card Tags --> */}
+          <meta name="twitter:card" content={data?.obj.meta_desc} />
+          <meta name="twitter:site" content="@yourTwitterHandle" />
+          <meta name="twitter:title" content={data?.obj.meta_title} />
+          <meta name="twitter:description" content={data?.obj.meta_desc} />
+          <meta name="twitter:image" content={data?.obj.image_path} />
+        </Head>
         <Navbar bgOpacity={1} />
         <Gallery
           id={data?.obj.id}
           type="post"
           comments={data?.obj.comments}
+          views_count={data?.obj.views_count || 0}
+          likes_count={data?.obj.likes_count || 0}
+          comments_count={data?.obj.comments_count || 0}
+          downloads_count={data?.obj.download || 0}
+          shares_count={data?.obj.shares_count || 0}
           slug={slug}
+          media_url={data?.obj.image}
           mediaType="photo"
           previousLink={data?.previous}
           nextLink={data?.next}

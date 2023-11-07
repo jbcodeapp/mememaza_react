@@ -1,6 +1,6 @@
 'use client'
 import Gallery from '../../components/Gallery'
-import { API_PATH, SITE_URL } from '@/def'
+import { SITE_URL } from '@/def'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../../components/Navbar'
@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react'
 import { timeAgo } from '@/utils/timeAgo'
 import ReactPlayer from 'react-player'
 
+import { Helmet } from 'react-helmet'
 export default function ReelsPage() {
   const router = useRouter()
   const { slug } = router.query
@@ -16,6 +17,7 @@ export default function ReelsPage() {
   const [data, setData] = useState()
   const [loading, setLoading] = useState()
   const [seeMore, setSeeMore] = useState(false)
+  const [play, setPlay] = useState(true)
 
   useEffect(() => {
     if (slug && !data?.length) {
@@ -105,9 +107,8 @@ export default function ReelsPage() {
     }
     const onShare = async () => {}
     const onDownload = async () => {}
-
-    let mediaType = ''
     let media
+    let mediaType = ''
 
     switch (data?.obj.reel_type) {
       case 1:
@@ -126,7 +127,7 @@ export default function ReelsPage() {
             }}
           >
             <a href={data?.obj.link} target="_blank">
-              {data?.obj.link} <br /> See More
+              <br /> Know More
             </a>{' '}
           </div>
         )
@@ -138,7 +139,6 @@ export default function ReelsPage() {
           <ReactPlayer
             height={'calc(100% - 100px)'}
             controls
-            light
             loop
             playing
             url={data?.obj.link}
@@ -161,12 +161,44 @@ export default function ReelsPage() {
 
     return (
       <>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Memesmaza - {`${data?.obj.meta_title}`} Post</title>
+          <meta name="description" content={data?.obj.meta_desc} />
+          <meta name="keywords" content={data?.obj.meta_keywords} />
+          <meta name="robots" content="index, follow" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="canonical" href={SITE_URL} />
+          <meta name="author" content="Mememaza" />
+
+          {/* <!-- Open Graph (OG) Tags --> */}
+          <meta property="og:title" content="Your Open Graph Title" />
+          <meta
+            property="og:description"
+            content="A description for Open Graph."
+          />
+          <meta property="og:image" content={data?.obj.image_path} />
+          <meta property="og:url" content={data?.obj.meta_title} />
+
+          {/* <!-- Twitter Card Tags --> */}
+          <meta name="twitter:card" content={data?.obj.meta_desc} />
+          <meta name="twitter:site" content="@yourTwitterHandle" />
+          <meta name="twitter:title" content={data?.obj.meta_title} />
+          <meta name="twitter:description" content={data?.obj.meta_desc} />
+          <meta name="twitter:image" content={data?.obj.image_path} />
+        </Helmet>
         <Navbar bgOpacity={1} />
         <Gallery
           type="reel"
           id={data?.obj.id}
           comments={data?.obj.comments}
+          views_count={data?.obj.views_count || 0}
+          likes_count={data?.obj.likes_count || 0}
+          comments_count={data?.obj.comments_count || 0}
+          downloads_count={data?.obj.download || 0}
+          shares_count={data?.obj.shares_count || 0}
           slug={slug}
+          media_url={data?.obj.link}
           mediaType={mediaType}
           previousLink={data?.previous}
           nextLink={data?.next}

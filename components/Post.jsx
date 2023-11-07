@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from '@/styles/components/post.module.css'
+import abstyles from '@/styles/components/action-button.module.css'
 import { useRouter } from 'next/router'
 import { useAppDispatch } from '@/src/store'
 import { postLike, postSelect } from '@/src/services/post/slice'
@@ -9,36 +10,7 @@ import toastr from 'toastr'
 import { API_PATH, HOME_URL } from '@/def'
 import { useState } from 'react'
 import ShareButton from './ShareButton'
-import Spinner from './Spinner'
-
-export const ActionButton = ({
-  icon,
-  text = '',
-  ref,
-  active,
-  onClick,
-  lg = false,
-  color = 'white',
-  hoverColor = '#00000020',
-  iconStyle = {},
-  style = {},
-  loading = false,
-}) => {
-  return (
-    <button
-      ref={ref}
-      onClick={onClick}
-      className={`${styles.actionBtn} ${lg ? styles.actionBtnLg : null} ${
-        active ? styles.actionBtnActive : null
-      }`}
-      style={{ ...style, color }}
-      disabled={loading}
-    >
-      <i style={{ ...iconStyle }} className={`fas fa-${icon}`}></i> <>{text}</>
-      {loading ? <Spinner /> : null}
-    </button>
-  )
-}
+import ActionButton from './ActionButton'
 
 export default function Post({ post }) {
   const router = useRouter()
@@ -83,6 +55,7 @@ export default function Post({ post }) {
       toastr.info('Please sign in to continue', 'MemeMaza')
     }
   }, [error])
+
   const [like, setLike] = useState(user_has_liked)
   const [likeCount, setLikeCount] = useState(likes_count)
 
@@ -128,7 +101,7 @@ export default function Post({ post }) {
               style={{ color: 'white' }}
               onClick={() => setDownload((val) => val + 1)}
               href={`${API_PATH}/download?file=${image}&type=Post&id=${id}`}
-              className={`${styles.actionBtn} ${styles.actionBtnLg} `}
+              className={`${abstyles.actionBtn} ${abstyles.actionBtnLg} `}
             >
               <i className={`fas fa-download`}></i> <>{download}</>
             </a>

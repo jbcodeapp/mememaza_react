@@ -1,6 +1,6 @@
 import React from 'react'
 import { Popover } from 'react-tiny-popover'
-import { ActionButton } from './Post'
+import ActionButton from './ActionButton'
 import { GiphyFetch } from '@giphy/js-fetch-api'
 import { useState } from 'react'
 import toastr from 'toastr'
@@ -23,6 +23,7 @@ export default function CommentBox({
   onNewComment,
   onNewCommentSuccess,
   onNewCommentError,
+  commentBoxFocus,
   newCommentSuccess,
 }) {
   const [gifs, setGifs] = useState()
@@ -97,12 +98,6 @@ export default function CommentBox({
     }
   }, [])
 
-  const gifColumnsStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 6,
-  }
-
   const handleComment = (e, cid = null, ctype = null) => {
     let com, comment_type
 
@@ -167,39 +162,23 @@ export default function CommentBox({
 
   const textareaRef = useRef()
 
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [commentBoxFocus])
   const gifGrid = (
     <div className={styles.giphyContainer}>
       <div className={styles.giphyGrid}>
-        <div style={gifColumnsStyle}>
-          {gifs
-            ?.filter((_, i) => i % 3 === 0)
-            .map((item, i) => (
-              <img
-                onClick={(e) => onGifClick(item.id, e)}
-                src={`https://i.giphy.com/media/${item.id}/giphy.webp`}
-              />
-            ))}
-        </div>
-        <div style={gifColumnsStyle}>
-          {gifs
-            ?.filter((_, i) => i % 3 === 1)
-            .map((item, i) => (
-              <img
-                onClick={(e) => onGifClick(item.id, e)}
-                src={`https://i.giphy.com/media/${item.id}/giphy.webp`}
-              />
-            ))}
-        </div>
-        <div style={gifColumnsStyle}>
-          {gifs
-            ?.filter((_, i) => i % 3 === 2)
-            .map((item, i) => (
-              <img
-                onClick={(e) => onGifClick(item.id, e)}
-                src={`https://i.giphy.com/media/${item.id}/giphy.webp`}
-              />
-            ))}
-        </div>
+        {gifs?.map((item, i) => (
+          <img
+            onClick={(e) => onGifClick(item.id, e)}
+            style={{ width: '100%' }}
+            src={`https://i.giphy.com/media/${item.id}/giphy.webp`}
+          />
+        ))}
       </div>
       <button
         className="btn mt-2"
@@ -271,6 +250,7 @@ export default function CommentBox({
           placeholder="Write a comment..."
           ref={textareaRef}
           className={styles.commentBox}
+          autofocus
           rows={2}
           onChange={(e) => setComment(e.target.value)}
           value={comment}
@@ -302,15 +282,16 @@ export default function CommentBox({
   ) : (
     <InfoPanel
       style={{
-        position: 'fixed',
+        position: 'absolute',
         bottom: 0,
         right: 10,
         borderRadius: 0,
         background: '#131033',
-        width: 350,
+        width: '100%',
         color: 'white',
       }}
       title="Not Logged In!"
+      titleStyle={{ fontSize: 18 }}
       message={
         <>
           Please <Link href="/sign-in">sign in</Link> to comment.

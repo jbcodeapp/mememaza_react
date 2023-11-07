@@ -43,13 +43,13 @@
 .dataContainer {
   position: relative;
   overflow-y: auto;
-  width: 360px;
+  width: 40%;
   background-color: #1a1646;
   padding-top: 50px;
 }
 
 .dataContainer::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
@@ -86,14 +86,14 @@
 .toolbarContainer {
   display: grid;
   gap: 0;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   margin-top: 8px;
 }
 
 .dataContainerChevron {
   display: none;
   padding: 10px;
-  border-radius: 22px
+  border-radius: 22px;
 }
 
 .dataContainerChevron:hover {

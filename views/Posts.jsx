@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import styles from '@/styles/Home.module.css'
-import Post, { PostSkeleton } from '../components/Post'
+import { PostSkeleton } from '../components/Post'
 import { useRef } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { SITE_URL } from '@/def'
-import Reel from '../components/Reel'
+import { Suspense } from 'react'
+
+const Reel = lazy(() => import('../components/Reel'))
+const Post = lazy(() => import('../components/Post'))
 
 export default function PostsView({ banners, category_slug = 0 }) {
   const postsRef = useRef()
@@ -14,13 +17,21 @@ export default function PostsView({ banners, category_slug = 0 }) {
 
   const [shouldFetch, setShouldFetch] = useState(false)
 
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(100)
+  const [limit, setLimit] = useState(10)
+  const [hasMore, setHasMore] = useState(true)
+
+  const [postsAndReels, setPostsAndReels] = useState([])
+  const [pageState, setPageState] = useState('idle')
+  const [error, setError] = useState()
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           // The <div> is now visible on the screen
           // Fetch next page of posts here
-          // alert("The div is visible");
           if (shouldFetch) {
             setPage((p) => p + 1)
           }
@@ -43,7 +54,7 @@ export default function PostsView({ banners, category_slug = 0 }) {
         observer.unobserve(postFetcherRef.current)
       }
     }
-  }, [postFetcherRef.current])
+  }, [postFetcherRef.current, shouldFetch])
 
   const [numberOfColumns, setNumberOfColumns] = useState(5)
 
@@ -61,15 +72,6 @@ export default function PostsView({ banners, category_slug = 0 }) {
   useEffect(() => {
     caclulateNumberOfColumns()
   }, [postsRef])
-
-  const [page, setPage] = useState(1)
-  const [total, setTotal] = useState(100)
-  const [limit, setLimit] = useState(10)
-  const [hasMore, setHasMore] = useState(true)
-
-  const [postsAndReels, setPostsAndReels] = useState([])
-  const [pageState, setPageState] = useState('idle')
-  const [error, setError] = useState()
 
   useEffect(() => {
     if (page && total && limit) {
@@ -95,7 +97,9 @@ export default function PostsView({ banners, category_slug = 0 }) {
         },
       })
       .then((resp) => {
-        setShouldFetch(resp.data.total === postsAndReels.length)
+        setShouldFetch(
+          resp.data.total !== postsAndReels.length + resp.data.posts.length
+        )
         setPageState('succeded')
         setPostsAndReels([...postsAndReels, ...resp.data.posts])
         setTotal(resp.data.total)
@@ -171,9 +175,33 @@ export default function PostsView({ banners, category_slug = 0 }) {
                 .map((item, i) => {
                   switch (item.type) {
                     case 'reel':
-                      return <Reel key={i} reel={item} />
+                      return (
+                        <Suspense
+                          key={i}
+                          fallback={
+                            <PostSkeleton
+                              destroy={!hasMore}
+                              delayIndex={index % 2}
+                            />
+                          }
+                        >
+                          <Reel reel={item} />
+                        </Suspense>
+                      )
                     case 'post':
-                      return <Post key={i} post={item} />
+                      return (
+                        <Suspense
+                          key={i}
+                          fallback={
+                            <PostSkeleton
+                              destroy={!hasMore}
+                              delayIndex={index % 2}
+                            />
+                          }
+                        >
+                          <Post key={i} post={item} />
+                        </Suspense>
+                      )
                   }
                 })}
 

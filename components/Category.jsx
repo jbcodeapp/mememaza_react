@@ -4,6 +4,7 @@ import { extractColors } from 'extract-colors'
 import styles from '@/styles/components/category.module.css'
 import Link from 'next/link'
 import { SITE_URL } from '@/def'
+import { useRef } from 'react'
 
 export default function Category({ category, bigger }) {
   const [bgColor, setBgColor] = useState()
@@ -41,6 +42,27 @@ export default function Category({ category, bigger }) {
   if (bigger) {
     biggerStyle.width = 232
   }
+
+  const titleRef = useRef(null)
+
+  const recalculateFontSize = (elem) => {
+    // Get the width of the element
+    if (elem.clientHeight > 17) {
+      let currentFontSize = parseInt(
+        window.getComputedStyle(titleRef.current).fontSize
+      )
+
+      titleRef.current.style.fontSize = currentFontSize - 1 + 'px'
+      recalculateFontSize(elem)
+    }
+  }
+
+  useEffect(() => {
+    if (titleRef?.current) {
+      recalculateFontSize(titleRef?.current)
+    }
+  }, [titleRef?.current])
+
   return (
     <Link href={`/category/${slug}`}>
       <div
@@ -63,7 +85,9 @@ export default function Category({ category, bigger }) {
               : `ripple-light 2s var(--animation-function) both infinite`,
           }}
         >
-          <p className={styles.categoryTitle}>{name}</p>
+          <p ref={titleRef} className={styles.categoryTitle}>
+            {name}
+          </p>
           <p className={styles.categoryText}>
             {posts_count + reels_count} Posts
           </p>
