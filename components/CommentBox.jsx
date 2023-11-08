@@ -163,11 +163,15 @@ export default function CommentBox({
   const textareaRef = useRef()
 
   useEffect(() => {
-    textareaRef.current.focus()
-  }, [])
+    if (textareaRef?.current) {
+      textareaRef.current.focus()
+    }
+  }, [textareaRef.current])
 
   useEffect(() => {
-    textareaRef.current.focus()
+    if (textareaRef?.current) {
+      textareaRef.current.focus()
+    }
   }, [commentBoxFocus])
   const gifGrid = (
     <div className={styles.giphyContainer}>

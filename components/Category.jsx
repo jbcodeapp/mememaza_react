@@ -38,6 +38,7 @@ export default function Category({ category, bigger }) {
         })
     }
   }, [])
+
   let biggerStyle = {}
   if (bigger) {
     biggerStyle.width = 232

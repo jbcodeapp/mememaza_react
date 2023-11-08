@@ -1,9 +1,12 @@
+'use client'
 import React, { useRef } from 'react'
 import styles from '@/styles/views/comment-section.module.css'
 import CommentBox from '../components/CommentBox'
 import Comment from '../components/Comment'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { useAppSelector } from '@/src/store'
+import { authTokenSelect } from '@/src/services/auth/slice'
 
 export default function CommentSection({
   comments,
@@ -11,7 +14,7 @@ export default function CommentSection({
   type,
   id,
 }) {
-  const token = localStorage.getItem('token')
+  const token = useAppSelector(authTokenSelect)
 
   const [currComments, setCurrentComments] = useState(comments || [])
 

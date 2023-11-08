@@ -10,31 +10,24 @@ import { timeAgo } from '@/utils/timeAgo'
 import RectSkeleton from '../../components/skeletons/RectSkeleton'
 import Head from 'next/head'
 
-export default function PostPage() {
+export async function getServerSideProps(context) {
+  const { slug } = context.params
+
+  const res = await axios(SITE_URL + `/getpostbyslug/${slug}/post`, {
+    method: 'GET',
+  })
+  return {
+    props: {
+      data: res.data,
+    },
+  }
+}
+
+export default function PostPage({ data }) {
   const router = useRouter()
   const { slug } = router.query
   const [isLiked, setIsLiked] = useState(false)
-  const [data, setData] = useState()
   const [loading, setLoading] = useState()
-
-  useEffect(() => {
-    if (slug && !data?.length) {
-      axios(SITE_URL + `/getpostbyslug/${slug}/post`, {
-        method: 'GET',
-        body: {
-          page: 1,
-        },
-      })
-        .then((resp) => {
-          setLoading(false)
-          setData(resp.data)
-        })
-        .catch((err) => {
-          setLoading(false)
-          setError(err.message)
-        })
-    }
-  }, [slug])
   const [seeMore, setSeeMore] = useState(false)
 
   const attachSeeMoreLessListeners = () => {
@@ -59,6 +52,11 @@ export default function PostPage() {
       })
     }
   }
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (data?.obj) {
@@ -130,7 +128,7 @@ export default function PostPage() {
       <>
         <Head>
           <meta charSet="utf-8" />
-          <title>Memesmaza - {`${data?.obj.meta_title}`} Post</title>
+          <title>Memesmaza - {data?.obj.meta_title} Post</title>
           <meta name="description" content={data?.obj.meta_desc} />
           <meta name="keywords" content={data?.obj.meta_keywords} />
           <meta name="robots" content="index, follow" />
@@ -145,7 +143,10 @@ export default function PostPage() {
             content="A description for Open Graph."
           />
           <meta property="og:image" content={data?.obj.image_path} />
-          <meta property="og:url" content={data?.obj.meta_title} />
+          <meta property="og:url" content={router.asPath} />
+          <meta property="og:title" content={data?.obj.meta_title} />
+          <meta property="og:description" content={data?.obj.meta_title} />
+          <meta property="og:type" content="article" />
 
           {/* <!-- Twitter Card Tags --> */}
           <meta name="twitter:card" content={data?.obj.meta_desc} />
@@ -154,64 +155,80 @@ export default function PostPage() {
           <meta name="twitter:description" content={data?.obj.meta_desc} />
           <meta name="twitter:image" content={data?.obj.image_path} />
         </Head>
-        <Navbar bgOpacity={1} />
-        <Gallery
-          id={data?.obj.id}
-          type="post"
-          comments={data?.obj.comments}
-          views_count={data?.obj.views_count || 0}
-          likes_count={data?.obj.likes_count || 0}
-          comments_count={data?.obj.comments_count || 0}
-          downloads_count={data?.obj.download || 0}
-          shares_count={data?.obj.shares_count || 0}
-          slug={slug}
-          media_url={data?.obj.image}
-          mediaType="photo"
-          previousLink={data?.previous}
-          nextLink={data?.next}
-          isLiked={isLiked}
-          loading={loading}
-          getComment={getComment}
-          onComment={handleOnComment}
-          onLike={handleLike}
-          onCommentDelete={handleCommentDelete}
-          onDislike={handleDislike}
-          onShare={onShare}
-          onDownload={onDownload}
-          media={
-            <img
-              style={{ maxHeight: '100%' }}
-              src={!loading && data?.obj.image}
-              alt={!loading && data?.obj.title}
-            />
-          }
-          title={
-            !loading && (
-              <>
-                {data?.obj.title ? (
-                  <b>{data?.obj.title}</b>
-                ) : (
-                  <RectSkeleton variant="light" height={20} width={300} />
-                )}
-                {data?.obj.desc ? (
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: seeMore ? seeLessText : seeMoreText,
-                    }}
-                  />
-                ) : (
+        {mounted && (
+          <>
+            <Navbar bgOpacity={1} />
+            <Gallery
+              id={data?.obj.id}
+              type="post"
+              comments={data?.obj.comments}
+              views_count={data?.obj.views_count || 0}
+              likes_count={data?.obj.likes_count || 0}
+              comments_count={data?.obj.comments_count || 0}
+              downloads_count={data?.obj.download || 0}
+              shares_count={data?.obj.shares_count || 0}
+              slug={slug}
+              media_url={data?.obj.image}
+              mediaType="photo"
+              previousLink={data?.previous}
+              nextLink={data?.next}
+              isLiked={isLiked}
+              loading={loading}
+              getComment={getComment}
+              onComment={handleOnComment}
+              onLike={handleLike}
+              onCommentDelete={handleCommentDelete}
+              onDislike={handleDislike}
+              onShare={onShare}
+              onDownload={onDownload}
+              media={
+                <img
+                  style={{ maxHeight: '100%' }}
+                  src={!loading && data?.obj.image}
+                  alt={!loading && data?.obj.title}
+                />
+              }
+              title={
+                !loading && (
                   <>
-                    <RectSkeleton variant="lighter" height={18} width={200} />
-                    <RectSkeleton variant="lighter" height={18} width={300} />
-                    <RectSkeleton variant="lighter" height={18} width={300} />
+                    {data?.obj.title ? (
+                      <b>{data?.obj.title}</b>
+                    ) : (
+                      <RectSkeleton variant="light" height={20} width={300} />
+                    )}
+                    {data?.obj.desc ? (
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: seeMore ? seeLessText : seeMoreText,
+                        }}
+                      />
+                    ) : (
+                      <>
+                        <RectSkeleton
+                          variant="lighter"
+                          height={18}
+                          width={200}
+                        />
+                        <RectSkeleton
+                          variant="lighter"
+                          height={18}
+                          width={300}
+                        />
+                        <RectSkeleton
+                          variant="lighter"
+                          height={18}
+                          width={300}
+                        />
+                      </>
+                    )}
                   </>
-                )}
-              </>
-            )
-          }
-          timeAgo={!loading ? timeAgo(data?.obj.created_at) : ''}
-          likes={!loading && data?.obj.like}
-        />
+                )
+              }
+              timeAgo={!loading ? timeAgo(data?.obj.created_at) : ''}
+              likes={!loading && data?.obj.like}
+            />
+          </>
+        )}
       </>
     )
   }
