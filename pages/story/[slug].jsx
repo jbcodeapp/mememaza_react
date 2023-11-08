@@ -8,6 +8,7 @@ import { timeAgo } from '@/utils/timeAgo'
 
 import Gallery from '../../components/Gallery'
 import Navbar from '../../components/Navbar'
+import Head from 'next/head'
 
 export async function getServerSideProps(context) {
   const { slug } = context.params
