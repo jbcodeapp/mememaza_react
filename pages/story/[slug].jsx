@@ -1,18 +1,18 @@
-'use client'
-import Gallery from '../../components/Gallery'
-import { API_PATH, SITE_URL } from '@/def'
-import React from 'react'
-import { useRouter } from 'next/router'
-import Navbar from '../../components/Navbar'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
-import { timeAgo } from '@/utils/timeAgo'
+import React, { useState, useEffect } from 'react'
 import ReactPlayer from 'react-player'
+import { useRouter } from 'next/router'
+
+import { SITE_URL } from '@/def'
+import { timeAgo } from '@/utils/timeAgo'
+
+import Gallery from '../../components/Gallery'
+import Navbar from '../../components/Navbar'
 
 export async function getServerSideProps(context) {
   const { slug } = context.params
 
-  const res = await axios(SITE_URL + `/getpostbyslug/${slug}/reel`, {
+  const res = await axios(SITE_URL + `/getpostbyslug/${slug}/story`, {
     method: 'GET',
   })
   return {
@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
     },
   }
 }
-export default function ReelsPage() {
+export default function ReelsPage({ data }) {
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
 
@@ -30,175 +30,158 @@ export default function ReelsPage() {
   }, [])
   const { slug } = router.query
   const [isLiked, setIsLiked] = useState(false)
-  const [data, setData] = useState()
-  const [loading, setLoading] = useState()
 
-  useEffect(() => {
-    if (slug && !data?.length) {
-      axios(SITE_URL + `/getpostbyslug/${slug}/story`, {
-        method: 'GET',
-      })
-        .then((resp) => {
-          setLoading(false)
-          setData(resp.data)
-        })
-        .catch((err) => {
-          setLoading(false)
-          setError(err.message)
-        })
-    }
-  }, [slug])
-
-  if (slug) {
-    const getComment = async () => {}
-    const handleOnComment = async () => {}
-    const handleCommentDelete = async () => {}
-    const handleLike = async () => {
-      setIsLiked(true)
-      axios(SITE_URL + '/updatelike/', {
-        method: 'POST',
-        data: { id: data.obj.id, module: 'posts' },
-      })
-        .then((resp) => {
-          if (resp.status == 'success') {
-            if (setIsLiked == false) {
-              setIsLiked(true)
-            }
-          } else {
-            setIsLiked(false)
-          }
-        })
-        .catch(() => {
-          setIsLiked(false)
-        })
-    }
-    const handleDislike = async () => {
-      setIsLiked(false)
-      axios(SITE_URL + '/updatedislike/', {
-        method: 'POST',
-        data: { id: data.obj.id, module: 'posts' },
-      })
-        .then((resp) => {
-          if (resp.status == 'success') {
-            if (setIsLiked == false) {
-              setIsLiked(false)
-            }
-          } else {
+  const getComment = async () => {}
+  const handleOnComment = async () => {}
+  const handleCommentDelete = async () => {}
+  const handleLike = async () => {
+    setIsLiked(true)
+    axios(SITE_URL + '/updatelike/', {
+      method: 'POST',
+      data: { id: data.obj.id, module: 'posts' },
+    })
+      .then((resp) => {
+        if (resp.status == 'success') {
+          if (setIsLiked == false) {
             setIsLiked(true)
           }
-        })
-        .catch((err) => {
-          setIsLiked(true)
-        })
-    }
-    const onShare = async () => {}
-    const onDownload = async () => {}
-
-    let mediaType = ''
-    let media
-
-    switch (data?.obj.story_type) {
-      case 1:
-        mediaType = 'photo'
-        media = (
-          <div
-            style={{
-              height: '600px',
-              borderRadius: 14,
-              width: '300px',
-              backgroundImage: `url(${data?.obj.story})`,
-              backgroundSize: 'contain',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <a
-              href={data?.obj.link}
-              target="_blank"
-              style={{ background: '#000000ee', padding: 12, borderRadius: 12 }}
-            >
-              Know More
-            </a>{' '}
-          </div>
-        )
-        break
-
-      case 2:
-        mediaType = 'video'
-        media = (
-          <ReactPlayer
-            height={'calc(100% - 100px)'}
-            controls
-            loop
-            playing
-            url={data?.obj.story}
-          />
-        )
-        break
-    }
-    return (
-      <>
-        <Head>
-          <meta charSet="utf-8" />
-          <title>Memesmaza - {`${data?.obj.meta_title}`} Reel</title>
-          <meta name="description" content={data?.obj.meta_desc} />
-          <meta name="keywords" content={data?.obj.meta_keywords} />
-          <meta name="robots" content="index, follow" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="canonical" href={SITE_URL} />
-          <meta name="author" content="Mememaza" />
-
-          {/* <!-- Open Graph (OG) Tags --> */}
-          <meta property="og:title" content="Your Open Graph Title" />
-          <meta
-            property="og:description"
-            content="A description for Open Graph."
-          />
-          <meta
-            property="og:image"
-            content={data?.obj.vdo_image || data?.obj.story}
-          />
-          <meta property="og:url" content={router.asPath} />
-          <meta property="og:title" content={data?.obj.meta_title} />
-          <meta property="og:description" content={data?.obj.meta_title} />
-          <meta property="og:type" content="article" />
-
-          {/* <!-- Twitter Card Tags --> */}
-          <meta name="twitter:card" content={data?.obj.meta_desc} />
-          <meta name="twitter:site" content="@memesmaza" />
-          <meta name="twitter:title" content={data?.obj.meta_title} />
-          <meta name="twitter:description" content={data?.obj.meta_desc} />
-          <meta
-            name="twitter:image"
-            content={data?.obj.vdo_image || data?.obj.story}
-          />
-        </Head>
-        <Navbar bgOpacity={1} />
-        <Gallery
-          type="story"
-          id={data?.obj.id}
-          comments={data?.obj.comments}
-          slug={slug}
-          mediaType={mediaType}
-          previousLink={data?.previous}
-          nextLink={data?.next}
-          isLiked={isLiked}
-          loading={loading}
-          getComment={getComment}
-          onComment={handleOnComment}
-          onLike={handleLike}
-          onCommentDelete={handleCommentDelete}
-          onDislike={handleDislike}
-          onShare={onShare}
-          onDownload={onDownload}
-          media={media}
-          title={!loading && <></>}
-          timeAgo={!loading ? timeAgo(data?.obj.created_at) : ''}
-          likes={!loading && data?.obj.like}
-        />
-      </>
-    )
+        } else {
+          setIsLiked(false)
+        }
+      })
+      .catch(() => {
+        setIsLiked(false)
+      })
   }
-  return null
+  const handleDislike = async () => {
+    setIsLiked(false)
+    axios(SITE_URL + '/updatedislike/', {
+      method: 'POST',
+      data: { id: data.obj.id, module: 'posts' },
+    })
+      .then((resp) => {
+        if (resp.status == 'success') {
+          if (setIsLiked == false) {
+            setIsLiked(false)
+          }
+        } else {
+          setIsLiked(true)
+        }
+      })
+      .catch((err) => {
+        setIsLiked(true)
+      })
+  }
+  const onShare = async () => {}
+  const onDownload = async () => {}
+
+  let mediaType = ''
+  let media
+
+  switch (data?.obj.story_type) {
+    case 1:
+      mediaType = 'photo'
+      media = (
+        <div
+          style={{
+            height: '600px',
+            borderRadius: 14,
+            width: '300px',
+            backgroundImage: `url(${data?.obj.story})`,
+            backgroundSize: 'contain',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <a
+            href={data?.obj.link}
+            target="_blank"
+            style={{ background: '#000000ee', padding: 12, borderRadius: 12 }}
+          >
+            Know More
+          </a>{' '}
+        </div>
+      )
+      break
+
+    case 2:
+      mediaType = 'video'
+      media = (
+        <ReactPlayer
+          height={'calc(100% - 100px)'}
+          controls
+          loop
+          playing
+          url={data?.obj.story}
+        />
+      )
+      break
+  }
+  return (
+    <>
+      <Head>
+        <meta charSet="utf-8" />
+        <title>Memesmaza - {`${data?.obj.meta_title}`} Reel</title>
+        <meta name="description" content={data?.obj.meta_desc} />
+        <meta name="keywords" content={data?.obj.meta_keywords} />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href={SITE_URL} />
+        <meta name="author" content="Mememaza" />
+
+        {/* <!-- Open Graph (OG) Tags --> */}
+        <meta property="og:title" content="Your Open Graph Title" />
+        <meta
+          property="og:description"
+          content="A description for Open Graph."
+        />
+        <meta
+          property="og:image"
+          content={data?.obj.vdo_image || data?.obj.story}
+        />
+        <meta property="og:url" content={router.asPath} />
+        <meta property="og:title" content={data?.obj.meta_title} />
+        <meta property="og:description" content={data?.obj.meta_title} />
+        <meta property="og:type" content="article" />
+
+        {/* <!-- Twitter Card Tags --> */}
+        <meta name="twitter:card" content={data?.obj.meta_desc} />
+        <meta name="twitter:site" content="@memesmaza" />
+        <meta name="twitter:title" content={data?.obj.meta_title} />
+        <meta name="twitter:description" content={data?.obj.meta_desc} />
+        <meta
+          name="twitter:image"
+          content={data?.obj.vdo_image || data?.obj.story}
+        />
+      </Head>
+      {slug && mounted && (
+        <>
+          <Navbar bgOpacity={1} />
+          <Gallery
+            type="story"
+            id={data?.obj.id}
+            comments={data?.obj.comments}
+            slug={slug}
+            mediaType={mediaType}
+            previousLink={data?.previous}
+            nextLink={data?.next}
+            isLiked={isLiked}
+            loading={false}
+            getComment={getComment}
+            onComment={handleOnComment}
+            onLike={handleLike}
+            onCommentDelete={handleCommentDelete}
+            onDislike={handleDislike}
+            onShare={onShare}
+            onDownload={onDownload}
+            media={media}
+            title={<></>}
+            timeAgo={timeAgo(data?.obj.created_at)}
+            likes={data?.obj.like}
+          />
+        </>
+      )}
+    </>
+  )
 }
