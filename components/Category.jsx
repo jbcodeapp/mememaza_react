@@ -11,7 +11,7 @@ export default function Category({ category, bigger }) {
   const [fgColor, setFgColor] = useState()
 
   //   const [colorPallette, setColorPallette] = useState();
-  const { image_path: image, name, slug, posts_count, reels_count } = category
+  const { image, name, slug, posts_count, reels_count } = category
 
   const isProduction = SITE_URL.includes('https://admin.')
 
