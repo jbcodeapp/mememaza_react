@@ -1,5 +1,5 @@
-export const SITE_URL = 'https://admin.santrash.com/api'
-export const API_PATH = 'https://admin.santrash.com'
+export const SITE_URL = 'https://admin.memesmaza.com/api'
+export const API_PATH = 'https://admin.memesmaza.com'
 export const HOME_URL = 'https://memesmaza.com/'
 
 // export const SITE_URL = 'http://localhost:8000/api'
