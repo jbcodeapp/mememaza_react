@@ -12,7 +12,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.15.0]
+        node-version: [18.17.0]
+    defaults:
+        run:
+          shell: bash
+          working-directory: /var/www/html/memesmaza.com
 
     steps:
       - uses: actions/checkout@v3
