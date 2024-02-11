@@ -2,9 +2,9 @@ name: NextJS with Webpack
 
 on:
   push:
-    branches: ["production"]
+    branches: ["harsh"]
   pull_request:
-    branches: ["production"]
+    branches: ["harsh"]
 
 jobs:
   build:
@@ -46,4 +46,5 @@ jobs:
           npm run build
       - name: Deploy
         run: |
+          npm install pm2 -g
           npm run deploy
