@@ -46,4 +46,4 @@ jobs:
           npm run build
       - name: Deploy
         run: |
-          pm2 restart all
+          npm run deploy
