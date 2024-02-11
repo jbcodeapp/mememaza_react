@@ -32,7 +32,8 @@ export default function Post({ post }) {
 
   const [download, setDownload] = useState(dl)
 
-  const newImagePath = image_path.replace('https://admin.', 'https://')
+  // const newImagePath = image_path.replace('https://admin.', 'https://')
+  const newImagePath = image_path;
 
   const dispatch = useAppDispatch()
 
