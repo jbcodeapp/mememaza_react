@@ -8,7 +8,7 @@
     "export": "next build & npm export",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "pm2 restart all"
+    "deploy": "pm2 startOrRestart ecosystem.config.js --env production"
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.14",
