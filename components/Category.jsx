@@ -15,9 +15,11 @@ export default function Category({ category, bigger }) {
 
   const isProduction = SITE_URL.includes('https://admin.')
 
-  let imgSrcUntainted = isProduction
-    ? image.replace('https://admin.', 'https://')
-    : image
+  // let imgSrcUntainted = isProduction
+  //   ? image.replace('https://admin.', 'https://')
+  //   : image
+
+  let imgSrcUntainted = image;
 
   useEffect(() => {
     if (!fgColor && !bgColor) {
