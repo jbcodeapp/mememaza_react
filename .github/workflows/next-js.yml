@@ -2,9 +2,9 @@ name: NextJS with Webpack
 
 on:
   push:
-    branches: ["production"]
+    branches: ["harsh"]
   pull_request:
-    branches: ["production"]
+    branches: ["harsh"]
 
 jobs:
   build:
