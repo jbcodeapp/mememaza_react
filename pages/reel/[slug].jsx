@@ -111,6 +111,17 @@ export default function ReelsPage({ data }) {
   let media
   let mediaType = ''
 
+  const toggleSeeMore = () => {
+    setSeeMore(!seeMore)
+  }
+
+  const truncateDescription = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength)
+    }
+    return text
+  }
+
   switch (data?.obj.reel_type) {
     case 1:
       mediaType = 'link'
@@ -230,7 +241,7 @@ export default function ReelsPage({ data }) {
                 <>
                   <b>{data?.obj.reel}</b>
                   <br />
-                  <p
+                  {/* <p
                     dangerouslySetInnerHTML={{
                       __html: seeMore
                         ? data?.obj.meta_desc +
@@ -242,7 +253,32 @@ export default function ReelsPage({ data }) {
                               : ''
                           }`,
                     }}
-                  />
+                  /> */}
+                  {/* <p
+                    dangerouslySetInnerHTML={{
+                      __html: seeMore
+                        ? data?.obj.desc +
+                          ' <a href="" style="font-size: 14px" id="seeLess">See less</a>'
+                        : data?.obj.desc.slice(0, descriptionLength) +
+                          `${
+                            data?.obj.desc.length > descriptionLength
+                              ? `... <a style="font-size: 14px" href="" id="seeMore">See more</a>`
+                              : ''
+                          }`,
+                    }}
+                  /> */}
+                   <p>
+                        {data.obj.desc.length > 70 ? (
+                          <>
+                            {seeMore ? data.obj.desc : truncateDescription(data.obj.desc, 70)}
+                            <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF'  }}>
+                              {seeMore ? ' See Less' : ' ...See More'}
+                            </span>
+                          </>
+                        ) : (
+                          data.obj.desc
+                        )}
+                      </p>
                 </>
               )
             }

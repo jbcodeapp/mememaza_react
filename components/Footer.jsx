@@ -9,8 +9,8 @@ export default function Footer({ banners, style }) {
       ))}
       <div className={styles.footerContainer}>
         <ul className={styles.footerNavbar}>
-          <li>© 2023 MemesMaza</li>
-          <li>
+          <li>© 2024 MemesMaza</li>
+          {/* <li>
             <a href="/about">About</a>
           </li>
           <li>
@@ -18,7 +18,15 @@ export default function Footer({ banners, style }) {
           </li>
           <li>
             <a href="/legal/privacy">Privacy</a>
-          </li>
+          </li> */}
+
+          <li><a  href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/legal/tos">Terms</a></li>
+          <li><a href="/legal/privacy">Privacy</a></li>
+          <li><a href="/legal/disclaimer">Disclaimer</a></li>
+          <li><a href="/legal/marketplace-disclaimer">Marketplace Disclaimer</a></li>
+          <li><a href="/legal/news-disclaimer">News Disclaimer</a></li>
         </ul>
       </div>
     </div>

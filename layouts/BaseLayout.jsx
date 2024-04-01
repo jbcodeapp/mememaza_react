@@ -23,7 +23,7 @@ export default function BaseLayout({ children, title }) {
       >
         {title}
       </h2>
-      <div
+      {/* <div
         style={{
           paddingLeft: 50,
           display: 'flex',
@@ -76,7 +76,7 @@ export default function BaseLayout({ children, title }) {
         >
           News Disclaimer
         </Link>
-      </div>
+      </div> */}
       <div style={{ minHeight: '90vh', padding: '50px', marginBottom: 50 }}>
         <Markdown>{children}</Markdown>
       </div>

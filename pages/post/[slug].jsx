@@ -70,13 +70,30 @@ export default function PostPage({ data }) {
     data?.obj.desc.slice(0, descriptionLength) +
     `${
       data?.obj.desc.length > descriptionLength
-        ? `... <a style="font-size: 14px" href="" id="seeMore">See more</a>`
+        ? `... <a href="" style="font-size: 14px, text-overflow: ellipsis;" id="seeMore">See more</a>`
         : ''
     }`
 
   let seeLessText =
     data?.obj.desc +
-    ' <a href="" style="font-size: 14px" id="seeLess">See less</a>'
+    ' <a href="" style="font-size: 14px,text-overflow: ellipsis;" id="seeLess">See less</a>'
+
+
+    useEffect(() => {
+      if (data?.obj) {
+        const seeMoreButton = document.getElementById('seeMore')
+        if (seeMoreButton) {
+          seeMoreButton.addEventListener('click', () => {
+            setSeeMore(!seeMore)
+          })
+        }
+      }
+    }, [data])
+  
+    // const descriptionLength = 150
+    // const seeless = data?.obj.desc.slice(0, descriptionLength)
+    // const seemore = data?.obj.desc.length > descriptionLength
+
 
   if (slug) {
     const getComment = async () => {}
@@ -86,6 +103,7 @@ export default function PostPage({ data }) {
       setIsLiked(true)
       axios(SITE_URL + '/updatelike/', {
         method: 'POST',
+        'Access-Control-Allow-Origin' : 'http://mememaza.test/',
         data: { id: data.obj.id, module: 'posts' },
       })
         .then((resp) => {
@@ -123,6 +141,28 @@ export default function PostPage({ data }) {
 
     const onShare = async () => {}
     const onDownload = async () => {}
+
+    // const showml = (divId, inhtmText) => {
+    //   const x = document.getElementById(divId).style.display
+    //   if (x === "block") {
+    //     document.getElementById(divId).style.display = "none"
+    //     document.getElementById(inhtmText).innerHTML = "Show More..."
+    //   } else if (x === "none") {
+    //     document.getElementById(divId).style.display = "block"
+    //     document.getElementById(inhtmText).innerHTML = "Show Less"
+    //   }
+    // }
+
+    const toggleSeeMore = () => {
+      setSeeMore(!seeMore)
+    }
+  
+    const truncateDescription = (text, maxLength) => {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) 
+      }
+      return text
+    }
 
     return (
       <>
@@ -197,11 +237,52 @@ export default function PostPage({ data }) {
                       <RectSkeleton variant="light" height={20} width={300} />
                     )}
                     {data?.obj.desc ? (
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: seeMore ? seeLessText : seeMoreText,
-                        }}
-                      />
+                      // <p
+                      //   dangerouslySetInnerHTML={{
+                      //     __html: seeMore ? seeLessText : seeMoreText,
+                      //   }}
+                      // />
+
+                      <>
+                      <p>
+                        {data.obj.desc.length > 70 ? (
+                          <>
+                            {seeMore ? data.obj.desc : truncateDescription(data.obj.desc, 70)}
+                            <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF' }}>
+                              {seeMore ? ' See Less' : ' ...See More'}
+                            </span>
+                          </>
+                        ) : (
+                          data.obj.desc
+                        )}
+                      </p>
+                    </>
+                    //   <>
+                    //     <p id="content1" style={{ display: seeMore ? 'block' : 'none' }}>
+                    //       {data.obj.desc}
+                    //     </p>
+                    //     <p id="show_more1" onClick={() => showml('content1', 'show_more1')} style={{ cursor: 'pointer' }}>
+                    //       {seeMore ? 'Show Less' : '...Show More'}
+                    //   </p>
+                    // </>
+                      // <p id="show_more1" onclick="showml('content1','show_more1')" onmouseover="this.style.cursor='pointer'">...Show More</p>
+                      // <p {seeMore ? seeLessText : seeMoreText}></p>
+                    //   <>
+                    //   <p>
+                    //     {seeMore ? data.obj.desc : seeless}
+                    //     {seemore && (
+                    //       <span
+                    //         id="seeMore"
+                    //         style={{ cursor: 'pointer' }}
+                    //       >
+                    //         {seeMore ? ' See less' : ' ...See more'}
+                    //       </span>
+                    //     )}
+                    //   </p>
+                    // </>
+                      // <p   onClick={() => setSeeMore(!seeMore)}>{seeMore ? seeLessText : seeMoreText}</p>
+
+                      
                     ) : (
                       <>
                         <RectSkeleton

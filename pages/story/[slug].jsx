@@ -100,7 +100,9 @@ export default function ReelsPage({ data }) {
             target="_blank"
             style={{ background: '#000000ee', padding: 12, borderRadius: 12 }}
           >
-            Know More
+            {/* Know More */}
+            {data?.obj.link}
+
           </a>{' '}
         </div>
       )
