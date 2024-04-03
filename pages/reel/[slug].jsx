@@ -1,6 +1,6 @@
 'use client'
 import Gallery from '../../components/Gallery'
-import { SITE_URL } from '@/def'
+import { API_PATH, SITE_URL } from '@/def'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../../components/Navbar'
@@ -72,6 +72,7 @@ export default function ReelsPage({ data }) {
     setIsLiked(true)
     axios(SITE_URL + '/updatelike/', {
       method: 'POST',
+      'Access-Control-Allow-Origin' : API_PATH,
       data: { id: data.obj.id, module: 'posts' },
     })
       .then((resp) => {

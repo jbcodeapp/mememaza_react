@@ -103,7 +103,6 @@ export default function PostPage({ data }) {
       setIsLiked(true)
       axios(SITE_URL + '/updatelike/', {
         method: 'POST',
-        'Access-Control-Allow-Origin' : 'http://mememaza.test/',
         data: { id: data.obj.id, module: 'posts' },
       })
         .then((resp) => {

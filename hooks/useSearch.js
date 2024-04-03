@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { SITE_URL } from '@/def'
+import { API_PATH, SITE_URL } from '@/def'
 
 export const useSearch = (data, setData) => {
   async function filtersearch(search) {
     let url = SITE_URL + `/search/${search}`
     const header = {
       method: 'GET',
-        'Access-Control-Allow-Origin' : 'http://mememaza.test/',
+        'Access-Control-Allow-Origin' : API_PATH,
     }
 
     try {
@@ -31,7 +31,8 @@ export const useSearch = (data, setData) => {
   };
 
   const handleOnSelect = (item) => {
-    console.log(item);
+   router.push(`/search/${search}`);
+    console.log("Handle",item);
   };
 
   const handleOnFocus = () => {

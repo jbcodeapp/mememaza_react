@@ -97,8 +97,8 @@ export default function Navbar({ bgOpacity, style = {} }) {
           }}
         >
           <ReactSearchAutocomplete
-            items={items}
-            // items={data}
+            // items={items}
+            items={data}
             onSearch={handleOnSearch}
             onHover={handleOnHover}
             onSelect={handleOnSelect}
