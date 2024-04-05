@@ -11,7 +11,7 @@ import { Suspense } from 'react'
 const Reel = lazy(() => import('../components/Reel'))
 const Post = lazy(() => import('../components/Post'))
 
-export default function PostsView({ banners, category_slug = 0 }) {
+export default function PostsView({ banners, category_slug = 0, search_slug = 0 }) {
   const postsRef = useRef()
   const postFetcherRef = useRef()
 
@@ -117,6 +117,57 @@ export default function PostsView({ banners, category_slug = 0 }) {
       fetchPaginatedPosts()
     }
   }, [page])
+
+  const fetchsearchpost = () => {
+    setPageState('loading');
+    const token = localStorage.getItem('token');
+    setShouldFetch(false);
+    
+    let url = search_slug !== "" ?
+      `${SITE_URL}/post/paginated?page=${page}&search_slug=${search_slug}` :
+      `${SITE_URL}/post/paginated?page=${page}`;
+    
+    axios
+      .get(url, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      .then((resp) => {
+        setShouldFetch(resp.data.total !== postsAndReels.length + resp.data.posts.length);
+        setPageState('succeeded');
+        if (page === 1) {
+          // If it's the first page, set the posts and reels directly
+          setPostsAndReels([...resp.data.posts]);
+        } else {
+          // If it's not the first page, concatenate the new posts with the existing ones
+          setPostsAndReels((prevPosts) => [...prevPosts, ...resp.data.posts]);
+        }
+        setTotal(resp.data.total);
+        setLimit(resp.data.limit);
+      })
+      .catch((err) => {
+        setPageState('failed');
+        setShouldFetch(true);
+        setError(err.message);
+      });
+  };
+  
+  useEffect(() => {
+    if (search_slug !== prevSearchSlug || page !== prevPage) {
+      // Reset postsAndReels when search_slug or page changes
+      setPostsAndReels([]);
+      setPage(1);
+    }
+  }, [search_slug, page]);
+  
+  useEffect(() => {
+    if (page || search_slug !== "") {
+      // Fetch posts if either search_slug is not empty or page is not null
+      fetchsearchpost();
+    }
+  }, [page, search_slug]);
+  
 
   useEffect(() => {
     // Add the resize event listener

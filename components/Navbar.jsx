@@ -67,6 +67,8 @@ export default function Navbar({ bgOpacity, style = {} }) {
     formatResult,
   } = useSearch(data, setData)
 
+  const items = data || [];
+
   return (
     <nav
       className={styles.navbar}
@@ -95,6 +97,7 @@ export default function Navbar({ bgOpacity, style = {} }) {
           }}
         >
           <ReactSearchAutocomplete
+            // items={items}
             items={data}
             onSearch={handleOnSearch}
             onHover={handleOnHover}

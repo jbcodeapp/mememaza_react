@@ -35,7 +35,9 @@ export default function Reel({ reel }) {
 
   const dispatch = useAppDispatch()
 
-  const newImagePath = image_path.replace('https://admin.', 'https://')
+  // const newImagePath = image_path.replace('https://admin.', 'https://')
+  const newImagePath = image_path;
+
   let media
 
   if (reel_type == 1) {

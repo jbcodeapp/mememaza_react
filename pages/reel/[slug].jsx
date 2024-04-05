@@ -1,6 +1,6 @@
 'use client'
 import Gallery from '../../components/Gallery'
-import { SITE_URL } from '@/def'
+import { API_PATH, SITE_URL } from '@/def'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../../components/Navbar'
@@ -72,6 +72,7 @@ export default function ReelsPage({ data }) {
     setIsLiked(true)
     axios(SITE_URL + '/updatelike/', {
       method: 'POST',
+      'Access-Control-Allow-Origin' : API_PATH,
       data: { id: data.obj.id, module: 'posts' },
     })
       .then((resp) => {
@@ -110,6 +111,17 @@ export default function ReelsPage({ data }) {
   const onDownload = async () => {}
   let media
   let mediaType = ''
+
+  const toggleSeeMore = () => {
+    setSeeMore(!seeMore)
+  }
+
+  const truncateDescription = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength)
+    }
+    return text
+  }
 
   switch (data?.obj.reel_type) {
     case 1:
@@ -230,7 +242,7 @@ export default function ReelsPage({ data }) {
                 <>
                   <b>{data?.obj.reel}</b>
                   <br />
-                  <p
+                  {/* <p
                     dangerouslySetInnerHTML={{
                       __html: seeMore
                         ? data?.obj.meta_desc +
@@ -242,7 +254,32 @@ export default function ReelsPage({ data }) {
                               : ''
                           }`,
                     }}
-                  />
+                  /> */}
+                  {/* <p
+                    dangerouslySetInnerHTML={{
+                      __html: seeMore
+                        ? data?.obj.desc +
+                          ' <a href="" style="font-size: 14px" id="seeLess">See less</a>'
+                        : data?.obj.desc.slice(0, descriptionLength) +
+                          `${
+                            data?.obj.desc.length > descriptionLength
+                              ? `... <a style="font-size: 14px" href="" id="seeMore">See more</a>`
+                              : ''
+                          }`,
+                    }}
+                  /> */}
+                   <p>
+                        {data.obj.desc.length > 70 ? (
+                          <>
+                            {seeMore ? data.obj.desc : truncateDescription(data.obj.desc, 70)}
+                            <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF'  }}>
+                              {seeMore ? ' See Less' : ' ...See More'}
+                            </span>
+                          </>
+                        ) : (
+                          data.obj.desc
+                        )}
+                      </p>
                 </>
               )
             }

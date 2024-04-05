@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import ReactPlayer from 'react-player'
 import { useRouter } from 'next/router'
 
-import { SITE_URL } from '@/def'
+import { API_PATH, SITE_URL } from '@/def'
 import { timeAgo } from '@/utils/timeAgo'
 
 import Gallery from '../../components/Gallery'
@@ -31,7 +31,6 @@ export default function ReelsPage({ data }) {
   }, [])
   const { slug } = router.query
   const [isLiked, setIsLiked] = useState(false)
-
   const getComment = async () => {}
   const handleOnComment = async () => {}
   const handleCommentDelete = async () => {}
@@ -100,7 +99,9 @@ export default function ReelsPage({ data }) {
             target="_blank"
             style={{ background: '#000000ee', padding: 12, borderRadius: 12 }}
           >
-            Know More
+            {/* Know More */}
+            {data?.obj.link}
+
           </a>{' '}
         </div>
       )
