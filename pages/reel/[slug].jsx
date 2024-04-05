@@ -10,6 +10,8 @@ import { timeAgo } from '@/utils/timeAgo'
 import ReactPlayer from 'react-player'
 
 import Head from 'next/head'
+import { postLike } from '@/src/services/post/slice'
+import { useAppDispatch } from '@/src/store'
 
 export async function getServerSideProps(context) {
   const { slug } = context.params
@@ -24,13 +26,18 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function ReelsPage({ data }) {
+export default function ReelsPage({ data, likes_count }) {
   const router = useRouter()
   const { slug } = router.query
   const [isLiked, setIsLiked] = useState(false)
   const [loading, setLoading] = useState()
   const [seeMore, setSeeMore] = useState(false)
   // const [play, setPlay] = useState(true)
+  const [datas, setData] = useState({});
+  const [likeCount, setLikeCount] = useState(likes_count)
+
+  const dispatch = useAppDispatch()
+
 
   const attachSeeMoreLessListeners = () => {
     let seeMoreButton = document.getElementById('seeMore')
@@ -65,29 +72,43 @@ export default function ReelsPage({ data }) {
       attachSeeMoreLessListeners()
     }
   }, [data])
+  useEffect(() => {
+    console.log("Likes count updated:", data?.obj.likes_count);
+  }, [data?.obj.likes_count]);
+  
   const getComment = async () => {}
   const handleOnComment = async () => {}
   const handleCommentDelete = async () => {}
   const handleLike = async () => {
-    setIsLiked(true)
-    axios(SITE_URL + '/updatelike/', {
-      method: 'POST',
-      'Access-Control-Allow-Origin' : API_PATH,
-      data: { id: data.obj.id, module: 'posts' },
-    })
-      .then((resp) => {
-        if (resp.status == 'success') {
-          if (setIsLiked == false) {
-            setIsLiked(true)
+      setIsLiked(true);
+      try {
+        const token = localStorage.getItem('token');
+        localStorage.setItem('current_post_id', data.obj.id);
+        const response = await axios.post(
+          SITE_URL + '/updatelike',
+          {
+            type: data.obj.type,
+            id: data.obj.id,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
           }
-        } else {
-          setIsLiked(false)
+        );
+        if (response.data.statuscode === true) {
+          setData(prevState => ({
+            ...prevState,
+            obj: {
+              ...prevState.obj,
+              likes_count: prevState.obj.likes_count ? prevState.obj.likes_count - 1 : prevState.obj.likes_count + 1
+            }
+          }));
+          setIsLiked(false);
+          console.log("liked",data?.obj.likes_count)
         }
-      })
-      .catch(() => {
-        setIsLiked(false)
-      })
-  }
+      } catch (error) {
+        setIsLiked(true);
+      }
+    };
   const handleDislike = async () => {
     setIsLiked(false)
     axios(SITE_URL + '/updatedislike/', {
@@ -237,6 +258,13 @@ export default function ReelsPage({ data }) {
             onShare={onShare}
             onDownload={onDownload}
             media={media}
+            onClick={(e) => {
+              e.preventDefault()
+              setLike((like) => !like)
+              setLikeCount((lc) => (like ? lc - 1 : lc + 1))
+              dispatch(postLike({ id, type }))
+              console.log("Liked... updated on individual page");
+            }}
             title={
               !loading && (
                 <>
