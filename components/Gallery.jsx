@@ -10,6 +10,8 @@ import ShareButton from './ShareButton'
 import CommentSection from '@/views/CommentSection'
 import Spinner from './Spinner'
 import ActionButton from './ActionButton'
+import { postLike } from '@/src/services/post/slice'
+import { useAppDispatch } from '@/src/store'
 
 export default function Gallery({
   media,
@@ -19,6 +21,7 @@ export default function Gallery({
   loading,
   isLiked,
   onLike,
+  user_has_liked,
   views_count,
   shares_count,
   likes_count,
@@ -56,6 +59,11 @@ export default function Gallery({
   const [showCommentBox, setCommentBoxShow] = useState(false)
 
   const [commentBoxFocus, setCommentBoxFocus] = useState()
+  const [like, setLike] = useState(user_has_liked)
+  const [likeCount, setLikeCount] = useState(likes_count)
+
+  const dispatch = useAppDispatch()
+
 
   return (
     <div className={styles.gallery}>
@@ -113,16 +121,24 @@ export default function Gallery({
             <div className={styles.toolbarContainer}>
               <ActionButton
                 {...actionButtonStyle}
-                onClick={() => {
-                  if (isLiked) {
-                    onDislike()
-                  } else {
-                    onLike()
-                  }
+                // onClick={() => {
+                //   if (isLiked) {
+                //     onDislike()
+                //   } else {
+                //     onLike()
+                //   }
+                // }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setLike((like) => !like)
+                  setLikeCount((lc) => (like ? lc - 1 : lc + 1))
+                  dispatch(postLike({ id, type }))
+                  console.log("Liked... update");
                 }}
                 icon="thumbs-up"
                 count={likes_count}
-                active={isLiked}
+                active={like}
+                // text={likeCount}
                 text="Like"
               />
               <ActionButton

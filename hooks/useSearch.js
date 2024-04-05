@@ -1,51 +1,70 @@
-import Link from "next/link";
-import { API_PATH, SITE_URL } from '@/def'
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { API_PATH, SITE_URL } from '@/def';
 
-export const useSearch = (data, setData) => {
-  async function filtersearch(search) {
-    let url = SITE_URL + `/search/${search}`
-    const header = {
+export const useSearch = () => {
+  const router = useRouter();
+  const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
+
+  const filterSearch = async (searchTerm) => {
+    const url = `${SITE_URL}/search/${searchTerm}`;
+    const headers = {
       method: 'GET',
-        'Access-Control-Allow-Origin' : API_PATH,
-    }
-
+      headers: {
+        'Access-Control-Allow-Origin': API_PATH
+      }
+    };
     try {
-      const response = await fetch(url, header);
+      const response = await fetch(url, headers);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      router.push(`/search/${searchTerm}`);
       const searchData = await response.json();
+      console.log("Search data:", searchData); 
       setData(searchData); 
-      console.log("This is my log",searchData);
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
-  }
+  };
 
-  const handleOnSearch = (string, results) => {
-    filtersearch(string);
+  const handleOnSearch = async () => {
+    await filterSearch(search);
+  };
+
+  const handleOnChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleOnKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleOnSearch();
+    }
   };
 
   const handleOnHover = (result) => {
     console.log(result);
   };
 
-  const handleOnSelect = (item) => {
-   router.push(`/search/${search}`);
-    console.log("Handle",item);
+  const handleOnSelect = (item, string) => {
+    console.log("Searching...");
   };
 
   const handleOnFocus = () => {
     console.log("Focused");
   };
 
-  const formatResult = (item) => {
-    return (
-      <Link href="" style={{ display: "block", textAlign: "left" }}>
-        {/* {item.name} trest */}
-        {item.name} 
-      </Link>
-    );
+  const onKeyPressHandler = async (event) => {
+    if (event.key === 'Enter') {
+      await handleOnSearch();
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      filterSearch(event.target.value);
+    }
   };
 
   return {
@@ -53,6 +72,11 @@ export const useSearch = (data, setData) => {
     handleOnHover,
     handleOnFocus,
     handleOnSelect,
-    formatResult,
+    handleOnChange,
+    handleOnKeyDown,
+    onKeyPressHandler,
+    handleKeyPress,
+    data,
+    search
   };
 };

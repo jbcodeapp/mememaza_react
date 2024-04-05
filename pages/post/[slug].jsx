@@ -100,24 +100,28 @@ export default function PostPage({ data }) {
     const handleOnComment = async () => {}
     const handleCommentDelete = async () => {}
     const handleLike = async () => {
-      setIsLiked(true)
-      axios(SITE_URL + '/updatelike/', {
-        method: 'POST',
-        data: { id: data.obj.id, module: 'posts' },
-      })
-        .then((resp) => {
-          if (resp.status == 'success') {
-            if (setIsLiked == false) {
-              setIsLiked(true)
-            }
-          } else {
-            setIsLiked(false)
+      setIsLiked(false);
+      try {
+        const token = localStorage.getItem('token');
+        localStorage.setItem('current_post_id', data.obj.id);
+        const response = await axios.post(
+          SITE_URL + '/updatelike',
+          {
+            type: data.obj.type,
+            id: data.obj.id,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
           }
-        })
-        .catch(() => {
-          setIsLiked(false)
-        })
-    }
+        );
+        if (response.data.statuscode === true) {
+          setIsLiked(true);
+        }
+      } catch (error) {
+        setIsLiked(true);
+      }
+    };
+    
     const handleDislike = async () => {
       setIsLiked(false)
       axios(SITE_URL + '/updatedislike/', {

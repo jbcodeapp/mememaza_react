@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 import { useSearch } from '@/hooks/useSearch'
+import { useRouter } from 'next/router';
 
 import styles from '@/styles/components/navbar.module.css'
 import { HOME_URL } from '@/def'
@@ -13,7 +14,8 @@ import { useEffect } from 'react'
 import toastr from 'toastr'
 
 export const searchBarStyling = {
-  backgroundColor: 'rgba(255,255,255,.25) !important',
+  // backgroundColor: 'rgba(255,255,255,.25) !important',
+  backgroundColor: 'rgba(255,255,255,.25)',
   border: '1px solid transparent',
   padding: '8px 35px 8px 10px',
   borderRadius: '3px',
@@ -32,12 +34,14 @@ export const searchBarStyling = {
   searchIconMargin: '8px',
 }
 
-export default function Navbar({ bgOpacity, style = {} }) {
+export default function Navbar({ bgOpacity, style = {searchBarStyling} }) {
+  const router = useRouter();
+
   const [data, setData] = useState([])
 
   const dispatch = useAppDispatch()
 
-  const { message, error, token, user } = useAppSelector(authSelect)
+  const { message, error, token, user } = useAppSelector(authSelect);
 
   useEffect(() => {
     if (message) {
@@ -59,15 +63,26 @@ export default function Navbar({ bgOpacity, style = {} }) {
     dispatch(postLogout({ token }))
   }
 
-  const {
-    handleOnSearch,
-    handleOnHover,
-    handleOnFocus,
-    handleOnSelect,
-    formatResult,
-  } = useSearch(data, setData)
+    const {
+      search,
+      handleOnSearch,
+      handleOnHover,
+      handleOnFocus,
+      handleOnSelect,
+      handleOnChange,
+      handleOnKeyDown,
+      onKeyPressHandler,
+      // handleKeyPress,
+    } = useSearch(data, setData)
 
-  const items = data || [];
+    const items = data || [];
+
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+        handleOnSearch();
+      }
+    };
+
 
   return (
     <nav
@@ -96,23 +111,46 @@ export default function Navbar({ bgOpacity, style = {} }) {
             zIndex: 20,
           }}
         >
-          <ReactSearchAutocomplete
-            // items={items}
-            items={data}
+          <input
+            items={search}
+            onChange={handleOnChange}
             onSearch={handleOnSearch}
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
-            resultStringKeyName="title"
-            autoFocus
-            //fuseOptions={{ keys: ["title", "description"] }}
-            formatResult={formatResult}
+            onKeyDown={handleKeyPress}
+            style={searchBarStyling}
+            type="text"
+            placeholder="Images, #tags, @users oh my!"
+            />
+          {/* <ReactSearchAutocomplete
+            items={items}
+            onSearch={handleOnSearch}
+            onHover={handleOnHover}
+            onSelect={handleOnSelect}
+            onFocus={handleOnFocus}
+            onKeyDown={onKeyDown}
+            // onKeyDown={(event) => {
+            //   if (event.key === 'Enter') {
+            //     const search = event.target.value; 
+            //     event.preventDefault();
+            //     console.log("press enter")
+            //     router.push(`/search/${search}`);
+            //   }
+            // }}
+            onKeyPress={onKeyPressHandler}
+            showNoResults={false}
+            onChange={handleOnChange}
+            // resultStringKeyName="title"
+            // autoFocus
+            // fuseOptions={{ keys: ["title", "description"] }}
+            // formatResult={formatResult}
             styling={searchBarStyling}
             placeholder="Images, #tags, @users oh my!"
-          />
+          /> */}
+          </div>
+          {/* Main Menu End*/}
         </div>
-        {/* Main Menu End*/}
-      </div>
 
       <div className="menu-btns">
         {user?.id ? (

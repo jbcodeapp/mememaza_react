@@ -8,12 +8,13 @@ import Navbar from '@/components/Navbar';
 
 export default function SearchPage() {
   const router = useRouter();
-  const { slug } = router.query;
+  const { search } = router.query;
 
-  if (slug) {
+  if (search) {
     const { loading, error, data, success } = useApiData({
       url: `/search/${search}`,
     });
+    console.log("THis is my log", data);
 
     return (
       <>
@@ -51,16 +52,18 @@ export default function SearchPage() {
               }}
             >
               <h1 style={{ color: 'white', textTransform: 'uppercase' }}>
-                {data?.[0].name}
+                {/* {data?.obj.name} */}
+                {search}
               </h1>
               <p style={{ color: 'whitesmoke', opacity: 0.9 }}>
-                {/* {data?.[0].posts_count} Posts | {data?.[0].reels_count} Reels */}
+                {/* {data?.obj.posts_count} Posts | {data?.obj.reels_count} Reels */}
+                 Posts |  Reels
               </p>
             </div>
           </div>
         )}
-
-        <PostsView search_slug={slug} />
+              
+        <PostsView search={search} />
       </>
     );
   }
