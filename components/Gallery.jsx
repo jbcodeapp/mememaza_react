@@ -136,7 +136,7 @@ export default function Gallery({
                   console.log("Liked... update");
                 }}
                 icon="thumbs-up"
-                count={likes_count}
+                count={likeCount}
                 active={like}
                 // text={likeCount}
                 text="Like"

@@ -39,7 +39,7 @@ export default function ReelsPage({ data }) {
     axios(SITE_URL + '/updatelike/', {
       method: 'POST',
       'Access-Control-Allow-Origin' : '*',
-      data: { id: data.obj.id, module: 'posts' },
+      data: { id: data.obj.id, module: 'post' },
     })
       .then((resp) => {
         if (resp.status == 'success') {
