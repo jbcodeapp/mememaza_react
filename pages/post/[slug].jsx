@@ -167,6 +167,14 @@ export default function PostPage({ data }) {
       return text
     }
 
+    const desc = () =>
+    {
+      <p
+        dangerouslySetInnerHTML={{
+          __html: data.obj.desc,
+        }}
+      />
+    }
     return (
       <>
         <Head>
@@ -247,18 +255,22 @@ export default function PostPage({ data }) {
                       // />
 
                       <>
-                      <p>
-                        {data.obj.desc.length > 70 ? (
-                          <>
-                            {seeMore ? data.obj.desc : truncateDescription(data.obj.desc, 70)}
-                            <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF' }}>
-                              {seeMore ? ' See Less' : ' ...See More'}
-                            </span>
-                          </>
-                        ) : (
-                          data.obj.desc
-                        )}
-                      </p>
+                        <p>
+                          {desc.length > 70 ? (
+                            <>
+                              {seeMore ? desc : truncateDescription(desc, 70)}
+                              <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF' }}>
+                                {seeMore ? ' See Less' : ' ...See More'}
+                              </span>
+                            </>
+                          ) : (
+                            <p
+                        dangerouslySetInnerHTML={{
+                          __html: data.obj.desc,
+                        }}
+                      />
+                          )}
+                        </p>
                     </>
                     //   <>
                     //     <p id="content1" style={{ display: seeMore ? 'block' : 'none' }}>

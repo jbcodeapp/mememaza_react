@@ -194,6 +194,15 @@ export default function ReelsPage({ data, likes_count }) {
 
   const descriptionLength = 70
 
+  const desc = () =>
+  {
+    <p
+      dangerouslySetInnerHTML={{
+        __html: data.obj.desc,
+      }}
+    />
+  }
+
   return (
     <>
       <Head>
@@ -296,7 +305,7 @@ export default function ReelsPage({ data, likes_count }) {
                           }`,
                     }}
                   /> */}
-                   <p>
+                   {/* <p>
                         {data.obj.desc.length > 70 ? (
                           <>
                             {seeMore ? data.obj.desc : truncateDescription(data.obj.desc, 70)}
@@ -306,6 +315,22 @@ export default function ReelsPage({ data, likes_count }) {
                           </>
                         ) : (
                           data.obj.desc
+                        )}
+                      </p> */}
+                        <p>
+                          {desc.length > 70 ? (
+                            <>
+                              {seeMore ? desc : truncateDescription(desc, 70)}
+                              <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF' }}>
+                                {seeMore ? ' See Less' : ' ...See More'}
+                              </span>
+                            </>
+                          ) : (
+                            <p
+                        dangerouslySetInnerHTML={{
+                          __html: data.obj.desc,
+                        }}
+                      />
                         )}
                       </p>
                 </>
