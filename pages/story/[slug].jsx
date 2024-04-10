@@ -111,13 +111,25 @@ export default function ReelsPage({ data }) {
     case 2:
       mediaType = 'video'
       media = (
+        <div>
+        
         <ReactPlayer
-          height={'calc(100% - 100px)'}
+          // height={'calc(100% - 100px)'}
+          height={'600px'}
           controls
           loop
           playing
           url={data?.obj.story}
         />
+        <a
+            href={data?.obj.link}
+            target="_blank"
+            style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
+          >
+            {/* Know More */}
+            {data?.obj.link}
+          </a>
+        </div>
       )
       break
   }
