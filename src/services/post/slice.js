@@ -2,6 +2,7 @@ import { SITE_URL } from "@/def";
 import { useAppSelector } from "@/src/store";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import toastr, { success } from 'toastr';
 
 const initialState = {
   post_id: "",
@@ -30,8 +31,10 @@ export const postLike = createAsyncThunk(
       if (response.data.statuscode == false) {
         return thunkAPI.rejectWithValue({ error: error.message });
       }
+      toastr.success("Liked.",success.response.data.message);
       return response.data;
     } catch (error) {
+      toastr.error("Please Sign In To Like.",error.response.data.message);
       return thunkAPI.rejectWithValue({
         error: error.response.data.message,
         status: error.response.status,
@@ -54,8 +57,10 @@ export const postComment = createAsyncThunk(
       if (response.data.statuscode == false) {
         return thunkAPI.rejectWithValue({ error: error.message });
       }
+      toastr.success("Commented.",success.response.data.message);
       return response.data;
     } catch (error) {
+      toastr.error("Please Sign In To Comment.",error.response.data.message);
       return thunkAPI.rejectWithValue({ error: error.message });
     }
   }
@@ -75,8 +80,10 @@ export const postDeleteComment = createAsyncThunk(
       if (response.data.statuscode == false) {
         return thunkAPI.rejectWithValue({ error: error.message });
       }
+      toastr.success("Comment Deleted.",success.response.data.message);
       return response.data;
     } catch (error) {
+      toastr.error("Please Sign In To Delete Comment.",error.response.data.message);
       return thunkAPI.rejectWithValue({ error: error.message });
     }
   }

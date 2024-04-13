@@ -1,4 +1,5 @@
 import React from 'react'
+import toastr from 'toastr'
 
 import styles from '@/styles/components/gallery.module.css'
 import abStyles from '@/styles/components/action-button.module.css'
@@ -64,6 +65,8 @@ export default function Gallery({
 
   const dispatch = useAppDispatch()
 
+  const test = `${API_PATH}/download?file=${media_url}&type=${type.charAt(0).toUpperCase() + type.slice(1)}&id=${id}`
+  console.log("This is my log", test);
 
   return (
     <div className={styles.gallery}>
@@ -133,7 +136,7 @@ export default function Gallery({
                   setLike((like) => !like)
                   setLikeCount((lc) => (like ? lc - 1 : lc + 1))
                   dispatch(postLike({ id, type }))
-                  console.log("Liked... update");
+                  // console.log("Liked... update");
                 }}
                 icon="thumbs-up"
                 count={likeCount}

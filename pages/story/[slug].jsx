@@ -111,11 +111,23 @@ export default function ReelsPage({ data }) {
     case 2:
       mediaType = 'video'
       media = (
-        <div>
+        <div 
+        style={{
+          height: '600px',
+          borderRadius: 14,
+          // width: '300px',
+          backgroundImage: `url(${data?.obj.story})`,
+          backgroundSize: 'contain',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}
+          >
         
         <ReactPlayer
           // height={'calc(100% - 100px)'}
           height={'600px'}
+          width={'350px'}
           controls
           loop
           playing

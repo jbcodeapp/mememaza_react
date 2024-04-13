@@ -192,16 +192,16 @@ export default function ReelsPage({ data, likes_count }) {
       break
   }
 
-  const descriptionLength = 70
-
+  
   const desc = () =>
   {
     <p
-      dangerouslySetInnerHTML={{
+    dangerouslySetInnerHTML={{
         __html: data.obj.desc,
       }}
-    />
+      />
   }
+  const length = 70
 
   return (
     <>
