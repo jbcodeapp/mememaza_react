@@ -6,24 +6,35 @@ import Navbar from '../../components/Navbar'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { timeAgo } from '@/utils/timeAgo'
-
+import toastr from 'toastr';
 import RectSkeleton from '../../components/skeletons/RectSkeleton'
 import Head from 'next/head'
 
 export async function getServerSideProps(context) {
-  const { slug } = context.params
-
-  const res = await axios(SITE_URL + `/getpostbyslug/${slug}/post`, {
-    method: 'GET',
-  })
-  return {
-    props: {
-      data: res.data,
-    },
+  try {
+    const { slug } = context.params
+    const res = await axios(SITE_URL + `/getpostbyslug/${slug}/post`, {
+      method: 'GET',
+    })
+    return {
+      props: {
+        data: res.data,
+      },
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return {
+      props: {
+        data: null, 
+        error: error.response.data.message
+        // error: ("Error fetching data. Please try again later.")
+      },
+    }
   }
 }
 
-export default function PostPage({ data }) {
+
+export default function PostPage({ data,error  }) {
   const router = useRouter()
   const { slug } = router.query
   const [isLiked, setIsLiked] = useState(false)
@@ -56,7 +67,10 @@ export default function PostPage({ data }) {
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    if (error) {
+      toastr.error(error);
+    }
+  }, [error])
 
   useEffect(() => {
     if (data?.obj) {
@@ -78,32 +92,30 @@ export default function PostPage({ data }) {
     data?.obj.desc +
     ' <a href="" style="font-size: 14px,text-overflow: ellipsis;" id="seeLess">See less</a>'
 
-
-    useEffect(() => {
-      if (data?.obj) {
-        const seeMoreButton = document.getElementById('seeMore')
-        if (seeMoreButton) {
-          seeMoreButton.addEventListener('click', () => {
-            setSeeMore(!seeMore)
-          })
-        }
+  useEffect(() => {
+    if (data?.obj) {
+      const seeMoreButton = document.getElementById('seeMore')
+      if (seeMoreButton) {
+        seeMoreButton.addEventListener('click', () => {
+          setSeeMore(!seeMore)
+        })
       }
-    }, [data])
-  
-    // const descriptionLength = 150
-    // const seeless = data?.obj.desc.slice(0, descriptionLength)
-    // const seemore = data?.obj.desc.length > descriptionLength
+    }
+  }, [data])
 
+  // const descriptionLength = 150
+  // const seeless = data?.obj.desc.slice(0, descriptionLength)
+  // const seemore = data?.obj.desc.length > descriptionLength
 
   if (slug) {
     const getComment = async () => {}
     const handleOnComment = async () => {}
     const handleCommentDelete = async () => {}
     const handleLike = async () => {
-      setIsLiked(false);
+      setIsLiked(false)
       try {
-        const token = localStorage.getItem('token');
-        localStorage.setItem('current_post_id', data.obj.id);
+        const token = localStorage.getItem('token')
+        localStorage.setItem('current_post_id', data.obj.id)
         const response = await axios.post(
           SITE_URL + '/updatelike',
           {
@@ -113,15 +125,15 @@ export default function PostPage({ data }) {
           {
             headers: { Authorization: `Bearer ${token}` },
           }
-        );
+        )
         if (response.data.statuscode === true) {
-          setIsLiked(true);
+          setIsLiked(true)
         }
       } catch (error) {
-        setIsLiked(true);
+        setIsLiked(true)
       }
-    };
-    
+    }
+
     const handleDislike = async () => {
       setIsLiked(false)
       axios(SITE_URL + '/updatedislike/', {
@@ -159,17 +171,16 @@ export default function PostPage({ data }) {
     const toggleSeeMore = () => {
       setSeeMore(!seeMore)
     }
-  
+
     const truncateDescription = (text, maxLength) => {
       if (text.length > maxLength) {
-        return text.substring(0, maxLength) 
+        return text.substring(0, maxLength)
       }
       return text
     }
 
-    const desc = () =>
-    {
-      <p
+    const desc = () => {
+      ;<p
         dangerouslySetInnerHTML={{
           __html: data.obj.desc,
         }}
@@ -234,7 +245,7 @@ export default function PostPage({ data }) {
               onDownload={onDownload}
               media={
                 <img
-                  style={{ maxHeight: '100%' }}
+                  style={{ maxHeight: '85%' }}
                   src={!loading && data?.obj.image}
                   alt={!loading && data?.obj.title}
                 />
@@ -259,46 +270,48 @@ export default function PostPage({ data }) {
                           {desc.length > 70 ? (
                             <>
                               {seeMore ? desc : truncateDescription(desc, 70)}
-                              <span onClick={toggleSeeMore} style={{ cursor: 'pointer', color: '#00FFFF' }}>
+                              <span
+                                onClick={toggleSeeMore}
+                                style={{ cursor: 'pointer', color: '#00FFFF' }}
+                              >
                                 {seeMore ? ' See Less' : ' ...See More'}
                               </span>
                             </>
                           ) : (
                             <p
-                        dangerouslySetInnerHTML={{
-                          __html: data.obj.desc,
-                        }}
-                      />
+                              dangerouslySetInnerHTML={{
+                                __html: data.obj.desc,
+                              }}
+                            />
                           )}
                         </p>
-                    </>
-                    //   <>
-                    //     <p id="content1" style={{ display: seeMore ? 'block' : 'none' }}>
-                    //       {data.obj.desc}
-                    //     </p>
-                    //     <p id="show_more1" onClick={() => showml('content1', 'show_more1')} style={{ cursor: 'pointer' }}>
-                    //       {seeMore ? 'Show Less' : '...Show More'}
-                    //   </p>
-                    // </>
+                      </>
+                    ) : (
+                      //   <>
+                      //     <p id="content1" style={{ display: seeMore ? 'block' : 'none' }}>
+                      //       {data.obj.desc}
+                      //     </p>
+                      //     <p id="show_more1" onClick={() => showml('content1', 'show_more1')} style={{ cursor: 'pointer' }}>
+                      //       {seeMore ? 'Show Less' : '...Show More'}
+                      //   </p>
+                      // </>
                       // <p id="show_more1" onclick="showml('content1','show_more1')" onmouseover="this.style.cursor='pointer'">...Show More</p>
                       // <p {seeMore ? seeLessText : seeMoreText}></p>
-                    //   <>
-                    //   <p>
-                    //     {seeMore ? data.obj.desc : seeless}
-                    //     {seemore && (
-                    //       <span
-                    //         id="seeMore"
-                    //         style={{ cursor: 'pointer' }}
-                    //       >
-                    //         {seeMore ? ' See less' : ' ...See more'}
-                    //       </span>
-                    //     )}
-                    //   </p>
-                    // </>
+                      //   <>
+                      //   <p>
+                      //     {seeMore ? data.obj.desc : seeless}
+                      //     {seemore && (
+                      //       <span
+                      //         id="seeMore"
+                      //         style={{ cursor: 'pointer' }}
+                      //       >
+                      //         {seeMore ? ' See less' : ' ...See more'}
+                      //       </span>
+                      //     )}
+                      //   </p>
+                      // </>
                       // <p   onClick={() => setSeeMore(!seeMore)}>{seeMore ? seeLessText : seeMoreText}</p>
 
-                      
-                    ) : (
                       <>
                         <RectSkeleton
                           variant="lighter"

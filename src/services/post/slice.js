@@ -108,8 +108,8 @@ export const postSlice = createSlice({
       })
       .addCase(postLike.rejected, (state, action) => {
         state.pageState = "failed";
-        state.status = action.payload.status;
-        state.error = action.payload.error;
+        // state.status = action.payload.status;
+        // state.error = action.payload.error;
       });
   },
 });
