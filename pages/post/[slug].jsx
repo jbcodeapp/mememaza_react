@@ -180,7 +180,7 @@ export default function PostPage({ data,error  }) {
     }
 
     const desc = () => {
-      ;<p
+      <p
         dangerouslySetInnerHTML={{
           __html: data.obj.desc,
         }}

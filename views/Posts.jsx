@@ -80,21 +80,22 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
   }, [page, total, limit])
 
   const fetchPaginatedPosts = () => {
-    setPageState('loading')
-    const token = localStorage.getItem('token')
-    setShouldFetch(false)
-
-    // let url =
-    //   category_slug !== 0
-    //     ? SITE_URL +
-    //       `/post/paginated?page=${page}&category_slug=${category_slug}`
-    //     : SITE_URL + `/post/paginated?page=${page}`
-
-    let url = search !== 0
-      ? `${SITE_URL}/post/paginated?page=${page}&search=${search}`
-      : category_slug !== 0
-      ? `${SITE_URL}/post/paginated?page=${page}&category_slug=${category_slug}`
-      : `${SITE_URL}/post/paginated?page=${page}`;
+    setPageState('loading');
+    const token = localStorage.getItem('token');
+    setShouldFetch(false);
+  
+    let url = `${SITE_URL}/post/paginated?page=${page}`;
+    
+    // If searching by category
+    if (category_slug !== 0) {
+      url += `&category_slug=${category_slug}`;
+    }
+  
+    // If searching by meta_keywords
+    if (search !== 0) {
+      url += `&search=${search}`;
+    }
+  
     axios
       .get(url, {
         headers: {
@@ -104,18 +105,19 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
       .then((resp) => {
         setShouldFetch(
           resp.data.total !== postsAndReels.length + resp.data.posts.length
-        )
-        setPageState('succeded')
-        setPostsAndReels([...postsAndReels, ...resp.data.posts])
-        setTotal(resp.data.total)
-        setLimit(resp.data.limit)
+        );
+        setPageState('succeeded');
+        setPostsAndReels([...postsAndReels, ...resp.data.posts]);
+        setTotal(resp.data.total);
+        setLimit(resp.data.limit);
       })
       .catch((err) => {
-        setPageState('failed')
-        setShouldFetch(true)
-        setError(err.message)
-      })
-  }
+        setPageState('failed');
+        setShouldFetch(true);
+        setError(err.message);
+      });
+  };
+  
 
   // const getsearchdata = () => {
   //   setPageState('loading')

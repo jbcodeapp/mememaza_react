@@ -210,7 +210,12 @@ export default function CommentBox({
   return user.id ? (
     <div
       className={styles.commentBoxContainer}
-      style={{ width: '44.5%' }}
+      style={{
+        width:
+          window.innerWidth >= 360 && window.innerWidth <= 414
+            ? '100%'
+            : '44.5%',
+      }}
       onClick={() => textareaRef?.current.focus()}
     >
       <div className={styles.userDetails}>
