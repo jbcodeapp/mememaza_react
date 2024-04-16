@@ -122,6 +122,7 @@ export default function Navbar({ bgOpacity, style = {searchBarStyling} }) {
             style={searchBarStyling}
             type="text"
             placeholder="Images, #tags, @users oh my!"
+            // autoFocus
             />
           {/* <ReactSearchAutocomplete
             items={items}

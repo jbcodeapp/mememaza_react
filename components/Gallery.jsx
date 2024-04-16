@@ -1,9 +1,6 @@
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
 import styles from '@/styles/components/gallery.module.css'
 import abStyles from '@/styles/components/action-button.module.css'
-import { useEffect, useState } from 'react'
-import UserHistory from './UserHistory'
 import Link from 'next/link'
 import { API_PATH, HOME_URL, SITE_URL } from '@/def'
 import ShareButton from './ShareButton'
@@ -12,6 +9,7 @@ import Spinner from './Spinner'
 import ActionButton from './ActionButton'
 import { postLike } from '@/src/services/post/slice'
 import { useAppDispatch } from '@/src/store'
+import UserHistory from './UserHistory'
 
 export default function Gallery({
   media,
@@ -37,12 +35,17 @@ export default function Gallery({
   mediaType = 'photo',
 }) {
   const [icon, setIcon] = useState('vr-dashboard')
+  const [showCommentBox, setCommentBoxShow] = useState(false)
+  const [commentBoxFocus, setCommentBoxFocus] = useState()
+  const [like, setLike] = useState(user_has_liked)
+  const [likeCount, setLikeCount] = useState(likes_count)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (type) {
-      if (type == 'reel') {
+      if (type === 'reel') {
         setIcon('vr-cardboard')
-      } else if (type == 'story') {
+      } else if (type === 'story') {
         setIcon('cloud-moon')
       } else {
         setIcon('newspaper')
@@ -50,20 +53,12 @@ export default function Gallery({
     }
   }, [type])
 
-  const actionButtonStyle = {
-    color: '#b0b3b8ae',
-    hoverColor: '#eeaeae',
-    lg: true,
+  const handleLike = (e) => {
+    e.preventDefault()
+    setLike((like) => !like)
+    setLikeCount((lc) => (like ? lc - 1 : lc + 1))
+    dispatch(postLike({ id, type }))
   }
-
-  const [showCommentBox, setCommentBoxShow] = useState(false)
-
-  const [commentBoxFocus, setCommentBoxFocus] = useState()
-  const [like, setLike] = useState(user_has_liked)
-  const [likeCount, setLikeCount] = useState(likes_count)
-
-  const dispatch = useAppDispatch()
-
 
   return (
     <div className={styles.gallery}>
@@ -91,6 +86,11 @@ export default function Gallery({
         className={`${styles.dataContainer} ${
           showCommentBox ? styles.showCommentBox : ''
         }`}
+        style={{
+          width: window.innerWidth >= 360 && window.innerWidth <= 414 ? '100%' : '45%',
+          height: '100%'
+        }}
+        
       >
         <div
           role="button"
@@ -119,66 +119,91 @@ export default function Gallery({
               {title ? title : <Spinner />}
             </div>
             <div className={styles.toolbarContainer}>
-              <ActionButton
-                {...actionButtonStyle}
-                // onClick={() => {
-                //   if (isLiked) {
-                //     onDislike()
-                //   } else {
-                //     onLike()
-                //   }
-                // }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setLike((like) => !like)
-                  setLikeCount((lc) => (like ? lc - 1 : lc + 1))
-                  dispatch(postLike({ id, type }))
-                  console.log("Liked... update");
-                }}
-                icon="thumbs-up"
-                count={likes_count}
-                active={like}
-                // text={likeCount}
-                text="Like"
-              />
-              <ActionButton
-                {...actionButtonStyle}
-                onClick={() => {
-                  setCommentBoxFocus(new Date().toString())
-                }}
-                icon="comment"
-                count={comments_count}
-                text="Comment"
-              />
-
-              <ActionButton
-                {...actionButtonStyle}
-                onClick={() => {}}
-                icon="eye"
-                count={views_count}
-                text="View"
-              />
-
-              <a
-                href={`${API_PATH}/download?file=${media_url}&type=${
-                  type.charAt(0).toUpperCase() + type.slice(1)
-                }&id=${id}`}
-                className={`${abStyles.actionBtn} ${abStyles.actionBtnLg}`}
-              >
-                <i className={`fas fa-download`}></i>{' '}
-                {downloads_count !== null ? (
-                  <span>{downloads_count}</span>
-                ) : null}
-                <>Download</>
-              </a>
-
-              <ShareButton
-                {...actionButtonStyle}
-                style={{ width: '100%' }}
-                count={shares_count}
-                text="Share"
-                url={`${HOME_URL}${type}/${slug}`}
-              />
+              {window.innerWidth >= 360 && window.innerWidth <= 414 ? (
+                <>
+                  <ActionButton
+                    onClick={handleLike}
+                    icon="thumbs-up"
+                    count={likeCount}
+                    active={like}
+                    style={{ marginRight: '5px' }}
+                  />
+                  <ActionButton
+                    onClick={() => {
+                      setCommentBoxFocus(new Date().toString())
+                    }}
+                    icon="comment"
+                    count={comments_count}
+                    style={{ marginRight: '5px' }}
+                  />
+                  <ActionButton
+                    icon="eye"
+                    count={views_count}
+                    style={{ marginRight: '5px' }}
+                  />
+                  <ShareButton
+                    count={shares_count}
+                    style={{ marginRight: '5px' }}
+                  />
+                  <a
+                    href={`${API_PATH}/download?file=${media_url}&type=${
+                      type.charAt(0).toUpperCase() + type.slice(1)
+                    }&id=${id}`}
+                    className={`${abStyles.actionBtn} ${abStyles.actionBtnLg}`}
+                  >
+                    <i className={`fas fa-download`}></i>{' '}
+                    {downloads_count !== null ? (
+                      <span>{downloads_count}</span>
+                    ) : null}
+                  </a>
+                </>
+              ) : (
+                <>
+                  <div
+                    className={styles.mobile}
+                    style={{
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <ActionButton
+                      onClick={handleLike}
+                      icon="thumbs-up"
+                      count={likeCount}
+                      active={like}
+                      text="Like"
+                    />
+                    <ActionButton
+                      onClick={() => {
+                        setCommentBoxFocus(new Date().toString())
+                      }}
+                      icon="comment"
+                      count={comments_count}
+                      text="Comment"
+                    />
+                    <ActionButton icon="eye" count={views_count} text="View" />
+                    <ShareButton
+                      count={shares_count}
+                      text="Share"
+                      url={`${HOME_URL}${type}/${slug}`}
+                    />
+                    <a
+                      href={`${API_PATH}/download?file=${media_url}&type=${
+                        type.charAt(0).toUpperCase() + type.slice(1)
+                      }&id=${id}`}
+                      className={`${abStyles.actionBtn} ${abStyles.actionBtnLg}`}
+                      // style={{ marginLeft: '5px' }}
+                    >
+                      <i className={`fas fa-download`}></i>
+                      {downloads_count !== null ? (
+                        <span>{downloads_count}</span>
+                      ) : null}
+                      Download
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
 
             <CommentSection

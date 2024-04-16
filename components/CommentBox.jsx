@@ -152,7 +152,7 @@ export default function CommentBox({
           .catch((err) => {
             setLoading(false)
 
-            onNewCommentError()
+            // onNewCommentError()
           })
       } else {
         toastr.error('Please login to comment!', 'Mememaza')
@@ -210,6 +210,12 @@ export default function CommentBox({
   return user.id ? (
     <div
       className={styles.commentBoxContainer}
+      style={{
+        width:
+          window.innerWidth >= 360 && window.innerWidth <= 414
+            ? '100%'
+            : '44.5%',
+      }}
       onClick={() => textareaRef?.current.focus()}
     >
       <div className={styles.userDetails}>
@@ -284,26 +290,28 @@ export default function CommentBox({
       </div>
     </div>
   ) : (
-    <InfoPanel
-      style={{
-        position: 'absolute',
-        bottom: 0,
-        right: 10,
-        borderRadius: 0,
-        background: '#131033',
-        width: '100%',
-        color: 'white',
-      }}
-      title="Not Logged In!"
-      titleStyle={{ fontSize: 18 }}
-      message={
-        <>
-          Please <Link href="/sign-in">sign in</Link> to comment.
-        </>
-      }
-      image="\assets\images\Fatal Error.png"
-    />
-  )
+    <>
+    </>
+    // <InfoPanel
+      // style={{
+        //   position: 'absolute',
+        //   bottom: 0,
+        //   right: 10,
+        //   borderRadius: 0,
+        //   background: '#131033',
+      //   width: '100%',
+      //   color: 'white',
+      // }}
+      // title="Not Logged In !"
+      // titleStyle={{ fontSize: 18 }}
+      // message={
+        //   <>
+      //     Please <Link href="/sign-in">sign in</Link> to comment.
+      //   </>
+      // }
+      // image="\assets\images\Fatal Error.png"
+      // />
+    )
 }
 
 export const LoginToComment = () => {}

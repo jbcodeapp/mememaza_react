@@ -39,7 +39,7 @@ export default function ReelsPage({ data }) {
     axios(SITE_URL + '/updatelike/', {
       method: 'POST',
       'Access-Control-Allow-Origin' : '*',
-      data: { id: data.obj.id, module: 'posts' },
+      data: { id: data.obj.id, module: 'post' },
     })
       .then((resp) => {
         if (resp.status == 'success') {
@@ -111,13 +111,37 @@ export default function ReelsPage({ data }) {
     case 2:
       mediaType = 'video'
       media = (
+        <div 
+        style={{
+          height: '600px',
+          borderRadius: 14,
+          // width: '300px',
+          backgroundImage: `url(${data?.obj.story})`,
+          backgroundSize: 'contain',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}
+          >
+        
         <ReactPlayer
-          height={'calc(100% - 100px)'}
+          // height={'calc(100% - 100px)'}
+          height={'600px'}
+          width={'350px'}
           controls
           loop
           playing
           url={data?.obj.story}
         />
+        <a
+            href={data?.obj.link}
+            target="_blank"
+            style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
+          >
+            {/* Know More */}
+            {data?.obj.link}
+          </a>
+        </div>
       )
       break
   }
