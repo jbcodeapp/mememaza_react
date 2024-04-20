@@ -190,6 +190,7 @@ export default function ReelsPage({ data }) {
             id={data?.obj.id}
             comments={data?.obj.comments}
             slug={slug}
+            media_url={data?.obj.story}
             mediaType={mediaType}
             previousLink={data?.previous}
             nextLink={data?.next}
