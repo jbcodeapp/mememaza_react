@@ -86,10 +86,10 @@ export default function Gallery({
         className={`${styles.dataContainer} ${
           showCommentBox ? styles.showCommentBox : ''
         }`}
-        style={{
-          width: window.innerWidth >= 360 && window.innerWidth <= 414 ? '100%' : '45%',
-          height: '100%'
-        }}
+        // style={{
+        //   width: window.innerWidth >= 360 && window.innerWidth <= 414 ? '100%' : '45%',
+        //   height: '100%'
+        // }}
         
       >
         <div
