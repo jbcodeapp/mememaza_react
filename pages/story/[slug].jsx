@@ -95,15 +95,16 @@ export default function ReelsPage({ data }) {
             justifyContent: 'flex-end',
           }}
         >
+         {data?.obj.link && (
           <a
             href={data?.obj.link}
             target="_blank"
-            style={{ background: '#000000ee', padding: 12, borderRadius: 12 }}
+            style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
           >
             {/* Know More */}
             {data?.obj.link}
-
-          </a>{' '}
+          </a>
+        )}
         </div>
       )
       break
@@ -113,6 +114,7 @@ export default function ReelsPage({ data }) {
       media = (
         <div 
         style={{
+          // maxHeight:'500px',
           height: '600px',
           borderRadius: 14,
           // width: '300px',
@@ -133,7 +135,16 @@ export default function ReelsPage({ data }) {
           playing
           url={data?.obj.story}
         />
-        <a
+        {/* <a
+            href={data?.obj.link}
+            target="_blank"
+            style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
+          > */}
+            {/* Know More */}
+            {/* {data?.obj.link}
+          </a> */}
+          {data?.obj.link && (
+          <a
             href={data?.obj.link}
             target="_blank"
             style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
@@ -141,6 +152,7 @@ export default function ReelsPage({ data }) {
             {/* Know More */}
             {data?.obj.link}
           </a>
+        )}
         </div>
       )
       break
