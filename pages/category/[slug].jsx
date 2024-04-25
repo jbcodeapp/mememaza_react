@@ -13,7 +13,7 @@ export default function CategoryPage() {
     const { loading, error, data, success } = useApiData({
       url: `/getcategorybyslug/${slug}`,
     })
-    console.log("THis is my log", data);
+    // console.log("THis is my log", data);
 
     return (
       <>
