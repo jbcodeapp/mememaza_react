@@ -73,7 +73,7 @@ export default function ReelsPage({ data, likes_count }) {
   }, [data])
   
   useEffect(() => {
-    console.log("Likes count updated:", data?.obj.likes_count);
+    // console.log("Likes count updated:", data?.obj.likes_count);
   }, [data?.obj.likes_count]);
   
   const getComment = async () => {}
@@ -103,7 +103,7 @@ export default function ReelsPage({ data, likes_count }) {
             }
           }));
           setIsLiked(false);
-          console.log("liked",data?.obj.likes_count)
+          // console.log("liked",data?.obj.likes_count)
         }
       } catch (error) {
         setIsLiked(true);
@@ -272,7 +272,7 @@ export default function ReelsPage({ data, likes_count }) {
               setLike((like) => !like)
               setLikeCount((lc) => (like ? lc - 1 : lc + 1))
               dispatch(postLike({ id, type }))
-              console.log("Liked... updated on individual page");
+              // console.log("Liked... updated on individual page");
             }}
             title={
               !loading && (

@@ -144,6 +144,7 @@ export default function Gallery({
                   <ShareButton
                     count={shares_count}
                     style={{ marginRight: '5px' }}
+                    url={`${HOME_URL}${type}/${slug}`}
                   />
                   <a
                     href={`${API_PATH}/download?file=${media_url}&type=${

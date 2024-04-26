@@ -97,10 +97,10 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
         setShouldFetch(
           resp.data.total !== postsAndReels.length + resp.data.posts.length
         );
-        console.log(resp.data.posts.length)
+        // console.log(resp.data.posts.length)
         setPageState('succeeded');
         setPostsAndReels([...postsAndReels, ...resp.data.posts, ...fetchedAdvertisements]);
-        console.log("Check All Data =>  ",postsAndReels )
+        // console.log("Check All Data =>  ",postsAndReels )
         setTotal(resp.data.total);
         setLimit(resp.data.limit);
       })
@@ -115,7 +115,7 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
     axios
       .get(`${SITE_URL}/advertisements`)
       .then((resp) => {
-        console.log("Check advertisements Data =>  ",resp.data )
+        // console.log("Check advertisements Data =>  ",resp.data )
         setFetchedAdvertisements(resp.data); 
       })
       .catch((err) => {
@@ -134,7 +134,7 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
     const fetchPostsAndAdvertisements = async () => {
       if (page) {
         fetchPaginatedPosts(); 
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        await new Promise((resolve) => setTimeout(resolve, 10000)); 
         fetchAdvertisements(); 
       }
     };

@@ -14,7 +14,7 @@ export default function SearchPage() {
     const { loading, error, data, success } = useApiData({
       url: `/search/${search}`,
     });
-    console.log("THis is my log", data);
+    // console.log("THis is my log", data);
 
     return (
       <>

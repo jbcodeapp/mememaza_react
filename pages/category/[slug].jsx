@@ -13,7 +13,7 @@ export default function CategoryPage() {
     const { loading, error, data, success } = useApiData({
       url: `/getcategorybyslug/${slug}`,
     })
-    console.log("THis is my log", data);
+    // console.log("THis is my log", data);
 
     return (
       <>
@@ -32,7 +32,8 @@ export default function CategoryPage() {
               height: 300,
               width: '100vw',
               background: 'hsl(243 51% 9% / 1)',
-              backgroundImage: `url(${API_PATH + data?.obj.banner_image})`,
+              backgroundImage: `url(${data?.obj.banner_image})`,
+              // backgroundImage: `url(${API_PATH + data?.obj.banner_image})`,
               backgroundSize: 'cover',
               backgroundPosition: 'bottom',
               position: 'relative',
