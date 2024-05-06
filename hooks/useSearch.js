@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { API_PATH, SITE_URL } from '@/def';
+import toastr from 'toastr'
 
 export const useSearch = () => {
   const router = useRouter();
@@ -32,7 +33,10 @@ export const useSearch = () => {
   const handleOnSearch = async (search) => {
     // await filterSearch(search);
     if(search.length >= 3){
-      router.push(`/search/${search}`);
+      toastr.success("Wait...");
+      setTimeout(() => {
+        router.push(`/search/${search}`);
+      }, 3000);
     }
   };
 

@@ -79,7 +79,7 @@ export default function Navbar({ bgOpacity, style = {searchBarStyling} }) {
     const items = data || [];
 
     const handleKeyPress = (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' || event.keyCode == 13 ) {
         handleOnSearch(search, event);
       }
     };
