@@ -86,7 +86,6 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
     if (search !== 0) {
       url += `&search=${search}`;
     }
-  
     axios
       .get(url, {
         headers: {
@@ -136,19 +135,36 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
         fetchPaginatedPosts(); 
         await new Promise((resolve) => setTimeout(resolve, 10000)); 
         fetchAdvertisements(); 
+        // if (page === 1) {
+        //   if (postsAndReels.length < 1) {
+        //     console.log("This is my log => ",postsAndReels.length);
+        //     fetchAdvertisements();
+        //   }
+        // }
       }
     };
   
     fetchPostsAndAdvertisements();
   
   }, [page]);
+
+//   useEffect(() => {
+//   if (postsAndReels.length < 1) {
+//     console.log("This is my log => ",postsAndReels.length);
+//     fetchAdvertisements();
+//   }
+// }, [postsAndReels]);
+
   
 
   // useEffect(() => {
   //   if (page === 1) {
-  //     fetchAdvertisements();
+  //     if (postsAndReels.length < 1) {
+  //       console.log("This is my log => ",postsAndReels.length);
+  //       fetchAdvertisements();
+  //     }
   //   }
-  // }, [page]);
+  // }, [postsAndReels]);
 
   useEffect(() => {
     window.addEventListener('resize', calculateNumberOfColumns);
@@ -232,18 +248,22 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
                     );
                     case 'advertisements':
                       return (
-                        <Suspense
-                        key={i}
-                        fallback={
-                          <AdvertisementSkeleton
-                            destroy={!hasMore}
-                            delayIndex={index % 2}
-                          />
-                        }
-                      >
-                        <Advertisement key={i} advertisements={item} />
-                      </Suspense>
-                      );
+                        <>
+                          {postsAndReels.length > 0 && (
+                            <Suspense
+                              key={i}
+                              fallback={
+                                <AdvertisementSkeleton
+                                  destroy={!hasMore}
+                                  delayIndex={index % 2}
+                                />
+                              }
+                            >
+                              <Advertisement key={i} advertisements={item} />
+                            </Suspense>
+                          )}
+                        </>
+                      );                    
                   default:
                     return null;
                 }

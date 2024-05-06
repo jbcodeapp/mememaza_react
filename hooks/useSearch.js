@@ -7,30 +7,33 @@ export const useSearch = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
 
-  const filterSearch = async (searchTerm) => {
-    const url = `${SITE_URL}/search/${searchTerm}`;
-    const headers = {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Origin': API_PATH
-      }
-    };
-    try {
-      const response = await fetch(url, headers);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      router.push(`/search/${searchTerm}`);
-      const searchData = await response.json();
-      console.log("Search data:", searchData); 
-      setData(searchData); 
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  };
+  // const filterSearch = async (searchTerm) => {
+    // const url = `${SITE_URL}/search/${searchTerm}`;
+    // const headers = {
+    //   method: 'GET',
+    //   headers: {
+    //     'Access-Control-Allow-Origin': API_PATH
+    //   }
+    // };
+    // try {
+    //   const response = await fetch(url, headers);
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+      // router.push(`/search/${searchTerm}`);
+      // const searchData = await response.json();
+      // console.log("Search data:", searchData); 
+  //     setData(searchData); 
+  //   } catch (error) {
+  //     console.error('Error fetching search results:', error);
+  //   }
+  // };
 
-  const handleOnSearch = async () => {
-    await filterSearch(search);
+  const handleOnSearch = async (search) => {
+    // await filterSearch(search);
+    if(search.length >= 3){
+      router.push(`/search/${search}`);
+    }
   };
 
   const handleOnChange = (event) => {

@@ -70,6 +70,7 @@ export default function Navbar({ bgOpacity, style = {searchBarStyling} }) {
       handleOnFocus,
       handleOnSelect,
       handleOnChange,
+      handleOnBlur,
       handleOnKeyDown,
       onKeyPressHandler,
       // handleKeyPress,
@@ -79,10 +80,9 @@ export default function Navbar({ bgOpacity, style = {searchBarStyling} }) {
 
     const handleKeyPress = (event) => {
       if (event.key === 'Enter') {
-        handleOnSearch();
+        handleOnSearch(search, event);
       }
     };
-
 
   return (
     <nav
@@ -119,6 +119,7 @@ export default function Navbar({ bgOpacity, style = {searchBarStyling} }) {
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
             onKeyDown={handleKeyPress}
+            onBlur={handleOnBlur}
             style={searchBarStyling}
             type="text"
             placeholder="Images, #tags, @users oh my!"
