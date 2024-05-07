@@ -92,10 +92,19 @@ export default function PostsView({ banners, category_slug = 0, search = 0 }) {
           Authorization: 'Bearer ' + token,
         },
       })
+      // .then(resp => {
+      //   if (postsAndReels.length === 0 && resp.data.posts.length === 0 && resp.status === 204 ) {
+      //     setPageState('failed');
+      //     setShouldFetch(true); 
+      //   }
+      //   return resp; 
+      // })
       .then((resp) => {
+        if (postsAndReels.length === 0 || resp.data.posts.length === 0 && resp.status === 204 ) {
         setShouldFetch(
           resp.data.total !== postsAndReels.length + resp.data.posts.length
         );
+      }
         // console.log(resp.data.posts.length)
         setPageState('succeeded');
         setPostsAndReels([...postsAndReels, ...resp.data.posts, ...fetchedAdvertisements]);

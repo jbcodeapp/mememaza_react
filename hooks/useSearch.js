@@ -33,10 +33,10 @@ export const useSearch = () => {
   const handleOnSearch = async (search) => {
     // await filterSearch(search);
     if(search.length >= 3){
-      toastr.success("Wait...");
+      // toastr.success("Wait...");
       setTimeout(() => {
         router.push(`/search/${search}`);
-      }, 3000);
+      }, 1000);
     }
   };
 
