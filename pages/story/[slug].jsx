@@ -9,6 +9,7 @@ import { timeAgo } from '@/utils/timeAgo'
 import Gallery from '../../components/Gallery'
 import Navbar from '../../components/Navbar'
 import Head from 'next/head'
+import Image from 'next/image'
 
 export async function getServerSideProps(context) {
   const { slug } = context.params
@@ -84,22 +85,50 @@ export default function ReelsPage({ data }) {
       mediaType = 'photo'
       media = (
         <div
-          style={{
-            height: '600px',
-            borderRadius: 14,
-            width: '300px',
-            backgroundImage: `url(${data?.obj.story})`,
-            backgroundSize: 'contain',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-          }}
+        style={{ position: 'relative' }}
+          // style={{
+          //   height: '600px',
+          //   borderRadius: 14,
+          //   width: '300px',
+          //   backgroundImage: `url(${data?.obj.story})`,
+          //   backgroundSize: 'contain',
+          //   display: 'flex',
+          //   flexDirection: 'column',
+          //   justifyContent: 'flex-end',
+          // }}
         >
+           <Image
+            src={data?.obj.story}
+            height="500"
+            width="400"
+            style={{
+              borderRadius: 14,
+              objectFit: 'contain',
+              marginBottom: '70px'
+            }}
+          />
          {data?.obj.link && (
           <a
+            // href={data?.obj.link}
+            // target="_blank"
+            // style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
+           
             href={data?.obj.link}
             target="_blank"
-            style={{ background: '#000000ee', padding: 12, borderRadius: 12, textAlign:'center' }}
+            style={{
+              position: 'absolute',
+              bottom: 10, 
+              left: '50%',
+              transform: 'translateX(-50%)', 
+              background: '#000000ee',
+              padding: 12,
+              borderRadius: 12,
+              textAlign: 'center',
+              width: '100%', 
+              maxWidth: '400px', 
+              whiteSpace: 'nowrap', 
+              marginTop: '10px',
+            }}
           >
             {/* Know More */}
             {data?.obj.link}
